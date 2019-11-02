@@ -8,6 +8,7 @@ package com.sw.view;
 import com.sw.controller.CellRenderer;
 import com.sw.controller.TableHeaderRenderer;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -27,7 +28,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         initComponents();
 
-        initTables();
+        renderTables();
 
     }
 
@@ -37,9 +38,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         moverLavado = new JButton("Mover a lavando");
         eliminar = new JButton("Eliminar");
 
+        empaquetado = new JCheckBox();
+
     }
 
-    private void initTables()
+    private void renderTables()
     {
 
         tablaEnCola.setDefaultRenderer(Object.class, new CellRenderer());
@@ -52,6 +55,15 @@ public class VistaPrincipal extends javax.swing.JFrame
         tablaEnProceso.setDefaultRenderer(Object.class, new CellRenderer());
         tablaEnProceso.setTableHeader(jTableHeader);
 
+        jTableHeader = tablaTerminado.getTableHeader();
+        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
+        tablaTerminado.setDefaultRenderer(Object.class, new CellRenderer());
+        tablaTerminado.setTableHeader(jTableHeader);
+
+        this.tablaEnCola.validate();
+        this.tablaEnProceso.validate();
+        this.tablaEnProceso.revalidate();
+
     }
 
     /**
@@ -63,22 +75,23 @@ public class VistaPrincipal extends javax.swing.JFrame
     {
 
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        nuevoServicio = new javax.swing.JButton();
+        panelPrincipal = new javax.swing.JTabbedPane();
         scrollTablaEnCola = new javax.swing.JScrollPane();
         tablaEnCola = new javax.swing.JTable();
         scrollTablaEnProceso = new javax.swing.JScrollPane();
         tablaEnProceso = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        scrollTablaTerminado = new javax.swing.JScrollPane();
+        tablaTerminado = new javax.swing.JTable();
+        buscar = new javax.swing.JTextField();
+        logo = new javax.swing.JLabel();
+        buscarIcon = new javax.swing.JLabel();
+        menuBar = new javax.swing.JMenuBar();
+        config = new javax.swing.JMenu();
+        utilidades = new javax.swing.JMenu();
+        miscelaneos = new javax.swing.JMenu();
+        juegos = new javax.swing.JMenu();
+        wave = new javax.swing.JMenuItem();
 
         jTextField1.setText("jTextField1");
 
@@ -89,14 +102,21 @@ public class VistaPrincipal extends javax.swing.JFrame
         setMinimumSize(new java.awt.Dimension(1230, 800));
         setPreferredSize(new java.awt.Dimension(1230, 800));
 
-        jButton1.setText("new service");
-        jButton1.setMaximumSize(new java.awt.Dimension(200, 75));
-        jButton1.setMinimumSize(new java.awt.Dimension(200, 75));
-        jButton1.setPreferredSize(new java.awt.Dimension(200, 100));
+        nuevoServicio.setText("new service");
+        nuevoServicio.setMaximumSize(new java.awt.Dimension(200, 75));
+        nuevoServicio.setMinimumSize(new java.awt.Dimension(200, 75));
+        nuevoServicio.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
-        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1180, 700));
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1180, 700));
+        panelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
+        panelPrincipal.setMaximumSize(new java.awt.Dimension(1180, 700));
+        panelPrincipal.setPreferredSize(new java.awt.Dimension(1180, 700));
+        panelPrincipal.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                panelPrincipalMouseClicked(evt);
+            }
+        });
 
         scrollTablaEnCola.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -143,7 +163,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         });
         scrollTablaEnCola.setViewportView(tablaEnCola);
 
-        jTabbedPane1.addTab("En cola", null, scrollTablaEnCola, "Conjunto de prendas que está en la cola.");
+        panelPrincipal.addTab("En cola", null, scrollTablaEnCola, "Conjunto de prendas que está en la cola.");
 
         scrollTablaEnProceso.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -182,41 +202,84 @@ public class VistaPrincipal extends javax.swing.JFrame
     );
     scrollTablaEnProceso.setViewportView(tablaEnProceso);
 
-    jTabbedPane1.addTab("En proceso", scrollTablaEnProceso);
-    jTabbedPane1.addTab("Terminado", jScrollPane3);
+    panelPrincipal.addTab("En proceso", scrollTablaEnProceso);
 
-    jTextField2.setText("Buscar...");
+    tablaTerminado.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][]
+        {
+            {null, verPrendas, null, null, empaquetado, eliminar},
+            {null, verPrendas, null, null, empaquetado, eliminar},
+            {null, verPrendas, null, null, empaquetado, eliminar},
+            {null, verPrendas, null, null, empaquetado, eliminar},
+            {null, verPrendas, null, null, empaquetado, eliminar}
 
-    jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel1.setText("Aquí habrá un logo...");
+        },
+        new String []
+        {
+            "Cliente", "Prendas", "Kilos", "Total", "¿Empaquetado?", "Eliminar"
+        }
+    )
+    {
+        Class[] types = new Class []
+        {
+            java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class
+        };
 
-    jLabel2.setText("search.icon");
+        public Class getColumnClass(int columnIndex)
+        {
+            return types [columnIndex];
+        }
 
-    jMenu1.setText("Configuración");
-    jMenuBar1.add(jMenu1);
+        @Override
+        public boolean isCellEditable(int row, int column)
+        {
+            return false;
+        }
 
-    jMenu2.setText("Utilidades");
-    jMenuBar1.add(jMenu2);
+    });
+    tablaTerminado.addMouseListener(new java.awt.event.MouseAdapter()
+    {
+        public void mouseClicked(java.awt.event.MouseEvent evt)
+        {
+            tablaTerminadoMouseClicked(evt);
+        }
+    });
+    scrollTablaTerminado.setViewportView(tablaTerminado);
 
-    jMenu3.setText("Misceláneos");
-    jMenuBar1.add(jMenu3);
+    panelPrincipal.addTab("Terminado", scrollTablaTerminado);
 
-    jMenu4.setText("Juegos");
+    buscar.setText("Buscar...");
 
-    jMenuItem1.setText("CrazyCubes");
-    jMenuItem1.setToolTipText("CrazyCubes");
-    jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+    logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    logo.setText("Aquí habrá un logo...");
+
+    buscarIcon.setText("search.icon");
+
+    config.setText("Configuración");
+    menuBar.add(config);
+
+    utilidades.setText("Utilidades");
+    menuBar.add(utilidades);
+
+    miscelaneos.setText("Misceláneos");
+    menuBar.add(miscelaneos);
+
+    juegos.setText("Juegos");
+
+    wave.setText("Wave");
+    wave.setToolTipText("Wave");
+    wave.addActionListener(new java.awt.event.ActionListener()
     {
         public void actionPerformed(java.awt.event.ActionEvent evt)
         {
-            jMenuItem1ActionPerformed(evt);
+            waveActionPerformed(evt);
         }
     });
-    jMenu4.add(jMenuItem1);
+    juegos.add(wave);
 
-    jMenuBar1.add(jMenu4);
+    menuBar.add(juegos);
 
-    setJMenuBar(jMenuBar1);
+    setJMenuBar(menuBar);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -225,15 +288,15 @@ public class VistaPrincipal extends javax.swing.JFrame
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(20, 20, 20)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jLabel2)
+                    .addComponent(buscarIcon)
                     .addGap(70, 70, 70)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(nuevoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -242,15 +305,13 @@ public class VistaPrincipal extends javax.swing.JFrame
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(0, 0, 0)))
+                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nuevoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(buscarIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -259,6 +320,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     private void tablaEnColaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tablaEnColaMouseClicked
     {//GEN-HEADEREND:event_tablaEnColaMouseClicked
+
         int column = tablaEnCola.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tablaEnCola.getRowHeight();
 
@@ -267,19 +329,50 @@ public class VistaPrincipal extends javax.swing.JFrame
             Object value = tablaEnCola.getValueAt(row, column);
 
             if (value instanceof JButton)
-            {
                 ((JButton) value).doClick();
-                System.out.println("Hola");
-            }
 
         }
 
     }//GEN-LAST:event_tablaEnColaMouseClicked
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
-    {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void waveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_waveActionPerformed
+    {//GEN-HEADEREND:event_waveActionPerformed
+
+    }//GEN-LAST:event_waveActionPerformed
+
+    private void panelPrincipalMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_panelPrincipalMouseClicked
+    {//GEN-HEADEREND:event_panelPrincipalMouseClicked
+
+        scrollTablaEnProceso.revalidate();
+        scrollTablaEnProceso.repaint();
+
+        scrollTablaTerminado.revalidate();
+        scrollTablaTerminado.repaint();
+
+    }//GEN-LAST:event_panelPrincipalMouseClicked
+
+    private void tablaTerminadoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tablaTerminadoMouseClicked
+    {//GEN-HEADEREND:event_tablaTerminadoMouseClicked
+
+        int column = tablaTerminado.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tablaTerminado.getRowHeight();
+
+        if (row < tablaTerminado.getRowCount() && row >= 0 && column < tablaTerminado.getColumnCount() && column >= 0)
+        {
+            Object value = tablaTerminado.getValueAt(row, column);
+
+            System.out.println("row " + row + ", column " + column);
+            System.out.println(value.getClass());
+
+            if (value instanceof JButton)
+                ((JButton) value).doClick();
+
+            else if (value instanceof JCheckBox)
+                ((JCheckBox) value).setEnabled(!((JCheckBox) value).isEnabled());
+
+        }
+
+    }//GEN-LAST:event_tablaTerminadoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -323,23 +416,25 @@ public class VistaPrincipal extends javax.swing.JFrame
     private JButton verPrendas;
     private JButton moverLavado;
     private JButton eliminar;
+    private JCheckBox empaquetado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField buscar;
+    private javax.swing.JLabel buscarIcon;
+    private javax.swing.JMenu config;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JMenu juegos;
+    private javax.swing.JLabel logo;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu miscelaneos;
+    private javax.swing.JButton nuevoServicio;
+    private javax.swing.JTabbedPane panelPrincipal;
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
+    private javax.swing.JScrollPane scrollTablaTerminado;
     private javax.swing.JTable tablaEnCola;
     private javax.swing.JTable tablaEnProceso;
+    private javax.swing.JTable tablaTerminado;
+    private javax.swing.JMenu utilidades;
+    private javax.swing.JMenuItem wave;
     // End of variables declaration//GEN-END:variables
 }
