@@ -14,13 +14,13 @@ import javax.swing.table.JTableHeader;
  *
  * @author Mohammed
  */
-public class PrendasInterfaz extends javax.swing.JFrame
+public class Prendas extends javax.swing.JFrame
 {
 
     /**
      * Creates new form PrendasInterfaz
      */
-    public PrendasInterfaz()
+    public Prendas()
     {
         initMyComponents();
 
@@ -69,10 +69,8 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("test1");
-        setMaximumSize(new java.awt.Dimension(595, 710));
         setMinimumSize(new java.awt.Dimension(595, 710));
         setName("prendasInterfaz"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(595, 710));
         setResizable(false);
 
         scrollPrendas.setMaximumSize(new java.awt.Dimension(575, 570));
@@ -229,8 +227,9 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(PrendasInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Prendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         //</editor-fold>
@@ -238,7 +237,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new PrendasInterfaz().setVisible(true);
+            new Prendas().setVisible(true);
 
         });
 

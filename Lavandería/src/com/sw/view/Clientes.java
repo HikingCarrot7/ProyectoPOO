@@ -14,13 +14,13 @@ import javax.swing.table.JTableHeader;
  *
  * @author Mohammed
  */
-public class ClientesInterfaz extends javax.swing.JFrame
+public class Clientes extends javax.swing.JFrame
 {
 
     /**
      * Creates new form ClientesInterfaz
      */
-    public ClientesInterfaz()
+    public Clientes()
     {
         initMyComponents();
 
@@ -65,9 +65,7 @@ public class ClientesInterfaz extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("test2");
-        setMaximumSize(new java.awt.Dimension(925, 700));
         setMinimumSize(new java.awt.Dimension(925, 700));
-        setPreferredSize(new java.awt.Dimension(925, 700));
         setResizable(false);
 
         panelClientes.setMaximumSize(new java.awt.Dimension(905, 550));
@@ -190,8 +188,9 @@ public class ClientesInterfaz extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(ClientesInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         //</editor-fold>
@@ -199,7 +198,7 @@ public class ClientesInterfaz extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new ClientesInterfaz().setVisible(true);
+            new Clientes().setVisible(true);
 
         });
 

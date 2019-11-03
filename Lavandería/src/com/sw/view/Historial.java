@@ -14,13 +14,13 @@ import javax.swing.table.JTableHeader;
  *
  * @author Mohammed
  */
-public class HistorialInterfaz extends javax.swing.JFrame
+public class Historial extends javax.swing.JFrame
 {
 
     /**
      * Creates new form HistorialInterfaz
      */
-    public HistorialInterfaz()
+    public Historial()
     {
         initMyComponents();
 
@@ -64,9 +64,7 @@ public class HistorialInterfaz extends javax.swing.JFrame
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(925, 700));
         setMinimumSize(new java.awt.Dimension(925, 700));
-        setPreferredSize(new java.awt.Dimension(925, 700));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -163,8 +161,9 @@ public class HistorialInterfaz extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(HistorialInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Historial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         //</editor-fold>
@@ -172,7 +171,7 @@ public class HistorialInterfaz extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new HistorialInterfaz().setVisible(true);
+            new Historial().setVisible(true);
 
         });
 
