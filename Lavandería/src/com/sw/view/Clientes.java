@@ -1,13 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sw.view;
 
+import com.sw.controller.BotonDinamico;
 import com.sw.controller.CellRenderer;
+import com.sw.controller.ComboRenderer;
+import com.sw.controller.ComboRenderer.ComboItem;
 import com.sw.controller.TableHeaderRenderer;
-import javax.swing.JButton;
+import com.sw.controller.TableManager;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -17,31 +21,88 @@ import javax.swing.table.JTableHeader;
 public class Clientes extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form ClientesInterfaz
-     */
+    private CellRenderer cellRenderer;
+
     public Clientes()
     {
         initMyComponents();
 
         initComponents();
 
-        renderTables();
+        initTable();
+
+        loadComboModel();
 
     }
 
     private void initMyComponents()
     {
-        verHistorial = new JButton("historial.ico");
+        verHistorial = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            verHistorial.add(new BotonDinamico(new ImageIcon(getClass().getResource("/com/src/images/historial.png"))));
+            verHistorial.get(i).setName("" + i);
+        }
+
+        cellRenderer = new CellRenderer();
+
     }
 
-    private void renderTables()
+    private void initTable()
     {
 
-        clientes.setDefaultRenderer(Object.class, new CellRenderer());
+        clientes.setDefaultRenderer(Object.class, cellRenderer);
         JTableHeader jTableHeader = clientes.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
         clientes.setTableHeader(jTableHeader);
+
+        clientes.addMouseMotionListener(new MouseMotionListener()
+        {
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+
+                cellRenderer.setMouseX(e.getX());
+                cellRenderer.setMouseY(e.getY());
+
+            }
+
+        });
+
+        Object[][] items = new Object[5][6];
+
+        clientes.setModel(new DefaultTableModel(new TableManager().getItems(items, verHistorial), new String[]
+        {
+
+            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
+
+        }));
+
+    }
+
+    private void loadComboModel()
+    {
+        ordenarPor.setRenderer(new ComboRenderer());
+        ordenarPor.setModel(loadComboItems());
+
+    }
+
+    private DefaultComboBoxModel<ComboItem> loadComboItems()
+    {
+        DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
+
+        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
+
+        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/numbers.png")), "N° de servicios"));
+
+        return dm;
 
     }
 
@@ -62,12 +123,17 @@ public class Clientes extends javax.swing.JFrame
         modificarCliente = new javax.swing.JButton();
         eliminarCliente = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("test2");
-        setMinimumSize(new java.awt.Dimension(925, 700));
+        setTitle("Clientes registrados");
+        setMaximumSize(new java.awt.Dimension(925, 710));
+        setMinimumSize(new java.awt.Dimension(925, 710));
+        setPreferredSize(new java.awt.Dimension(925, 710));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panelClientes.setToolTipText("");
         panelClientes.setMaximumSize(new java.awt.Dimension(905, 550));
         panelClientes.setMinimumSize(new java.awt.Dimension(905, 550));
         panelClientes.setPreferredSize(new java.awt.Dimension(905, 550));
@@ -75,97 +141,85 @@ public class Clientes extends javax.swing.JFrame
         clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial},
-                {null, null, null, null, verHistorial}
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial},
+                {null, null, null, null, null, verHistorial}
 
             },
             new String []
             {
-                "Nombre", "Teléfono", "Dirección", "Número de servicios", "Ver historial de servicios"
+                "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
             }
 
         ));
         panelClientes.setViewportView(clientes);
 
+        getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 919, 530));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteTitle.png"))); // NOI18N
         jLabel1.setText("Clientes Registrados");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 300, 70));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Ordenar por:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 25));
 
         ordenarPor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Número de servicios" }));
         ordenarPor.setToolTipText("Ordenar por...");
         ordenarPor.setMaximumSize(new java.awt.Dimension(125, 25));
         ordenarPor.setMinimumSize(new java.awt.Dimension(125, 25));
         ordenarPor.setPreferredSize(new java.awt.Dimension(125, 25));
+        getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
 
+        anadirCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         anadirCliente.setText("Añadir cliente");
+        anadirCliente.setToolTipText("Añadir cliente");
+        anadirCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        getContentPane().add(anadirCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 130, 30));
 
+        modificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         modificarCliente.setText("Modificar cliente");
+        modificarCliente.setToolTipText("Modificar cliente");
+        modificarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        modificarCliente.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                modificarClienteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(modificarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 130, 30));
 
+        eliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/delete.png"))); // NOI18N
         eliminarCliente.setText("Eliminar cliente");
+        eliminarCliente.setToolTipText("Eliminar a un cliente");
+        eliminarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        getContentPane().add(eliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, 130, 30));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("logo.ico");
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ordenarPor, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(310, 310, 310)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(anadirCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(modificarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(eliminarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ordenarPor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(anadirCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modificarCliente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eliminarCliente))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addComponent(panelClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        jLabel4.setMaximumSize(new java.awt.Dimension(925, 710));
+        jLabel4.setMinimumSize(new java.awt.Dimension(925, 710));
+        jLabel4.setPreferredSize(new java.awt.Dimension(925, 710));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void modificarClienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_modificarClienteActionPerformed
+    {//GEN-HEADEREND:event_modificarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modificarClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,13 +252,17 @@ public class Clientes extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new Clientes().setVisible(true);
+
+            Clientes clientes = new Clientes();
+
+            clientes.setVisible(true);
+            clientes.setLocationRelativeTo(null);
 
         });
 
     }
 
-    private JButton verHistorial;
+    private ArrayList<BotonDinamico> verHistorial;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anadirCliente;
@@ -213,8 +271,9 @@ public class Clientes extends javax.swing.JFrame
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JButton modificarCliente;
-    private javax.swing.JComboBox<String> ordenarPor;
+    private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JScrollPane panelClientes;
     // End of variables declaration//GEN-END:variables
 

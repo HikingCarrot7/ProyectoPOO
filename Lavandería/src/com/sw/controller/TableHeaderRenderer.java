@@ -21,16 +21,16 @@ public class TableHeaderRenderer implements TableCellRenderer
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getColumnCount() >= 6 ? 450 : table.getWidth() == 901 ? 370 : 255);
-        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 115 : table.getColumnCount() >= 6 ? 149 : table.getWidth() == 901 ? 120 : 105);
-        table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 115 : table.getColumnCount() >= 6 ? 149 : table.getWidth() == 901 ? 120 : 105);
-        table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115 : table.getColumnCount() >= 6 ? 149 : table.getWidth() == 901 ? 120 : 105);
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : 255);
+        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 190 : table.getColumnCount() >= 6 ? 149 : 105);
+        table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
+        table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
 
         if (table.getColumnCount() >= 5)
-            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 901 ? 172 : table.getWidth() == 904 ? 115 : 150);
+            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 913 ? 70 : table.getWidth() == 904 ? 115 : 150);
 
         if (table.getColumnCount() >= 6)
-            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 904 ? 120 : 150);
+            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 913 ? 85 : table.getWidth() == 904 ? 120 : 150);
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
