@@ -75,7 +75,7 @@ public class Clientes extends javax.swing.JFrame
 
         Object[][] items = new Object[5][6];
 
-        clientes.setModel(new DefaultTableModel(new TableManager().getItems(items, verHistorial), new String[]
+        clientes.setModel(new DefaultTableModel(new TableManager().getItems(items, verHistorial, 5), new String[]
         {
 
             "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"

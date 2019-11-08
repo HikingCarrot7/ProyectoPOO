@@ -44,6 +44,28 @@ public class CellRenderer extends DefaultTableCellRenderer
 
                     return (JButton) value;
 
+                case "Historial":
+
+                    if (column == 1)
+                    {
+                        if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 1))
+                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/tshirtSelected.png")));
+                        else
+                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png")));
+
+                        return (JButton) value;
+
+                    } else
+                    {
+                        if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 5))
+                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/deleteSelected.png")));
+                        else
+                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/delete.png")));
+
+                        return (JButton) value;
+
+                    }
+
                 default:
                     return (JButton) value;
 

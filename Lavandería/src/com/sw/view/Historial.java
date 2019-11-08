@@ -1,13 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sw.view;
 
 import com.sw.controller.CellRenderer;
+import com.sw.controller.ComboRenderer;
+import com.sw.controller.ComboRenderer.ComboItem;
 import com.sw.controller.TableHeaderRenderer;
+import com.sw.controller.TableManager;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -23,27 +27,83 @@ public class Historial extends javax.swing.JFrame
 
         initComponents();
 
-        renderTables();
+        renderTable();
+
+        loadComboModel();
 
     }
 
     private void initMyComponents()
     {
 
-        eliminar = new JButton("delete.ico");
-        verPrendas = new JButton("tshirt.ico");
+        eliminar = new ArrayList<>();
+        verPrendas = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++)
+            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+
+        for (int i = 0; i < 5; i++)
+            verPrendas.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
 
     }
 
-    private void renderTables()
+    private void renderTable()
     {
 
-        tablaHistorial.setDefaultRenderer(Object.class, new CellRenderer());
-        JTableHeader jTableHeader = tablaHistorial.getTableHeader();
+        CellRenderer cellRenderer = new CellRenderer();
+        historial.setDefaultRenderer(Object.class, cellRenderer);
+        JTableHeader jTableHeader = historial.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaHistorial.setTableHeader(jTableHeader);
+        historial.setTableHeader(jTableHeader);
 
-        tablaHistorial.setName("Historial");
+        historial.setName("Historial");
+
+        TableManager tableManager = new TableManager();
+        Object[][] items = new Object[5][6];
+
+        historial.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(items, verPrendas, 1), eliminar, 5), new String[]
+        {
+
+            "Cliente", "Prendas", "Fecha", "Total kg.", "Precio total", "Eliminar"
+
+        }));
+
+        historial.addMouseMotionListener(new MouseMotionListener()
+        {
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+
+                cellRenderer.setMouseX(e.getX());
+                cellRenderer.setMouseY(e.getY());
+
+            }
+
+        });
+
+    }
+
+    private void loadComboModel()
+    {
+        ordenarPor.setRenderer(new ComboRenderer());
+        ordenarPor.setModel(loadComboItems());
+    }
+
+    private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
+    {
+        DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
+
+        dm.addElement(new ComboRenderer.ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
+
+        dm.addElement(new ComboRenderer.ComboItem(new ImageIcon(getClass().getResource("/com/src/images/numbers.png")), "Fecha"));
+
+        return dm;
 
     }
 
@@ -57,84 +117,58 @@ public class Historial extends javax.swing.JFrame
 
         jLabel1 = new javax.swing.JLabel();
         panelHistorial = new javax.swing.JScrollPane();
-        tablaHistorial = new javax.swing.JTable();
+        historial = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         ordenarPor = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(925, 700));
+        setMaximumSize(new java.awt.Dimension(915, 720));
+        setMinimumSize(new java.awt.Dimension(915, 720));
+        setPreferredSize(new java.awt.Dimension(915, 720));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Historial de servicios");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 230, 95));
 
-        panelHistorial.setMaximumSize(new java.awt.Dimension(910, 550));
-        panelHistorial.setMinimumSize(new java.awt.Dimension(910, 550));
-        panelHistorial.setPreferredSize(new java.awt.Dimension(910, 550));
+        panelHistorial.setMaximumSize(new java.awt.Dimension(910, 530));
+        panelHistorial.setMinimumSize(new java.awt.Dimension(910, 530));
+        panelHistorial.setPreferredSize(new java.awt.Dimension(910, 530));
 
-        tablaHistorial.setModel(new javax.swing.table.DefaultTableModel(
+        historial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar}
+                {null, null, null, null, null, null},
+
             },
             new String []
             {
-                "Cliente", "Prendas", "Fecha", "Total kg.", "Precio total", "Eliminar"
+                null, null, null, null, null, null
             }
+
         ));
-        panelHistorial.setViewportView(tablaHistorial);
+        panelHistorial.setViewportView(historial);
+
+        getContentPane().add(panelHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Ordenar por:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 112, -1, 25));
 
-        ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Fecha" }));
+        ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] {null}));
+        getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 112, 125, 25));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("logo.ico");
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 11, 215, 95));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelHistorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ordenarPor, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(85, 85, 85))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(ordenarPor))
-                .addGap(15, 15, 15)
-                .addComponent(panelHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,15 +213,16 @@ public class Historial extends javax.swing.JFrame
 
     }
 
-    private JButton eliminar;
-    private JButton verPrendas;
+    private ArrayList<JButton> eliminar;
+    private ArrayList<JButton> verPrendas;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable historial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JComboBox<String> ordenarPor;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JScrollPane panelHistorial;
-    private javax.swing.JTable tablaHistorial;
     // End of variables declaration//GEN-END:variables
 }

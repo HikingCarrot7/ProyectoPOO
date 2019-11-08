@@ -41,17 +41,39 @@ public class TableManager
 
     }
 
-    public Object[][] recortarFilas(Object[][] items, int row)
+    public Object[][] recortarFila(Object[][] items, int row)
     {
-        return null;
+
+        Object[][] newItems = new Object[items.length - 1][items[0].length];
+
+        for (int i = 0; i < items.length - 1; i++)
+            System.arraycopy(items[i + (i >= row ? 1 : 0)], 0, newItems[i], 0, items[i].length);
+
+        return newItems;
+
     }
 
     public Object[][] recortarFilas(Object[][] items, int rowInicio, int rowFin)
     {
-        return null;
+
+        Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
+
+        System.out.println("");
+        System.out.println(items.length - (rowFin - rowInicio) - 1);
+
+        for (int i = 0; i < items.length - (rowFin - rowInicio) - 1; i++)
+            System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
+
+        return newItems;
+
     }
 
-    public void rellenarFila(JTable table, Object[][] items, int row)
+    public void rellenarFilaTabla(JTable table, Object[][] items, int row)
+    {
+
+    }
+
+    public void eliminarFilaTabla(JTable table, Object[][] items, int row)
     {
 
     }
@@ -59,16 +81,19 @@ public class TableManager
     /**
      * @deprecated
      *
+     * Este método está bug.
+     *
+     * @param column
      * @param items
      * @param botones
      *
      * @return
      */
-    public Object[][] getItems(Object[][] items, ArrayList<JButton> botones)
+    public Object[][] getItems(Object[][] items, ArrayList<JButton> botones, int column)
     {
         for (int i = 0; i < items.length; i++)
             for (int j = 0; j < items[0].length; j++)
-                items[i][j] = j == items[i].length - 1 ? botones.get(i) : null;
+                items[i][j] = j == column ? botones.get(i) : items[i][j];
 
         return items;
 
