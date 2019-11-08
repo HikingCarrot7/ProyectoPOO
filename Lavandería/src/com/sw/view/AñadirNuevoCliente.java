@@ -27,47 +27,47 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        matricula = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
-        especialidad = new javax.swing.JTextField();
+        direccion = new javax.swing.JTextField();
+        telefono = new javax.swing.JTextField();
         registrar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        correo = new javax.swing.JTextField();
+        nombreValido = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Añadir a nuevo cliente");
-        setPreferredSize(new java.awt.Dimension(550, 300));
+        setMaximumSize(new java.awt.Dimension(550, 400));
+        setMinimumSize(new java.awt.Dimension(550, 400));
+        setPreferredSize(new java.awt.Dimension(550, 400));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Añadir a un cliente ");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/anadirClienteTitle.png"))); // NOI18N
+        jLabel1.setText("Añadir cliente ");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel2.setText("Teléfono:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 211, -1, 33));
 
         jLabel7.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel7.setText("Nombre completo:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 132, -1, 33));
 
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         jLabel9.setText("Dirección:");
-
-        matricula.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        matricula.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        matricula.setText("Nombre...");
-        matricula.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
-                matriculaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
-                matriculaFocusLost(evt);
-            }
-        });
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 251, -1, 33));
 
         nombre.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        nombre.setText("Dirección...");
+        nombre.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        nombre.setToolTipText("Nombre del cliente");
         nombre.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -79,23 +79,39 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
                 nombreFocusLost(evt);
             }
         });
+        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 133, 194, 33));
 
-        especialidad.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        especialidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        especialidad.setText("Teléfono...");
-        especialidad.addFocusListener(new java.awt.event.FocusAdapter()
+        direccion.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        direccion.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        direccion.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
             {
-                especialidadFocusGained(evt);
+                direccionFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt)
             {
-                especialidadFocusLost(evt);
+                direccionFocusLost(evt);
             }
         });
+        getContentPane().add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 252, 194, 33));
 
-        registrar.setText("Añadir");
+        telefono.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        telefono.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        telefono.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                telefonoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                telefonoFocusLost(evt);
+            }
+        });
+        getContentPane().add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 212, 194, 33));
+
+        registrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         registrar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -103,53 +119,47 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
                 registrarActionPerformed(evt);
             }
         });
+        getContentPane().add(registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 330, 127, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
-                        .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel9))
-                                .addGap(56, 56, 56)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(matricula, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(especialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(matricula, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(especialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel3.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Correo:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 174, 90, 26));
+
+        correo.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        correo.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        correo.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                correoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                correoFocusLost(evt);
+            }
+        });
+        getContentPane().add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 172, 194, 33));
+
+        nombreValido.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        nombreValido.setText("   ");
+        getContentPane().add(nombreValido, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 142, 90, -1));
+
+        jLabel4.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jLabel4.setText("   ");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 181, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jLabel5.setText("   ");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 221, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        jLabel6.setText("   ");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 261, -1, -1));
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -158,26 +168,6 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
     {//GEN-HEADEREND:event_registrarActionPerformed
 
     }//GEN-LAST:event_registrarActionPerformed
-
-    private void matriculaFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_matriculaFocusGained
-    {//GEN-HEADEREND:event_matriculaFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_matriculaFocusGained
-
-    private void matriculaFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_matriculaFocusLost
-    {//GEN-HEADEREND:event_matriculaFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_matriculaFocusLost
-
-    private void especialidadFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_especialidadFocusGained
-    {//GEN-HEADEREND:event_especialidadFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_especialidadFocusGained
-
-    private void especialidadFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_especialidadFocusLost
-    {//GEN-HEADEREND:event_especialidadFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_especialidadFocusLost
 
     private void nombreFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_nombreFocusGained
     {//GEN-HEADEREND:event_nombreFocusGained
@@ -189,19 +179,49 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_nombreFocusLost
 
+    private void telefonoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_telefonoFocusGained
+    {//GEN-HEADEREND:event_telefonoFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoFocusGained
+
+    private void telefonoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_telefonoFocusLost
+    {//GEN-HEADEREND:event_telefonoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoFocusLost
+
+    private void direccionFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_direccionFocusGained
+    {//GEN-HEADEREND:event_direccionFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionFocusGained
+
+    private void direccionFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_direccionFocusLost
+    {//GEN-HEADEREND:event_direccionFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionFocusLost
+
+    private void correoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_correoFocusGained
+    {//GEN-HEADEREND:event_correoFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_correoFocusGained
+
+    private void correoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_correoFocusLost
+    {//GEN-HEADEREND:event_correoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_correoFocusLost
+
     public JTextField getEspecialidad()
     {
-        return especialidad;
+        return telefono;
     }
 
     public JTextField getMatricula()
     {
-        return matricula;
+        return nombre;
     }
 
     public JTextField getNombre()
     {
-        return nombre;
+        return direccion;
     }
 
     public static void main(String[] args)
@@ -242,13 +262,20 @@ public class AñadirNuevoCliente extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField especialidad;
+    private javax.swing.JTextField correo;
+    private javax.swing.JTextField direccion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField matricula;
     private javax.swing.JTextField nombre;
+    private javax.swing.JLabel nombreValido;
     private javax.swing.JButton registrar;
+    private javax.swing.JTextField telefono;
     // End of variables declaration//GEN-END:variables
 }

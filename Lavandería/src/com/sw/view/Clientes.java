@@ -1,6 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.BotonDinamico;
 import com.sw.controller.CellRenderer;
 import com.sw.controller.ComboRenderer;
 import com.sw.controller.ComboRenderer.ComboItem;
@@ -11,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -40,10 +40,7 @@ public class Clientes extends javax.swing.JFrame
         verHistorial = new ArrayList<>();
 
         for (int i = 0; i < 5; i++)
-        {
-            verHistorial.add(new BotonDinamico(new ImageIcon(getClass().getResource("/com/src/images/historial.png"))));
-            verHistorial.get(i).setName("" + i);
-        }
+            verHistorial.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/historial.png"))));
 
         cellRenderer = new CellRenderer();
 
@@ -84,6 +81,8 @@ public class Clientes extends javax.swing.JFrame
             "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
 
         }));
+
+        clientes.setName("Clientes");
 
     }
 
@@ -262,7 +261,7 @@ public class Clientes extends javax.swing.JFrame
 
     }
 
-    private ArrayList<BotonDinamico> verHistorial;
+    private ArrayList<JButton> verHistorial;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anadirCliente;

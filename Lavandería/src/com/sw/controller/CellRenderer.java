@@ -31,17 +31,23 @@ public class CellRenderer extends DefaultTableCellRenderer
         table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : 255);
         table.setRowHeight(30);
 
-        if (value instanceof BotonDinamico)
-        {
-            if (encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 5))
-                ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historialSelected.png")));
+        if (value instanceof JButton)
 
-            else
-                ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historial.png")));
+            switch (table.getName())
+            {
+                case "Clientes":
+                    if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 5))
+                        ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historialSelected.png")));
 
-            return (JButton) value;
+                    else
+                        ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historial.png")));
 
-        }
+                    return (JButton) value;
+
+                default:
+                    return (JButton) value;
+
+            }
 
         if (value instanceof JCheckBox)
         {
@@ -71,18 +77,6 @@ public class CellRenderer extends DefaultTableCellRenderer
             jcomponent.setBackground(Color.cyan);
 
         return jcomponent;
-
-    }
-
-    private boolean encimaBoton(JTable table, JButton boton, int x, int y, int columnaBoton)
-    {
-        int column = table.getColumnModel().getColumnIndexAtX(x);
-        int row = y + 10 >= table.getHeight() ? -1 : y / table.getRowHeight();
-
-        if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0)
-            return table.getValueAt(row, column) == boton;
-
-        return false;
 
     }
 

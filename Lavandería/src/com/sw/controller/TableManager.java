@@ -1,6 +1,7 @@
 package com.sw.controller;
 
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -21,6 +22,22 @@ public class TableManager
                 tableModel.setValueAt(items[i][j], i, j);
 
         table.setModel(tableModel);
+
+    }
+
+    public boolean encimaBoton(JTable table, JButton boton, int x, int y, int columnaBoton)
+    {
+        int column = table.getColumnModel().getColumnIndexAtX(x);
+
+        if (column != columnaBoton)
+            return false;
+
+        int row = y + 10 >= table.getHeight() ? -1 : y / table.getRowHeight();
+
+        if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0)
+            return table.getValueAt(row, column) == boton;
+
+        return false;
 
     }
 
@@ -47,7 +64,7 @@ public class TableManager
      *
      * @return
      */
-    public Object[][] getItems(Object[][] items, ArrayList<BotonDinamico> botones)
+    public Object[][] getItems(Object[][] items, ArrayList<JButton> botones)
     {
         for (int i = 0; i < items.length; i++)
             for (int j = 0; j < items[0].length; j++)

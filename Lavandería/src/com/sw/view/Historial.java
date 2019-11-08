@@ -17,9 +17,6 @@ import javax.swing.table.JTableHeader;
 public class Historial extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form HistorialInterfaz
-     */
     public Historial()
     {
         initMyComponents();
@@ -45,6 +42,8 @@ public class Historial extends javax.swing.JFrame
         JTableHeader jTableHeader = tablaHistorial.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
         tablaHistorial.setTableHeader(jTableHeader);
+
+        tablaHistorial.setName("Historial");
 
     }
 
@@ -171,7 +170,10 @@ public class Historial extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new Historial().setVisible(true);
+            Historial historial = new Historial();
+
+            historial.setVisible(true);
+            historial.setLocationRelativeTo(null);
 
         });
 
