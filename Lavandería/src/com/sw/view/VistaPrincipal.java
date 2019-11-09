@@ -1,14 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sw.view;
 
-import com.sw.controller.CellRenderer;
+import com.sw.controller.TableCellRenderer;
 import com.sw.controller.TableHeaderRenderer;
+import com.sw.controller.TableManager;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -18,9 +19,6 @@ import javax.swing.table.JTableHeader;
 public class VistaPrincipal extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form VistaPrincipal
-     */
     public VistaPrincipal()
     {
 
@@ -28,41 +26,100 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         initComponents();
 
-        renderTables();
+        renderTableEnCola();
+
+        renderTableEnProceso();
+
+        renderTableTerminado();
 
     }
 
     private void initMyComponents()
     {
-        verPrendas = new JButton("Ver prendas");
-        moverLavado = new JButton("Mover a lavando");
-        eliminar = new JButton("Eliminar");
+        verPrendasEnCola = new ArrayList<>();
+        moverLavadoEnCola = new ArrayList<>();
+        eliminarEnCola = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            verPrendasEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
+            moverLavadoEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/down.png"))));
+            eliminarEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+
+        }
 
         empaquetado = new JCheckBox();
 
     }
 
-    private void renderTables()
+    private void renderTableEnCola()
     {
 
-        tablaEnCola.setDefaultRenderer(Object.class, new CellRenderer());
-        JTableHeader jTableHeader = tablaEnCola.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaEnCola.setTableHeader(jTableHeader);
+        TableCellRenderer tableCellRenderer = new TableCellRenderer();
 
-        jTableHeader = tablaEnProceso.getTableHeader();
+        enCola.setDefaultRenderer(Object.class, tableCellRenderer);
+        JTableHeader jTableHeader = enCola.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaEnProceso.setDefaultRenderer(Object.class, new CellRenderer());
+        enCola.setTableHeader(jTableHeader);
+
+        TableManager tableManager = new TableManager();
+        Object[][] items = new Object[10][6];
+
+        enCola.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasEnCola, 1), moverLavadoEnCola, 4), eliminarEnCola, 5), new String[]
+        {
+
+            "Cliente", "Prendas", "Kilos", "Total", "Mover a lavado", "Eliminar"
+
+        }));
+
+        enCola.addMouseMotionListener(new MouseMotionListener()
+        {
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e)
+            {
+
+                tableCellRenderer.setMouseX(e.getX());
+                tableCellRenderer.setMouseY(e.getY());
+
+            }
+
+        });
+
+        enCola.setName("En cola");
+        enCola.revalidate();
+
+    }
+
+    private void renderTableEnProceso()
+    {
+
+        JTableHeader jTableHeader = tablaEnProceso.getTableHeader();
+        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
+        tablaEnProceso.setDefaultRenderer(Object.class, new TableCellRenderer());
         tablaEnProceso.setTableHeader(jTableHeader);
 
-        jTableHeader = tablaTerminado.getTableHeader();
+        tablaEnProceso.setName("");
+        tablaEnProceso.revalidate();
+
+    }
+
+    private void renderTableTerminado()
+    {
+
+        JTableHeader jTableHeader = tablaTerminado.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaTerminado.setDefaultRenderer(Object.class, new CellRenderer());
+        tablaTerminado.setDefaultRenderer(Object.class, new TableCellRenderer());
         tablaTerminado.setTableHeader(jTableHeader);
 
-        this.tablaEnCola.validate();
-        this.tablaEnProceso.validate();
-        this.tablaEnProceso.revalidate();
+        tablaTerminado.setName("");
+        tablaTerminado.revalidate();
 
     }
 
@@ -78,7 +135,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         nuevoServicio = new javax.swing.JButton();
         panelPrincipal = new javax.swing.JTabbedPane();
         scrollTablaEnCola = new javax.swing.JScrollPane();
-        tablaEnCola = new javax.swing.JTable();
+        enCola = new javax.swing.JTable();
         scrollTablaEnProceso = new javax.swing.JScrollPane();
         tablaEnProceso = new javax.swing.JTable();
         scrollTablaTerminado = new javax.swing.JScrollPane();
@@ -86,6 +143,9 @@ public class VistaPrincipal extends javax.swing.JFrame
         buscar = new javax.swing.JTextField();
         logo = new javax.swing.JLabel();
         buscarIcon = new javax.swing.JLabel();
+        verHIstorial = new javax.swing.JButton();
+        verClientes = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
         utilidades = new javax.swing.JMenu();
@@ -96,16 +156,25 @@ public class VistaPrincipal extends javax.swing.JFrame
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Lavandería");
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1230, 800));
         setMinimumSize(new java.awt.Dimension(1230, 800));
-        setPreferredSize(new java.awt.Dimension(1230, 800));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        nuevoServicio.setText("new service");
+        nuevoServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/nuevo.png"))); // NOI18N
+        nuevoServicio.setToolTipText("Nuevo servicio");
         nuevoServicio.setMaximumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setMinimumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setPreferredSize(new java.awt.Dimension(200, 100));
+        nuevoServicio.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                nuevoServicioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(nuevoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 0, -1, 35));
 
         panelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
         panelPrincipal.setMaximumSize(new java.awt.Dimension(1180, 700));
@@ -120,19 +189,14 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         scrollTablaEnCola.setBackground(new java.awt.Color(204, 204, 204));
 
-        tablaEnCola.setModel(new javax.swing.table.DefaultTableModel(
+        enCola.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, verPrendas, null, null, moverLavado, eliminar},
-                {null, verPrendas, null, null, moverLavado, eliminar},
-                {null, verPrendas, null, null, moverLavado, eliminar},
-                {null, verPrendas, null, null, moverLavado, eliminar},
-                {null, verPrendas, null, null, moverLavado, eliminar}
-
+                {null, null, null, null, null, null}
             },
             new String []
             {
-                "Cliente", "Prendas", "Kilos", "Total", "Añadir a lavado", "Eliminar"
+                null, null, null, null, null, null
             }
         )
         {
@@ -153,15 +217,15 @@ public class VistaPrincipal extends javax.swing.JFrame
             }
 
         });
-        tablaEnCola.setRowHeight(25);
-        tablaEnCola.addMouseListener(new java.awt.event.MouseAdapter()
+        enCola.setRowHeight(25);
+        enCola.addMouseListener(new java.awt.event.MouseAdapter()
         {
             public void mouseClicked(java.awt.event.MouseEvent evt)
             {
-                tablaEnColaMouseClicked(evt);
+                enColaMouseClicked(evt);
             }
         });
-        scrollTablaEnCola.setViewportView(tablaEnCola);
+        scrollTablaEnCola.setViewportView(enCola);
 
         panelPrincipal.addTab("En cola", null, scrollTablaEnCola, "Conjunto de prendas que está en la cola.");
 
@@ -170,10 +234,10 @@ public class VistaPrincipal extends javax.swing.JFrame
         tablaEnProceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar},
-                {null, verPrendas, null, null, null, eliminar}
+                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
+                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
+                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
+                {null, verPrendasEnCola, null, null, null, eliminarEnCola}
 
             },
             new String []
@@ -207,11 +271,11 @@ public class VistaPrincipal extends javax.swing.JFrame
     tablaTerminado.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][]
         {
-            {null, verPrendas, null, null, empaquetado, eliminar},
-            {null, verPrendas, null, null, empaquetado, eliminar},
-            {null, verPrendas, null, null, empaquetado, eliminar},
-            {null, verPrendas, null, null, empaquetado, eliminar},
-            {null, verPrendas, null, null, empaquetado, eliminar}
+            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
+            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
+            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
+            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
+            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola}
 
         },
         new String []
@@ -248,12 +312,54 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     panelPrincipal.addTab("Terminado", scrollTablaTerminado);
 
-    buscar.setText("Buscar...");
+    getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1210, 676));
+
+    buscar.setToolTipText("Buscar cliente");
+    buscar.setAlignmentX(0.0F);
+    buscar.setAlignmentY(0.0F);
+    buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar cliente"));
+    buscar.setMaximumSize(new java.awt.Dimension(550, 40));
+    buscar.setMinimumSize(new java.awt.Dimension(550, 40));
+    buscar.setPreferredSize(new java.awt.Dimension(550, 40));
+    getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(321, 11, 550, 60));
 
     logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    logo.setText("Aquí habrá un logo...");
+    logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+    getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 215, 95));
 
-    buscarIcon.setText("search.icon");
+    buscarIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/search.png"))); // NOI18N
+    getContentPane().add(buscarIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 20, 50, 40));
+
+    verHIstorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historial.png"))); // NOI18N
+    verHIstorial.setToolTipText("Ver historial");
+    verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
+    verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));
+    verHIstorial.setPreferredSize(new java.awt.Dimension(200, 35));
+    verHIstorial.addActionListener(new java.awt.event.ActionListener()
+    {
+        public void actionPerformed(java.awt.event.ActionEvent evt)
+        {
+            verHIstorialActionPerformed(evt);
+        }
+    });
+    getContentPane().add(verHIstorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 40, 200, 35));
+
+    verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
+    verClientes.setToolTipText("Ver clientes");
+    verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
+    verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
+    verClientes.setPreferredSize(new java.awt.Dimension(200, 35));
+    verClientes.addActionListener(new java.awt.event.ActionListener()
+    {
+        public void actionPerformed(java.awt.event.ActionEvent evt)
+        {
+            verClientesActionPerformed(evt);
+        }
+    });
+    getContentPane().add(verClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, 200, 35));
+
+    jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+    getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
 
     config.setText("Configuración");
     menuBar.add(config);
@@ -281,59 +387,25 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     setJMenuBar(menuBar);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(20, 20, 20)
-                    .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(buscarIcon)
-                    .addGap(70, 70, 70)
-                    .addComponent(nuevoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addContainerGap())
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nuevoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buscar, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(buscarIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
     pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaEnColaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tablaEnColaMouseClicked
-    {//GEN-HEADEREND:event_tablaEnColaMouseClicked
+    private void enColaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_enColaMouseClicked
+    {//GEN-HEADEREND:event_enColaMouseClicked
 
-        int column = tablaEnCola.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / tablaEnCola.getRowHeight();
+        int column = enCola.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / enCola.getRowHeight();
 
-        if (row < tablaEnCola.getRowCount() && row >= 0 && column < tablaEnCola.getColumnCount() && column >= 0)
+        if (row < enCola.getRowCount() && row >= 0 && column < enCola.getColumnCount() && column >= 0)
         {
-            Object value = tablaEnCola.getValueAt(row, column);
+            Object value = enCola.getValueAt(row, column);
 
             if (value instanceof JButton)
                 ((JButton) value).doClick();
 
         }
 
-    }//GEN-LAST:event_tablaEnColaMouseClicked
+    }//GEN-LAST:event_enColaMouseClicked
 
     private void waveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_waveActionPerformed
     {//GEN-HEADEREND:event_waveActionPerformed
@@ -374,6 +446,21 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     }//GEN-LAST:event_tablaTerminadoMouseClicked
 
+    private void nuevoServicioActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_nuevoServicioActionPerformed
+    {//GEN-HEADEREND:event_nuevoServicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nuevoServicioActionPerformed
+
+    private void verHIstorialActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_verHIstorialActionPerformed
+    {//GEN-HEADEREND:event_verHIstorialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verHIstorialActionPerformed
+
+    private void verClientesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_verClientesActionPerformed
+    {//GEN-HEADEREND:event_verClientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verClientesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -413,14 +500,18 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     }
 
-    private JButton verPrendas;
-    private JButton moverLavado;
-    private JButton eliminar;
+    private ArrayList<JButton> verPrendasEnCola;
+    private ArrayList<JButton> moverLavadoEnCola;
+    private ArrayList<JButton> eliminarEnCola;
+
     private JCheckBox empaquetado;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
     private javax.swing.JLabel buscarIcon;
     private javax.swing.JMenu config;
+    private javax.swing.JTable enCola;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JMenu juegos;
     private javax.swing.JLabel logo;
@@ -431,10 +522,11 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
     private javax.swing.JScrollPane scrollTablaTerminado;
-    private javax.swing.JTable tablaEnCola;
     private javax.swing.JTable tablaEnProceso;
     private javax.swing.JTable tablaTerminado;
     private javax.swing.JMenu utilidades;
+    private javax.swing.JButton verClientes;
+    private javax.swing.JButton verHIstorial;
     private javax.swing.JMenuItem wave;
     // End of variables declaration//GEN-END:variables
 }

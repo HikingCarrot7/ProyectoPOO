@@ -1,8 +1,8 @@
 package com.sw.view;
 
-import com.sw.controller.CellRenderer;
 import com.sw.controller.ComboRenderer;
 import com.sw.controller.ComboRenderer.ComboItem;
+import com.sw.controller.TableCellRenderer;
 import com.sw.controller.TableHeaderRenderer;
 import com.sw.controller.TableManager;
 import java.awt.event.MouseEvent;
@@ -21,7 +21,7 @@ import javax.swing.table.JTableHeader;
 public class Clientes extends javax.swing.JFrame
 {
 
-    private CellRenderer cellRenderer;
+    private TableCellRenderer cellRenderer;
 
     public Clientes()
     {
@@ -42,7 +42,7 @@ public class Clientes extends javax.swing.JFrame
         for (int i = 0; i < 5; i++)
             verHistorial.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/historial.png"))));
 
-        cellRenderer = new CellRenderer();
+        cellRenderer = new TableCellRenderer();
 
     }
 
@@ -83,6 +83,7 @@ public class Clientes extends javax.swing.JFrame
         }));
 
         clientes.setName("Clientes");
+        clientes.revalidate();
 
     }
 
@@ -140,18 +141,12 @@ public class Clientes extends javax.swing.JFrame
         clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial},
-                {null, null, null, null, null, verHistorial}
+                {null, null, null, null, null, null},
 
             },
             new String []
             {
-                "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
+                null, null, null, null, null, null
             }
 
         ));

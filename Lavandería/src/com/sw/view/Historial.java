@@ -1,8 +1,8 @@
 package com.sw.view;
 
-import com.sw.controller.CellRenderer;
 import com.sw.controller.ComboRenderer;
 import com.sw.controller.ComboRenderer.ComboItem;
+import com.sw.controller.TableCellRenderer;
 import com.sw.controller.TableHeaderRenderer;
 import com.sw.controller.TableManager;
 import java.awt.event.MouseEvent;
@@ -40,23 +40,23 @@ public class Historial extends javax.swing.JFrame
         verPrendas = new ArrayList<>();
 
         for (int i = 0; i < 5; i++)
-            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+        {
 
-        for (int i = 0; i < 5; i++)
+            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
             verPrendas.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
+
+        }
 
     }
 
     private void renderTable()
     {
 
-        CellRenderer cellRenderer = new CellRenderer();
+        TableCellRenderer cellRenderer = new TableCellRenderer();
         historial.setDefaultRenderer(Object.class, cellRenderer);
         JTableHeader jTableHeader = historial.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
         historial.setTableHeader(jTableHeader);
-
-        historial.setName("Historial");
 
         TableManager tableManager = new TableManager();
         Object[][] items = new Object[5][6];
@@ -87,6 +87,9 @@ public class Historial extends javax.swing.JFrame
 
         });
 
+        historial.setName("Historial");
+        historial.revalidate();
+
     }
 
     private void loadComboModel()
@@ -99,9 +102,9 @@ public class Historial extends javax.swing.JFrame
     {
         DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
 
-        dm.addElement(new ComboRenderer.ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
+        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
 
-        dm.addElement(new ComboRenderer.ComboItem(new ImageIcon(getClass().getResource("/com/src/images/numbers.png")), "Fecha"));
+        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/fecha.png")), "Fecha"));
 
         return dm;
 
@@ -132,8 +135,9 @@ public class Historial extends javax.swing.JFrame
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historialTitle.png"))); // NOI18N
         jLabel1.setText("Historial de servicios");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 230, 95));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 300, 95));
 
         panelHistorial.setMaximumSize(new java.awt.Dimension(910, 530));
         panelHistorial.setMinimumSize(new java.awt.Dimension(910, 530));

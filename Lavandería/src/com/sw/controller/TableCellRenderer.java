@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Mohammed
  */
-public class CellRenderer extends DefaultTableCellRenderer
+public class TableCellRenderer extends DefaultTableCellRenderer
 {
 
     private int mouseX;
@@ -32,37 +32,35 @@ public class CellRenderer extends DefaultTableCellRenderer
         table.setRowHeight(30);
 
         if (value instanceof JButton)
-
             switch (table.getName())
             {
                 case "Clientes":
-                    if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 5))
-                        ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historialSelected.png")));
+                    updateIcon(((JButton) value), table, 5, "/com/src/images/historialSelected.png", "/com/src/images/historial.png");
+                    return (JButton) value;
 
-                    else
-                        ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/historial.png")));
+                case "Prendas":
+                case "Historial":
+
+                    updateIcon(((JButton) value), table, column == 1 ? 1 : table.getName().equals("Historial") ? 5 : 3,
+                            column == 1 ? "/com/src/images/tshirtSelected.png" : "/com/src/images/deleteSelected.png",
+                            column == 1 ? "/com/src/images/tshirt.png" : "/com/src/images/delete.png");
 
                     return (JButton) value;
 
-                case "Historial":
-
-                    if (column == 1)
+                case "En cola":
+                    switch (column)
                     {
-                        if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 1))
-                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/tshirtSelected.png")));
-                        else
-                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png")));
+                        case 1:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            return (JButton) value;
 
-                        return (JButton) value;
+                        case 4:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
+                            return (JButton) value;
 
-                    } else
-                    {
-                        if (new TableManager().encimaBoton(table, ((JButton) value), getMouseX(), getMouseY(), 5))
-                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/deleteSelected.png")));
-                        else
-                            ((JButton) value).setIcon(new ImageIcon(getClass().getResource("/com/src/images/delete.png")));
-
-                        return (JButton) value;
+                        case 5:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+                            return (JButton) value;
 
                     }
 
@@ -99,6 +97,14 @@ public class CellRenderer extends DefaultTableCellRenderer
             jcomponent.setBackground(Color.cyan);
 
         return jcomponent;
+
+    }
+
+    private void updateIcon(JButton boton, JTable table, int column, String rutaSelected, String rutaDefault)
+    {
+
+        boton.setIcon(new ImageIcon(getClass().getResource(new TableManager().encimaBoton(table, boton, getMouseX(), getMouseY(), column)
+                ? rutaSelected : rutaDefault)));
 
     }
 

@@ -27,6 +27,10 @@ public class TableManager
 
     public boolean encimaBoton(JTable table, JButton boton, int x, int y, int columnaBoton)
     {
+
+        if (y < 7)
+            return false;
+
         int column = table.getColumnModel().getColumnIndexAtX(x);
 
         if (column != columnaBoton)
@@ -58,9 +62,6 @@ public class TableManager
 
         Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
 
-        System.out.println("");
-        System.out.println(items.length - (rowFin - rowInicio) - 1);
-
         for (int i = 0; i < items.length - (rowFin - rowInicio) - 1; i++)
             System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
 
@@ -81,7 +82,7 @@ public class TableManager
     /**
      * @deprecated
      *
-     * Este método está bug.
+     * Este método está bug xd.
      *
      * @param column
      * @param items
