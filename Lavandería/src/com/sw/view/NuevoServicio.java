@@ -12,15 +12,19 @@ import javax.swing.ImageIcon;
 public class NuevoServicio extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form NuevoServicioInterfaz
-     */
     public NuevoServicio()
     {
         initComponents();
 
         loadComboModel();
 
+        initMyComponents();
+
+    }
+
+    private void initMyComponents()
+    {
+        horas.setValue(1);
     }
 
     private void loadComboModel()
@@ -56,14 +60,22 @@ public class NuevoServicio extends javax.swing.JFrame
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        horas = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
+        minutos = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
+        segundos = new javax.swing.JSpinner();
+        jLabel8 = new javax.swing.JLabel();
+        ok = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nuevo servicio");
-        setMaximumSize(new java.awt.Dimension(385, 250));
-        setMinimumSize(new java.awt.Dimension(385, 250));
+        setMaximumSize(new java.awt.Dimension(385, 350));
+        setMinimumSize(new java.awt.Dimension(385, 350));
         setName("nuevoServicio"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(385, 250));
+        setPreferredSize(new java.awt.Dimension(385, 350));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -75,28 +87,69 @@ public class NuevoServicio extends javax.swing.JFrame
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 250, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Cliente:");
         jLabel2.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 83, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         clientes.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] { null }));
-        getContentPane().add(clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 83, 170, 25));
+        getContentPane().add(clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 170, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Prendas:");
         jLabel3.setPreferredSize(new java.awt.Dimension(70, 25));
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 140, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         jButton1.setToolTipText("Añadir cliente");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, 90, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 90, 30));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
         jButton2.setToolTipText("Añadir prendas");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 125, 30));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 125, 30));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Tiempo estimado:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
+
+        horas.setToolTipText("Horas");
+        horas.setMaximumSize(new java.awt.Dimension(35, 20));
+        horas.setMinimumSize(new java.awt.Dimension(35, 20));
+        horas.setPreferredSize(new java.awt.Dimension(35, 20));
+        getContentPane().add(horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 50, 30));
+
+        jLabel6.setText("Horas");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, -1, -1));
+
+        minutos.setToolTipText("Minutos");
+        minutos.setMaximumSize(new java.awt.Dimension(35, 20));
+        minutos.setMinimumSize(new java.awt.Dimension(35, 20));
+        minutos.setPreferredSize(new java.awt.Dimension(35, 20));
+        getContentPane().add(minutos, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 50, 30));
+
+        jLabel7.setText("Minutos");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, -1, -1));
+
+        segundos.setToolTipText("Segundos");
+        segundos.setMaximumSize(new java.awt.Dimension(35, 20));
+        segundos.setMinimumSize(new java.awt.Dimension(35, 20));
+        segundos.setPreferredSize(new java.awt.Dimension(35, 20));
+        getContentPane().add(segundos, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 50, 30));
+
+        jLabel8.setText("Segundos");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, -1, -1));
+
+        ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
+        ok.setToolTipText("Añadir");
+        ok.setMaximumSize(new java.awt.Dimension(80, 40));
+        ok.setMinimumSize(new java.awt.Dimension(80, 40));
+        ok.setPreferredSize(new java.awt.Dimension(80, 40));
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 230));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -145,11 +198,19 @@ public class NuevoServicio extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<ComboItem> clientes;
+    private javax.swing.JSpinner horas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JSpinner minutos;
+    private javax.swing.JButton ok;
+    private javax.swing.JSpinner segundos;
     // End of variables declaration//GEN-END:variables
 }

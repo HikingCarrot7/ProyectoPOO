@@ -3,7 +3,7 @@ package com.sw.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import static javax.swing.BorderFactory.createMatteBorder;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -40,7 +40,7 @@ public class TableHeaderRenderer implements TableCellRenderer
         ((JLabel) jcomponent).setSize(30, jcomponent.getWidth());
         ((JLabel) jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
-        jcomponent.setBorder(createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
+        jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
         jcomponent.setBackground(new Color(65, 65, 65));
         jcomponent.setToolTipText("Header");

@@ -70,14 +70,17 @@ public class TableManager
 
     }
 
-    public void rellenarFilaTabla(JTable table, Object[][] items, int row)
+    public void rellenarFilaTabla(JTable table, Object[] items, int row)
     {
+
+        for (int i = 0; i < items.length; i++)
+            table.getModel().setValueAt(items[i], row, i);
 
     }
 
-    public void eliminarFilaTabla(JTable table, Object[][] items, int row)
+    public synchronized void updateField(JTable table, Object item, int row, int column)
     {
-
+        table.getModel().setValueAt(item, row, column);
     }
 
     /**

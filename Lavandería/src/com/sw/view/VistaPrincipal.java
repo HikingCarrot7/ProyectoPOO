@@ -83,7 +83,6 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         Object[][] items = new Object[10][6];
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
-        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
 
         renderTableHeader(enCola, tableCellRenderer, "En cola");
 
@@ -94,7 +93,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
-        enCola.addMouseMotionListener(mouseMotionManager);
+        enCola.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
 
     }
 
@@ -102,7 +101,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     {
         Object[][] items = new Object[10][7];
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
-        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
 
         renderTableHeader(enProceso, tableCellRenderer, "En proceso");
 
@@ -113,7 +111,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
-        enProceso.addMouseMotionListener(mouseMotionManager);
+        enProceso.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
 
     }
 
@@ -122,7 +120,6 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         Object[][] items = new Object[10][7];
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
-        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
 
         renderTableHeader(terminado, tableCellRenderer, "Terminado");
 
@@ -133,7 +130,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
-        terminado.addMouseMotionListener(mouseMotionManager);
+        terminado.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
 
     }
 
@@ -418,18 +415,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     private void enColaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_enColaMouseClicked
     {//GEN-HEADEREND:event_enColaMouseClicked
 
-        int column = enCola.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / enCola.getRowHeight();
-
-        if (row < enCola.getRowCount() && row >= 0 && column < enCola.getColumnCount() && column >= 0)
-        {
-            Object value = enCola.getValueAt(row, column);
-
-            if (value instanceof JButton)
-                ((JButton) value).doClick();
-
-        }
-
     }//GEN-LAST:event_enColaMouseClicked
 
     private void waveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_waveActionPerformed
@@ -450,24 +435,6 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     private void terminadoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_terminadoMouseClicked
     {//GEN-HEADEREND:event_terminadoMouseClicked
-
-        int column = terminado.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / terminado.getRowHeight();
-
-        if (row < terminado.getRowCount() && row >= 0 && column < terminado.getColumnCount() && column >= 0)
-        {
-            Object value = terminado.getValueAt(row, column);
-
-            System.out.println("row " + row + ", column " + column);
-            System.out.println(value.getClass());
-
-            if (value instanceof JButton)
-                ((JButton) value).doClick();
-
-            else if (value instanceof JCheckBox)
-                ((JCheckBox) value).setEnabled(!((JCheckBox) value).isEnabled());
-
-        }
 
     }//GEN-LAST:event_terminadoMouseClicked
 
@@ -564,4 +531,5 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JButton verHIstorial;
     private javax.swing.JMenuItem wave;
     // End of variables declaration//GEN-END:variables
+
 }

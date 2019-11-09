@@ -1,6 +1,8 @@
 package com.sw.main;
 
 import com.sw.controller.TableManager;
+import com.sw.utilities.Temporizador;
+import com.sw.utilities.Time;
 
 /**
  *
@@ -19,6 +21,11 @@ public class Main
         System.out.println("");
 
         imprimirMatriz(new TableManager().recortarFilas(items, 3, 4));
+
+        System.out.println("");
+        System.out.println("");
+
+        new Temporizador(new Time(2, 45, 23)).iniciarTemporizador();
 
     }
 
