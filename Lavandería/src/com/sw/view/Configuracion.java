@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sw.view;
 
 /**
@@ -12,9 +7,6 @@ package com.sw.view;
 public class Configuracion extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form Configuracion
-     */
     public Configuracion()
     {
         initComponents();
@@ -43,7 +35,6 @@ public class Configuracion extends javax.swing.JFrame
         setTitle("Configuración");
         setMaximumSize(new java.awt.Dimension(500, 370));
         setMinimumSize(new java.awt.Dimension(500, 370));
-        setPreferredSize(new java.awt.Dimension(500, 370));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -125,25 +116,20 @@ public class Configuracion extends javax.swing.JFrame
          */
         try
         {
+
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
                 if ("Nimbus".equals(info.getName()))
                 {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-        } catch (ClassNotFoundException ex)
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(Configuracion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(Configuracion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(Configuracion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(Configuracion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */

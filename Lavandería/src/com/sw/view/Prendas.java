@@ -1,8 +1,8 @@
 package com.sw.view;
 
+import com.sw.controller.TableManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
-import com.sw.controller.TableManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
