@@ -1,14 +1,14 @@
 package com.sw.view;
 
-import com.sw.controller.TableCellRenderer;
-import com.sw.controller.TableHeaderRenderer;
 import com.sw.controller.TableManager;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import com.sw.input.MouseMotionManager;
+import com.sw.renderer.TableCellRenderer;
+import com.sw.renderer.TableHeaderRenderer;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -26,11 +26,11 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         initComponents();
 
-        renderTableEnCola();
+        renderTableEnCola(new TableManager());
 
-        renderTableEnProceso();
+        renderTableEnProceso(new TableManager());
 
-        renderTableTerminado();
+        renderTableTerminado(new TableManager());
 
     }
 
@@ -40,31 +40,52 @@ public class VistaPrincipal extends javax.swing.JFrame
         moverLavadoEnCola = new ArrayList<>();
         eliminarEnCola = new ArrayList<>();
 
+        verPrendasEnProceso = new ArrayList<>();
+        subirColaEnProceso = new ArrayList<>();
+        moverTerminadoEnProceso = new ArrayList<>();
+        eliminarEnProceso = new ArrayList<>();
+
+        verPrendasTerminado = new ArrayList<>();
+        subirProcesoTerminado = new ArrayList<>();
+        empaquetado = new ArrayList<>();
+        eliminarTerminado = new ArrayList<>();
+
         for (int i = 0; i < 10; i++)
         {
-
-            verPrendasEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
-            moverLavadoEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/down.png"))));
-            eliminarEnCola.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+            verPrendasEnCola.add(new JButton(getIcon("/com/src/images/tshirt.png")));
+            moverLavadoEnCola.add(new JButton(getIcon("/com/src/images/down.png")));
+            eliminarEnCola.add(new JButton(getIcon("/com/src/images/delete.png")));
 
         }
 
-        empaquetado = new JCheckBox();
+        for (int i = 0; i < 10; i++)
+        {
+            verPrendasEnProceso.add(new JButton(getIcon("/com/src/images/tshirt.png")));
+            subirColaEnProceso.add(new JButton(getIcon("/com/src/images/up.png")));
+            moverTerminadoEnProceso.add(new JButton(getIcon("/com/src/images/down.png")));
+            eliminarEnProceso.add(new JButton(getIcon("/com/src/images/delete.png")));
+
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            verPrendasTerminado.add(new JButton(getIcon("/com/src/images/tshirt.png")));
+            subirProcesoTerminado.add(new JButton(getIcon("/com/src/images/up.png")));
+            eliminarTerminado.add(new JButton(getIcon("/com/src/images/delete.png")));
+            empaquetado.add(new JCheckBox());
+
+        }
 
     }
 
-    private void renderTableEnCola()
+    private void renderTableEnCola(TableManager tableManager)
     {
 
-        TableCellRenderer tableCellRenderer = new TableCellRenderer();
-
-        enCola.setDefaultRenderer(Object.class, tableCellRenderer);
-        JTableHeader jTableHeader = enCola.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        enCola.setTableHeader(jTableHeader);
-
-        TableManager tableManager = new TableManager();
         Object[][] items = new Object[10][6];
+        TableCellRenderer tableCellRenderer = new TableCellRenderer();
+        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
+
+        renderTableHeader(enCola, tableCellRenderer, "En cola");
 
         enCola.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasEnCola, 1), moverLavadoEnCola, 4), eliminarEnCola, 5), new String[]
         {
@@ -73,54 +94,65 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
-        enCola.addMouseMotionListener(new MouseMotionListener()
+        enCola.addMouseMotionListener(mouseMotionManager);
+
+    }
+
+    private void renderTableEnProceso(TableManager tableManager)
+    {
+        Object[][] items = new Object[10][7];
+        TableCellRenderer tableCellRenderer = new TableCellRenderer();
+        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
+
+        renderTableHeader(enProceso, tableCellRenderer, "En proceso");
+
+        enProceso.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasEnProceso, 1), subirColaEnProceso, 4), moverTerminadoEnProceso, 5), eliminarEnProceso, 6), new String[]
         {
-            @Override
-            public void mouseDragged(MouseEvent e)
-            {
 
-            }
+            "Cliente", "Prendas", "Kilos", "Tiempo estimado", "Subir a la cola", "Mover a terminado", "Eliminar"
 
-            @Override
-            public void mouseMoved(MouseEvent e)
-            {
+        }));
 
-                tableCellRenderer.setMouseX(e.getX());
-                tableCellRenderer.setMouseY(e.getY());
-
-            }
-
-        });
-
-        enCola.setName("En cola");
-        enCola.revalidate();
+        enProceso.addMouseMotionListener(mouseMotionManager);
 
     }
 
-    private void renderTableEnProceso()
+    private void renderTableTerminado(TableManager tableManager)
     {
 
-        JTableHeader jTableHeader = tablaEnProceso.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaEnProceso.setDefaultRenderer(Object.class, new TableCellRenderer());
-        tablaEnProceso.setTableHeader(jTableHeader);
+        Object[][] items = new Object[10][7];
+        TableCellRenderer tableCellRenderer = new TableCellRenderer();
+        MouseMotionManager mouseMotionManager = new MouseMotionManager(tableCellRenderer);
 
-        tablaEnProceso.setName("");
-        tablaEnProceso.revalidate();
+        renderTableHeader(terminado, tableCellRenderer, "Terminado");
+
+        terminado.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasTerminado, 1), subirProcesoTerminado, 4), empaquetado, 5), eliminarTerminado, 6), new String[]
+        {
+
+            "Cliente", "Prendas", "Kilos", "Total", "Subir a proceso", "¿Empaquetado?", "Eliminar"
+
+        }));
+
+        terminado.addMouseMotionListener(mouseMotionManager);
 
     }
 
-    private void renderTableTerminado()
+    private void renderTableHeader(JTable table, TableCellRenderer tableCellRenderer, String name)
     {
 
-        JTableHeader jTableHeader = tablaTerminado.getTableHeader();
+        JTableHeader jTableHeader = table.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        tablaTerminado.setDefaultRenderer(Object.class, new TableCellRenderer());
-        tablaTerminado.setTableHeader(jTableHeader);
+        table.setDefaultRenderer(Object.class, tableCellRenderer);
+        table.setTableHeader(jTableHeader);
 
-        tablaTerminado.setName("");
-        tablaTerminado.revalidate();
+        table.setName(name);
+        table.revalidate();
 
+    }
+
+    private ImageIcon getIcon(String ruta)
+    {
+        return new ImageIcon(getClass().getResource(ruta));
     }
 
     /**
@@ -137,9 +169,9 @@ public class VistaPrincipal extends javax.swing.JFrame
         scrollTablaEnCola = new javax.swing.JScrollPane();
         enCola = new javax.swing.JTable();
         scrollTablaEnProceso = new javax.swing.JScrollPane();
-        tablaEnProceso = new javax.swing.JTable();
+        enProceso = new javax.swing.JTable();
         scrollTablaTerminado = new javax.swing.JScrollPane();
-        tablaTerminado = new javax.swing.JTable();
+        terminado = new javax.swing.JTable();
         buscar = new javax.swing.JTextField();
         logo = new javax.swing.JLabel();
         buscarIcon = new javax.swing.JLabel();
@@ -231,24 +263,21 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         scrollTablaEnProceso.setBackground(new java.awt.Color(204, 204, 204));
 
-        tablaEnProceso.setModel(new javax.swing.table.DefaultTableModel(
+        enProceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
-                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
-                {null, verPrendasEnCola, null, null, null, eliminarEnCola},
-                {null, verPrendasEnCola, null, null, null, eliminarEnCola}
+                {null, null, null, null, null, null, null},
 
             },
             new String []
             {
-                "Cliente", "Prendas", "Kilos", "Tiempo estimado", "Pasar a terminado", "Eliminar"
+                null, null, null, null, null, null, null
             }
         )
         {
             Class[] types = new Class []
             {
-                java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class, Object.class
             };
 
             public Class getColumnClass(int columnIndex)
@@ -264,23 +293,19 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }
     );
-    scrollTablaEnProceso.setViewportView(tablaEnProceso);
+    scrollTablaEnProceso.setViewportView(enProceso);
 
     panelPrincipal.addTab("En proceso", scrollTablaEnProceso);
 
-    tablaTerminado.setModel(new javax.swing.table.DefaultTableModel(
+    terminado.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][]
         {
-            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
-            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
-            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
-            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola},
-            {null, verPrendasEnCola, null, null, empaquetado, eliminarEnCola}
+            {null},
 
         },
         new String []
         {
-            "Cliente", "Prendas", "Kilos", "Total", "¿Empaquetado?", "Eliminar"
+            null
         }
     )
     {
@@ -301,14 +326,14 @@ public class VistaPrincipal extends javax.swing.JFrame
         }
 
     });
-    tablaTerminado.addMouseListener(new java.awt.event.MouseAdapter()
+    terminado.addMouseListener(new java.awt.event.MouseAdapter()
     {
         public void mouseClicked(java.awt.event.MouseEvent evt)
         {
-            tablaTerminadoMouseClicked(evt);
+            terminadoMouseClicked(evt);
         }
     });
-    scrollTablaTerminado.setViewportView(tablaTerminado);
+    scrollTablaTerminado.setViewportView(terminado);
 
     panelPrincipal.addTab("Terminado", scrollTablaTerminado);
 
@@ -423,15 +448,15 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     }//GEN-LAST:event_panelPrincipalMouseClicked
 
-    private void tablaTerminadoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tablaTerminadoMouseClicked
-    {//GEN-HEADEREND:event_tablaTerminadoMouseClicked
+    private void terminadoMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_terminadoMouseClicked
+    {//GEN-HEADEREND:event_terminadoMouseClicked
 
-        int column = tablaTerminado.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY() / tablaTerminado.getRowHeight();
+        int column = terminado.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / terminado.getRowHeight();
 
-        if (row < tablaTerminado.getRowCount() && row >= 0 && column < tablaTerminado.getColumnCount() && column >= 0)
+        if (row < terminado.getRowCount() && row >= 0 && column < terminado.getColumnCount() && column >= 0)
         {
-            Object value = tablaTerminado.getValueAt(row, column);
+            Object value = terminado.getValueAt(row, column);
 
             System.out.println("row " + row + ", column " + column);
             System.out.println(value.getClass());
@@ -444,7 +469,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }
 
-    }//GEN-LAST:event_tablaTerminadoMouseClicked
+    }//GEN-LAST:event_terminadoMouseClicked
 
     private void nuevoServicioActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_nuevoServicioActionPerformed
     {//GEN-HEADEREND:event_nuevoServicioActionPerformed
@@ -479,10 +504,12 @@ public class VistaPrincipal extends javax.swing.JFrame
                 {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -504,13 +531,22 @@ public class VistaPrincipal extends javax.swing.JFrame
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
 
-    private JCheckBox empaquetado;
+    private ArrayList<JButton> verPrendasEnProceso;
+    private ArrayList<JButton> subirColaEnProceso;
+    private ArrayList<JButton> moverTerminadoEnProceso;
+    private ArrayList<JButton> eliminarEnProceso;
+
+    private ArrayList<JButton> verPrendasTerminado;
+    private ArrayList<JButton> subirProcesoTerminado;
+    private ArrayList<JCheckBox> empaquetado;
+    private ArrayList<JButton> eliminarTerminado;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
     private javax.swing.JLabel buscarIcon;
     private javax.swing.JMenu config;
     private javax.swing.JTable enCola;
+    private javax.swing.JTable enProceso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JMenu juegos;
@@ -522,8 +558,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
     private javax.swing.JScrollPane scrollTablaTerminado;
-    private javax.swing.JTable tablaEnProceso;
-    private javax.swing.JTable tablaTerminado;
+    private javax.swing.JTable terminado;
     private javax.swing.JMenu utilidades;
     private javax.swing.JButton verClientes;
     private javax.swing.JButton verHIstorial;

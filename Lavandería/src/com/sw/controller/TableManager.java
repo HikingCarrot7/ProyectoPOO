@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -90,7 +91,7 @@ public class TableManager
      *
      * @return
      */
-    public Object[][] getItems(Object[][] items, ArrayList<JButton> botones, int column)
+    public Object[][] getItems(Object[][] items, ArrayList<? extends Component> botones, int column)
     {
         for (int i = 0; i < items.length; i++)
             for (int j = 0; j < items[0].length; j++)

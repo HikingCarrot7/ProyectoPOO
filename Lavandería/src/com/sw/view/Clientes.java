@@ -1,9 +1,9 @@
 package com.sw.view;
 
-import com.sw.controller.ComboRenderer;
-import com.sw.controller.ComboRenderer.ComboItem;
-import com.sw.controller.TableCellRenderer;
-import com.sw.controller.TableHeaderRenderer;
+import com.sw.renderer.ComboRenderer;
+import com.sw.renderer.ComboRenderer.ComboItem;
+import com.sw.renderer.TableCellRenderer;
+import com.sw.renderer.TableHeaderRenderer;
 import com.sw.controller.TableManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -66,8 +66,8 @@ public class Clientes extends javax.swing.JFrame
             public void mouseMoved(MouseEvent e)
             {
 
-                cellRenderer.setMouseX(e.getX());
-                cellRenderer.setMouseY(e.getY());
+                cellRenderer.setX(e.getX());
+                cellRenderer.setY(e.getY());
 
             }
 

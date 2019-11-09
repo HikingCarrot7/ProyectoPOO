@@ -1,4 +1,4 @@
-package com.sw.controller;
+package com.sw.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -27,10 +27,13 @@ public class TableHeaderRenderer implements TableCellRenderer
         table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
 
         if (table.getColumnCount() >= 5)
-            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 913 ? 70 : table.getWidth() == 904 ? 115 : 150);
+            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 913 ? 70 : table.getWidth() == 904 ? 115 : table.getColumnCount() == 7 ? 104 : 154);
 
         if (table.getColumnCount() >= 6)
-            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 913 ? 85 : table.getWidth() == 904 ? 120 : 150);
+            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 913 ? 85 : table.getWidth() == 904 ? 120 : table.getColumnCount() == 7 ? 104 : 154);
+
+        if (table.getColumnCount() >= 7)
+            table.getColumnModel().getColumn(6).setWidth(100);
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);

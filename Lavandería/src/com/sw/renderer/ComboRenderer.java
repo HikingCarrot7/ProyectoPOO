@@ -1,9 +1,9 @@
-package com.sw.controller;
+package com.sw.renderer;
 
+import com.sw.input.MouseMotionManager;
+import com.sw.input.MouseMotionModel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -14,17 +14,16 @@ import javax.swing.ListCellRenderer;
  *
  * @author Mohammed
  */
-public class ComboRenderer extends JLabel implements ListCellRenderer
+public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMotionModel
 {
 
     private int y;
+    private int x;
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
-        MouseMotionManager mouseMotionManager = new MouseMotionManager(this);
-
-        list.addMouseMotionListener(mouseMotionManager);
+        list.addMouseMotionListener(new MouseMotionManager(this));
 
         setIcon(((ComboItem) value).getIcon());
         setText(((ComboItem) value).getText());
@@ -95,49 +94,28 @@ public class ComboRenderer extends JLabel implements ListCellRenderer
 
     }
 
-    private class MouseMotionManager implements MouseMotionListener
-    {
-
-        private ComboRenderer comborenderer;
-
-        public MouseMotionManager(ComboRenderer comborenderer)
-        {
-            this.comborenderer = comborenderer;
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e)
-        {
-
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e)
-        {
-            comborenderer.setY(e.getY());
-        }
-
-        public ComboRenderer getComborenderer()
-        {
-            return comborenderer;
-        }
-
-        public void setComborenderer(ComboRenderer comborenderer)
-        {
-            this.comborenderer = comborenderer;
-        }
-
-    }
-
     @Override
     public int getY()
     {
         return y;
     }
 
+    @Override
     public void setY(int y)
     {
         this.y = y;
+    }
+
+    @Override
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+    @Override
+    public int getX()
+    {
+        return x;
     }
 
 }

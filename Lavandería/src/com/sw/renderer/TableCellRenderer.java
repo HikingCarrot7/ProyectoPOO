@@ -1,5 +1,7 @@
-package com.sw.controller;
+package com.sw.renderer;
 
+import com.sw.controller.TableManager;
+import com.sw.input.MouseMotionModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,11 +20,11 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Mohammed
  */
-public class TableCellRenderer extends DefaultTableCellRenderer
+public class TableCellRenderer extends DefaultTableCellRenderer implements MouseMotionModel
 {
 
-    private int mouseX;
-    private int mouseY;
+    private int x;
+    private int y;
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
@@ -64,6 +66,30 @@ public class TableCellRenderer extends DefaultTableCellRenderer
 
                     }
 
+                case "Terminado":
+                case "En proceso":
+                    switch (column)
+                    {
+                        case 1:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            return (JButton) value;
+
+                        case 4:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
+                            return (JButton) value;
+
+                        case 5:
+                            if (!table.getName().equals("Terminado"))
+                                updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
+
+                            return (JButton) value;
+
+                        case 6:
+                            updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+                            return (JButton) value;
+
+                    }
+
                 default:
                     return (JButton) value;
 
@@ -73,9 +99,8 @@ public class TableCellRenderer extends DefaultTableCellRenderer
         {
             JComponent jcomponent = new JPanel();
             ((JPanel) jcomponent).setLayout(null);
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setBounds(68, 7, 16, 16);
-            ((JPanel) jcomponent).add(checkBox);
+            ((JCheckBox) value).setBounds(table.getColumnModel().getColumn(5).getWidth() / 2 - 8, 7, 16, 16);
+            ((JPanel) jcomponent).add(((JCheckBox) value));
             jcomponent.setOpaque(true);
             jcomponent.setBackground(row % 2 == 0 ? new Color(180, 180, 180) : Color.white);
 
@@ -103,29 +128,33 @@ public class TableCellRenderer extends DefaultTableCellRenderer
     private void updateIcon(JButton boton, JTable table, int column, String rutaSelected, String rutaDefault)
     {
 
-        boton.setIcon(new ImageIcon(getClass().getResource(new TableManager().encimaBoton(table, boton, getMouseX(), getMouseY(), column)
+        boton.setIcon(new ImageIcon(getClass().getResource(new TableManager().encimaBoton(table, boton, getX(), getY(), column)
                 ? rutaSelected : rutaDefault)));
 
     }
 
-    public void setMouseX(int mouseX)
+    @Override
+    public int getX()
     {
-        this.mouseX = mouseX;
+        return x;
     }
 
-    public void setMouseY(int mouseY)
+    @Override
+    public void setX(int x)
     {
-        this.mouseY = mouseY;
+        this.x = x;
     }
 
-    public int getMouseX()
+    @Override
+    public int getY()
     {
-        return mouseX;
+        return y;
     }
 
-    public int getMouseY()
+    @Override
+    public void setY(int y)
     {
-        return mouseY;
+        this.y = y;
     }
 
 }

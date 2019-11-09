@@ -1,7 +1,7 @@
 package com.sw.view;
 
-import com.sw.controller.ComboRenderer;
-import com.sw.controller.ComboRenderer.ComboItem;
+import com.sw.renderer.ComboRenderer;
+import com.sw.renderer.ComboRenderer.ComboItem;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
