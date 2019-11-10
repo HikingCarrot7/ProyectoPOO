@@ -1,15 +1,10 @@
 package com.sw.view;
 
 import com.sw.controller.TableManager;
-import com.sw.renderer.TableCellRenderer;
-import com.sw.renderer.TableHeaderRenderer;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import com.sw.utilities.Utilities;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -18,9 +13,6 @@ import javax.swing.table.JTableHeader;
 public class Prendas extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form PrendasInterfaz
-     */
     public Prendas()
     {
         initMyComponents();
@@ -39,8 +31,8 @@ public class Prendas extends javax.swing.JFrame
 
         for (int i = 0; i < 10; i++)
         {
-            tipoPrenda.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
-            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+            tipoPrenda.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+            eliminar.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
 
         }
 
@@ -49,43 +41,22 @@ public class Prendas extends javax.swing.JFrame
     private void renderTable()
     {
 
-        TableCellRenderer cellRenderer = new TableCellRenderer();
-        prendas.setDefaultRenderer(Object.class, cellRenderer);
-        JTableHeader jTableHeader = prendas.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        prendas.setTableHeader(jTableHeader);
-
         TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(prendas, "Prendas");
+
         Object[][] items = new Object[10][4];
 
-        prendas.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(items, tipoPrenda, 1), eliminar, 3), new String[]
+        prendas.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1, 3
+
+        }, tipoPrenda, eliminar), new String[]
         {
 
             "Prenda", "Tipo de prenda", "Cantidad (piezas)", "Eliminar"
 
         }));
-
-        prendas.addMouseMotionListener(new MouseMotionListener()
-        {
-            @Override
-            public void mouseDragged(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e)
-            {
-
-                cellRenderer.setX(e.getX());
-                cellRenderer.setY(e.getY());
-
-            }
-
-        });
-
-        prendas.setName("Prendas");
-        prendas.revalidate();
 
     }
 

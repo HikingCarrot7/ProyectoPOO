@@ -1,9 +1,13 @@
 package com.sw.controller;
 
+import com.sw.input.MouseMotionManager;
+import com.sw.renderer.TableCellRenderer;
+import com.sw.renderer.TableHeaderRenderer;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 /**
@@ -12,6 +16,22 @@ import javax.swing.table.TableModel;
  */
 public class TableManager
 {
+
+    public void renderTableModel(JTable table, String name)
+    {
+
+        TableCellRenderer tableCellRenderer = new TableCellRenderer();
+
+        table.setDefaultRenderer(Object.class, tableCellRenderer);
+        JTableHeader jTableHeader = table.getTableHeader();
+        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
+        table.setTableHeader(jTableHeader);
+
+        table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
+        table.setName(name);
+        table.revalidate();
+
+    }
 
     public void updateTableModel(JTable table, Object[][] items)
     {
@@ -83,22 +103,12 @@ public class TableManager
         table.getModel().setValueAt(item, row, column);
     }
 
-    /**
-     * @deprecated
-     *
-     * Este método está bug xd.
-     *
-     * @param column
-     * @param items
-     * @param botones
-     *
-     * @return
-     */
-    public Object[][] getItems(Object[][] items, ArrayList<? extends Component> botones, int column)
+    public Object[][] loadItems(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
     {
-        for (int i = 0; i < items.length; i++)
-            for (int j = 0; j < items[0].length; j++)
-                items[i][j] = j == column ? botones.get(i) : items[i][j];
+
+        for (int i = 0; i < components.length; i++)
+            for (int j = 0; j < items.length; j++)
+                items[j][columns[i]] = components[i].get(j);
 
         return items;
 

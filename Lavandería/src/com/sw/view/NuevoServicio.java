@@ -2,8 +2,8 @@ package com.sw.view;
 
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
+import com.sw.utilities.Utilities;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -40,7 +40,7 @@ public class NuevoServicio extends javax.swing.JFrame
         DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
 
         for (int i = 0; i < 5; i++)
-            dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png")), "Cliente " + (i + 1)));
+            dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "Cliente " + (i + 1)));
 
         return dm;
 

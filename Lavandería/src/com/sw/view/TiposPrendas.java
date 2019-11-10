@@ -1,5 +1,11 @@
 package com.sw.view;
 
+import com.sw.controller.TableManager;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mohammed
@@ -10,6 +16,42 @@ public class TiposPrendas extends javax.swing.JFrame
     public TiposPrendas()
     {
         initComponents();
+
+        initMyComponents();
+
+        renderTable();
+
+    }
+
+    private void initMyComponents()
+    {
+        eliminar = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++)
+            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+
+    }
+
+    private void renderTable()
+    {
+
+        TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(tiposPrendas, "Tipos prenda");
+
+        Object[][] items = new Object[10][2];
+
+        tiposPrendas.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1
+
+        }, eliminar), new String[]
+        {
+
+            "Tipo de prenda", "Eliminar"
+
+        }));
+
     }
 
     /**
@@ -36,21 +78,18 @@ public class TiposPrendas extends javax.swing.JFrame
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
-        logo.setMaximumSize(new java.awt.Dimension(215, 95));
-        logo.setMinimumSize(new java.awt.Dimension(215, 95));
-        logo.setPreferredSize(new java.awt.Dimension(215, 95));
         getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
-        editar.setMaximumSize(new java.awt.Dimension(100, 30));
-        editar.setMinimumSize(new java.awt.Dimension(100, 30));
-        editar.setPreferredSize(new java.awt.Dimension(100, 30));
-        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, -1, -1));
+        editar.setMaximumSize(new java.awt.Dimension(100, 45));
+        editar.setMinimumSize(new java.awt.Dimension(100, 45));
+        editar.setPreferredSize(new java.awt.Dimension(100, 45));
+        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
 
         anadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
-        anadir.setMaximumSize(new java.awt.Dimension(100, 30));
-        anadir.setMinimumSize(new java.awt.Dimension(100, 30));
-        anadir.setPreferredSize(new java.awt.Dimension(100, 30));
+        anadir.setMaximumSize(new java.awt.Dimension(100, 45));
+        anadir.setMinimumSize(new java.awt.Dimension(100, 45));
+        anadir.setPreferredSize(new java.awt.Dimension(100, 45));
         getContentPane().add(anadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         tiposPrendas.setModel(new javax.swing.table.DefaultTableModel(
@@ -104,11 +143,16 @@ public class TiposPrendas extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            new TiposPrendas().setVisible(true);
+            TiposPrendas tiposPrendas = new TiposPrendas();
+
+            tiposPrendas.setVisible(true);
+            tiposPrendas.setLocationRelativeTo(null);
 
         });
 
     }
+
+    private ArrayList<JButton> eliminar;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anadir;

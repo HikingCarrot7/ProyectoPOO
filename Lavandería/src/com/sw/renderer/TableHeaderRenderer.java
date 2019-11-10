@@ -21,10 +21,14 @@ public class TableHeaderRenderer implements TableCellRenderer
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : 255);
-        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 190 : table.getColumnCount() >= 6 ? 149 : 105);
-        table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
-        table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : table.getColumnCount() == 2 ? 370 : 255);
+        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 190 : table.getColumnCount() >= 6 ? 149 : table.getColumnCount() == 2 ? 115 : 105);
+
+        if (table.getColumnCount() >= 3)
+        {
+            table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
+            table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115 : table.getWidth() == 913 ? 130 : table.getColumnCount() >= 6 ? 149 : 105);
+        }
 
         if (table.getColumnCount() >= 5)
             table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 913 ? 70 : table.getWidth() == 904 ? 115 : table.getColumnCount() == 7 ? 104 : 154);

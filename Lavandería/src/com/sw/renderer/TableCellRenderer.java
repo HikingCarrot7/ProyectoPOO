@@ -2,11 +2,11 @@ package com.sw.renderer;
 
 import com.sw.controller.TableManager;
 import com.sw.input.MouseMotionModel;
+import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import static javax.swing.BorderFactory.createMatteBorder;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -30,7 +30,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : 255);
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : table.getColumnCount() == 2 ? 370 : 255);
         table.setRowHeight(30);
 
         if (value instanceof JButton)
@@ -90,6 +90,10 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
                     }
 
+                case "Tipos prenda":
+                    updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+                    return (JButton) value;
+
                 default:
                     return (JButton) value;
 
@@ -128,8 +132,8 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     private void updateIcon(JButton boton, JTable table, int column, String rutaSelected, String rutaDefault)
     {
 
-        boton.setIcon(new ImageIcon(getClass().getResource(new TableManager().encimaBoton(table, boton, getX(), getY(), column)
-                ? rutaSelected : rutaDefault)));
+        boton.setIcon(Utilities.getIcon(new TableManager().encimaBoton(table, boton, getX(), getY(), column)
+                ? rutaSelected : rutaDefault));
 
     }
 

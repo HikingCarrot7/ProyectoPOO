@@ -33,12 +33,12 @@ public class MouseMotionManager<E extends MouseMotionModel> implements MouseMoti
 
     }
 
-    public E getComborenderer()
+    public E getItem()
     {
         return item;
     }
 
-    public void setComborenderer(E item)
+    public void setItem(E item)
     {
         this.item = item;
     }

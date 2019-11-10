@@ -1,18 +1,13 @@
 package com.sw.view;
 
+import com.sw.controller.TableManager;
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
-import com.sw.renderer.TableCellRenderer;
-import com.sw.renderer.TableHeaderRenderer;
-import com.sw.controller.TableManager;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -42,8 +37,8 @@ public class Historial extends javax.swing.JFrame
         for (int i = 0; i < 5; i++)
         {
 
-            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
-            verPrendas.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))));
+            eliminar.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+            verPrendas.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
 
         }
 
@@ -52,43 +47,22 @@ public class Historial extends javax.swing.JFrame
     private void renderTable()
     {
 
-        TableCellRenderer cellRenderer = new TableCellRenderer();
-        historial.setDefaultRenderer(Object.class, cellRenderer);
-        JTableHeader jTableHeader = historial.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        historial.setTableHeader(jTableHeader);
-
         TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(historial, "Historial");
+
         Object[][] items = new Object[5][6];
 
-        historial.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(items, verPrendas, 1), eliminar, 5), new String[]
+        historial.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1, 5
+
+        }, verPrendas, eliminar), new String[]
         {
 
             "Cliente", "Prendas", "Fecha", "Total kg.", "Precio total", "Eliminar"
 
         }));
-
-        historial.addMouseMotionListener(new MouseMotionListener()
-        {
-            @Override
-            public void mouseDragged(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e)
-            {
-
-                cellRenderer.setX(e.getX());
-                cellRenderer.setY(e.getY());
-
-            }
-
-        });
-
-        historial.setName("Historial");
-        historial.revalidate();
 
     }
 
@@ -102,9 +76,9 @@ public class Historial extends javax.swing.JFrame
     {
         DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
 
-        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
+        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
 
-        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/fecha.png")), "Fecha"));
+        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/fecha.png"), "Fecha"));
 
         return dm;
 

@@ -1,18 +1,13 @@
 package com.sw.view;
 
+import com.sw.controller.TableManager;
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
-import com.sw.renderer.TableCellRenderer;
-import com.sw.renderer.TableHeaderRenderer;
-import com.sw.controller.TableManager;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -20,8 +15,6 @@ import javax.swing.table.JTableHeader;
  */
 public class Clientes extends javax.swing.JFrame
 {
-
-    private TableCellRenderer cellRenderer;
 
     public Clientes()
     {
@@ -40,50 +33,29 @@ public class Clientes extends javax.swing.JFrame
         verHistorial = new ArrayList<>();
 
         for (int i = 0; i < 5; i++)
-            verHistorial.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/historial.png"))));
-
-        cellRenderer = new TableCellRenderer();
+            verHistorial.add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
 
     }
 
     private void initTable()
     {
 
-        clientes.setDefaultRenderer(Object.class, cellRenderer);
-        JTableHeader jTableHeader = clientes.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        clientes.setTableHeader(jTableHeader);
+        TableManager tableManager = new TableManager();
 
-        clientes.addMouseMotionListener(new MouseMotionListener()
-        {
-            @Override
-            public void mouseDragged(MouseEvent e)
-            {
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e)
-            {
-
-                cellRenderer.setX(e.getX());
-                cellRenderer.setY(e.getY());
-
-            }
-
-        });
+        tableManager.renderTableModel(clientes, "Clientes");
 
         Object[][] items = new Object[5][6];
 
-        clientes.setModel(new DefaultTableModel(new TableManager().getItems(items, verHistorial, 5), new String[]
+        clientes.setModel(new DefaultTableModel(new TableManager().loadItems(items, new int[]
+        {
+            5
+
+        }, verHistorial), new String[]
         {
 
             "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
 
         }));
-
-        clientes.setName("Clientes");
-        clientes.revalidate();
 
     }
 
@@ -98,9 +70,9 @@ public class Clientes extends javax.swing.JFrame
     {
         DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
 
-        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/name.png")), "Nombre"));
+        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
 
-        dm.addElement(new ComboItem(new ImageIcon(getClass().getResource("/com/src/images/numbers.png")), "N° de servicios"));
+        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/numbers.png"), "N° de servicios"));
 
         return dm;
 

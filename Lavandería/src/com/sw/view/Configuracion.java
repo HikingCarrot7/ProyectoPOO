@@ -27,7 +27,7 @@ public class Configuracion extends javax.swing.JFrame
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        colorChoser = new javax.swing.JButton();
+        colorChooser = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -86,11 +86,11 @@ public class Configuracion extends javax.swing.JFrame
         jLabel5.setPreferredSize(new java.awt.Dimension(140, 30));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
 
-        colorChoser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/color.png"))); // NOI18N
-        colorChoser.setMaximumSize(new java.awt.Dimension(90, 40));
-        colorChoser.setMinimumSize(new java.awt.Dimension(90, 40));
-        colorChoser.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(colorChoser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
+        colorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/color.png"))); // NOI18N
+        colorChooser.setMaximumSize(new java.awt.Dimension(90, 40));
+        colorChooser.setMinimumSize(new java.awt.Dimension(90, 40));
+        colorChooser.setPreferredSize(new java.awt.Dimension(90, 40));
+        getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
         jButton2.setMaximumSize(new java.awt.Dimension(90, 40));
@@ -145,7 +145,7 @@ public class Configuracion extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton colorChoser;
+    private javax.swing.JButton colorChooser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

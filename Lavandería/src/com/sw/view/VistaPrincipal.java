@@ -1,16 +1,11 @@
 package com.sw.view;
 
 import com.sw.controller.TableManager;
-import com.sw.input.MouseMotionManager;
-import com.sw.renderer.TableCellRenderer;
-import com.sw.renderer.TableHeaderRenderer;
+import com.sw.utilities.Utilities;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -26,11 +21,11 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         initComponents();
 
-        renderTableEnCola(new TableManager());
+        renderTableEnCola();
 
-        renderTableEnProceso(new TableManager());
+        renderTableEnProceso();
 
-        renderTableTerminado(new TableManager());
+        renderTableTerminado();
 
     }
 
@@ -52,104 +47,95 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         for (int i = 0; i < 10; i++)
         {
-            verPrendasEnCola.add(new JButton(getIcon("/com/src/images/tshirt.png")));
-            moverLavadoEnCola.add(new JButton(getIcon("/com/src/images/down.png")));
-            eliminarEnCola.add(new JButton(getIcon("/com/src/images/delete.png")));
+            verPrendasEnCola.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+            moverLavadoEnCola.add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
+            eliminarEnCola.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
 
         }
 
         for (int i = 0; i < 10; i++)
         {
-            verPrendasEnProceso.add(new JButton(getIcon("/com/src/images/tshirt.png")));
-            subirColaEnProceso.add(new JButton(getIcon("/com/src/images/up.png")));
-            moverTerminadoEnProceso.add(new JButton(getIcon("/com/src/images/down.png")));
-            eliminarEnProceso.add(new JButton(getIcon("/com/src/images/delete.png")));
+            verPrendasEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+            subirColaEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+            moverTerminadoEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
+            eliminarEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
 
         }
 
         for (int i = 0; i < 10; i++)
         {
-            verPrendasTerminado.add(new JButton(getIcon("/com/src/images/tshirt.png")));
-            subirProcesoTerminado.add(new JButton(getIcon("/com/src/images/up.png")));
-            eliminarTerminado.add(new JButton(getIcon("/com/src/images/delete.png")));
+            verPrendasTerminado.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+            subirProcesoTerminado.add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+            eliminarTerminado.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
             empaquetado.add(new JCheckBox());
 
         }
 
     }
 
-    private void renderTableEnCola(TableManager tableManager)
+    private void renderTableEnCola()
     {
 
+        TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(enCola, "En cola");
+
         Object[][] items = new Object[10][6];
-        TableCellRenderer tableCellRenderer = new TableCellRenderer();
 
-        renderTableHeader(enCola, tableCellRenderer, "En cola");
+        enCola.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1, 4, 5
 
-        enCola.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasEnCola, 1), moverLavadoEnCola, 4), eliminarEnCola, 5), new String[]
+        }, verPrendasEnCola, moverLavadoEnCola, eliminarEnCola), new String[]
         {
 
             "Cliente", "Prendas", "Kilos", "Total", "Mover a lavado", "Eliminar"
 
         }));
 
-        enCola.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
-
     }
 
-    private void renderTableEnProceso(TableManager tableManager)
+    private void renderTableEnProceso()
     {
+        TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(enProceso, "En proceso");
+
         Object[][] items = new Object[10][7];
-        TableCellRenderer tableCellRenderer = new TableCellRenderer();
 
-        renderTableHeader(enProceso, tableCellRenderer, "En proceso");
+        enProceso.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1, 4, 5, 6
 
-        enProceso.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasEnProceso, 1), subirColaEnProceso, 4), moverTerminadoEnProceso, 5), eliminarEnProceso, 6), new String[]
+        }, verPrendasEnProceso, subirColaEnProceso, moverTerminadoEnProceso, eliminarEnProceso), new String[]
         {
 
             "Cliente", "Prendas", "Kilos", "Tiempo estimado", "Subir a la cola", "Mover a terminado", "Eliminar"
 
         }));
 
-        enProceso.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
-
     }
 
-    private void renderTableTerminado(TableManager tableManager)
+    private void renderTableTerminado()
     {
 
+        TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(terminado, "Terminado");
+
         Object[][] items = new Object[10][7];
-        TableCellRenderer tableCellRenderer = new TableCellRenderer();
 
-        renderTableHeader(terminado, tableCellRenderer, "Terminado");
+        terminado.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        {
+            1, 4, 5, 6
 
-        terminado.setModel(new DefaultTableModel(tableManager.getItems(tableManager.getItems(tableManager.getItems(tableManager.getItems(items, verPrendasTerminado, 1), subirProcesoTerminado, 4), empaquetado, 5), eliminarTerminado, 6), new String[]
+        }, verPrendasTerminado, subirProcesoTerminado, empaquetado, eliminarTerminado), new String[]
         {
 
             "Cliente", "Prendas", "Kilos", "Total", "Subir a proceso", "¿Empaquetado?", "Eliminar"
 
         }));
 
-        terminado.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
-
-    }
-
-    private void renderTableHeader(JTable table, TableCellRenderer tableCellRenderer, String name)
-    {
-
-        JTableHeader jTableHeader = table.getTableHeader();
-        jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
-        table.setDefaultRenderer(Object.class, tableCellRenderer);
-        table.setTableHeader(jTableHeader);
-
-        table.setName(name);
-        table.revalidate();
-
-    }
-
-    private ImageIcon getIcon(String ruta)
-    {
-        return new ImageIcon(getClass().getResource(ruta));
     }
 
     /**
