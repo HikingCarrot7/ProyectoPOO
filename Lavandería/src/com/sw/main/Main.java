@@ -20,7 +20,7 @@ public class Main
         System.out.println("");
         System.out.println("");
 
-        imprimirMatriz(new TableManager().recortarFilas(items, 3, 4));
+        imprimirMatriz(new TableManager().recortarFilasItems(items, 3, 4));
 
         System.out.println("");
         System.out.println("");

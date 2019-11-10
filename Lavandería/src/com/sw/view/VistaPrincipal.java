@@ -78,8 +78,6 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         TableManager tableManager = new TableManager();
 
-        tableManager.renderTableModel(enCola, "En cola");
-
         Object[][] items = new Object[10][6];
 
         enCola.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
@@ -93,13 +91,13 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
+        tableManager.renderTableModel(enCola, "En cola");
+
     }
 
     private void renderTableEnProceso()
     {
         TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(enProceso, "En proceso");
 
         Object[][] items = new Object[10][7];
 
@@ -114,14 +112,14 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         }));
 
+        tableManager.renderTableModel(enProceso, "En proceso");
+
     }
 
     private void renderTableTerminado()
     {
 
         TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(terminado, "Terminado");
 
         Object[][] items = new Object[10][7];
 
@@ -135,6 +133,8 @@ public class VistaPrincipal extends javax.swing.JFrame
             "Cliente", "Prendas", "Kilos", "Total", "Subir a proceso", "¿Empaquetado?", "Eliminar"
 
         }));
+
+        tableManager.renderTableModel(terminado, "Terminado");
 
     }
 
@@ -426,7 +426,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     private void nuevoServicioActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_nuevoServicioActionPerformed
     {//GEN-HEADEREND:event_nuevoServicioActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_nuevoServicioActionPerformed
 
     private void verHIstorialActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_verHIstorialActionPerformed

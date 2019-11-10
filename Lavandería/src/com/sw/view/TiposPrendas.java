@@ -81,12 +81,14 @@ public class TiposPrendas extends javax.swing.JFrame
         getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
+        editar.setToolTipText("Editar prenda");
         editar.setMaximumSize(new java.awt.Dimension(100, 45));
         editar.setMinimumSize(new java.awt.Dimension(100, 45));
         editar.setPreferredSize(new java.awt.Dimension(100, 45));
         getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
 
         anadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
+        anadir.setToolTipText("Añadir nueva prenda");
         anadir.setMaximumSize(new java.awt.Dimension(100, 45));
         anadir.setMinimumSize(new java.awt.Dimension(100, 45));
         anadir.setPreferredSize(new java.awt.Dimension(100, 45));

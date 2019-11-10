@@ -1,12 +1,16 @@
 package com.sw.controller;
 
+import com.sw.input.MouseClickedManager;
 import com.sw.input.MouseMotionManager;
+import com.sw.renderer.TableCellManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
+import com.sw.utilities.Utilities;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
@@ -28,6 +32,8 @@ public class TableManager
         table.setTableHeader(jTableHeader);
 
         table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
+        table.addMouseListener(new MouseClickedManager(table, getColumnasConBotones(table)));
+        table.setCellEditor(new TableCellManager());
         table.setName(name);
         table.revalidate();
 
@@ -38,18 +44,27 @@ public class TableManager
 
         TableModel tableModel = table.getModel();
 
-        for (int i = 0; i < table.getRowCount(); i++)
-            for (int j = 0; j < table.getColumnCount(); j++)
+        for (int i = 0; i < items.length; i++)
+            for (int j = 0; j < items[i].length; j++)
                 tableModel.setValueAt(items[i][j], i, j);
 
         table.setModel(tableModel);
 
     }
 
+    public void deleteTableRow(JTable table, int row)
+    {
+
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+        tableModel.removeRow(row);
+
+    }
+
     public boolean encimaBoton(JTable table, JButton boton, int x, int y, int columnaBoton)
     {
 
-        if (y < 7)
+        if (y <= 7)
             return false;
 
         int column = table.getColumnModel().getColumnIndexAtX(x);
@@ -57,7 +72,7 @@ public class TableManager
         if (column != columnaBoton)
             return false;
 
-        int row = y + 10 >= table.getHeight() ? -1 : y / table.getRowHeight();
+        int row = y + 10 >= table.getHeight() ? -1 : getClickedRow(table, y);
 
         if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0)
             return table.getValueAt(row, column) == boton;
@@ -66,7 +81,29 @@ public class TableManager
 
     }
 
-    public Object[][] recortarFila(Object[][] items, int row)
+    public boolean encimaBoton(JTable table, int x, int y)
+    {
+        return table.getValueAt(getClickedRow(table, y), table.getColumnModel().getColumnIndexAtX(x)) instanceof JButton;
+    }
+
+    public int getClickedColumn(JTable table, int[] columns, int x)
+    {
+        int column = table.getColumnModel().getColumnIndexAtX(x);
+
+        for (int i = 0; i < columns.length; i++)
+            if (column == columns[i])
+                return columns[i];
+
+        return -1;
+
+    }
+
+    public int getClickedRow(JTable table, int y)
+    {
+        return y / table.getRowHeight();
+    }
+
+    public Object[][] recortarFilaItems(Object[][] items, int row)
     {
 
         Object[][] newItems = new Object[items.length - 1][items[0].length];
@@ -78,7 +115,7 @@ public class TableManager
 
     }
 
-    public Object[][] recortarFilas(Object[][] items, int rowInicio, int rowFin)
+    public Object[][] recortarFilasItems(Object[][] items, int rowInicio, int rowFin)
     {
 
         Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
@@ -101,6 +138,18 @@ public class TableManager
     public synchronized void updateField(JTable table, Object item, int row, int column)
     {
         table.getModel().setValueAt(item, row, column);
+    }
+
+    public int[] getColumnasConBotones(JTable table)
+    {
+        ArrayList<Integer> lista = new ArrayList<>();
+
+        for (int i = 0; i < table.getColumnCount(); i++)
+            if (table.getValueAt(0, i) instanceof JButton)
+                lista.add(i);
+
+        return Utilities.asArray(lista);
+
     }
 
     public Object[][] loadItems(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
