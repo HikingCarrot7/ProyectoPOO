@@ -1,6 +1,5 @@
-package com.sw.input;
+package com.sw.controller;
 
-import com.sw.controller.TableManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;

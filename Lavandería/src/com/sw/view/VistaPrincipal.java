@@ -5,6 +5,7 @@ import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -438,6 +439,21 @@ public class VistaPrincipal extends javax.swing.JFrame
     {//GEN-HEADEREND:event_verClientesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_verClientesActionPerformed
+
+    public JTable getTablaEnCola()
+    {
+        return enCola;
+    }
+
+    public JTable getTablaEnProceso()
+    {
+        return enProceso;
+    }
+
+    public JTable getTablaTerminado()
+    {
+        return terminado;
+    }
 
     /**
      * @param args the command line arguments

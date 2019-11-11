@@ -1,4 +1,4 @@
-package com.sw.input;
+package com.sw.controller;
 
 /**
  *

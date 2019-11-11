@@ -1,7 +1,5 @@
 package com.sw.controller;
 
-import com.sw.input.MouseClickedManager;
-import com.sw.input.MouseMotionManager;
 import com.sw.renderer.TableCellManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
@@ -35,6 +33,7 @@ public class TableManager
         table.addMouseListener(new MouseClickedManager(table, getColumnasConBotones(table)));
         table.setCellEditor(new TableCellManager());
         table.setName(name);
+        table.setDragEnabled(false);
         table.getParent().revalidate();
 
     }
@@ -43,6 +42,7 @@ public class TableManager
      * @deprecated
      *
      * @param table
+     *
      * @param items
      */
     public void updateTableModel(JTable table, Object[][] items)
@@ -120,6 +120,18 @@ public class TableManager
             System.arraycopy(items[i + (i >= row ? 1 : 0)], 0, newItems[i], 0, items[i].length);
 
         return newItems;
+
+    }
+
+    public Object[][] getTableItems(JTable table)
+    {
+        Object[][] items = new Object[table.getRowCount()][table.getColumnCount()];
+
+        for (int i = 0; i < items.length; i++)
+            for (int j = 0; j < items[i].length; j++)
+                items[i][j] = table.getValueAt(i, j);
+
+        return items;
 
     }
 

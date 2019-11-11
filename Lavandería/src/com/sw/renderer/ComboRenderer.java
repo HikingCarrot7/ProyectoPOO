@@ -1,7 +1,7 @@
 package com.sw.renderer;
 
-import com.sw.input.MouseMotionManager;
-import com.sw.input.MouseMotionModel;
+import com.sw.controller.MouseMotionManager;
+import com.sw.controller.MouseMotionModel;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Icon;
