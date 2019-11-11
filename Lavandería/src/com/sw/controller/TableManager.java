@@ -5,12 +5,12 @@ import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
 import com.sw.utilities.Utilities;
 import java.awt.Component;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -19,7 +19,7 @@ import javax.swing.table.TableModel;
 public class TableManager
 {
 
-    public void renderTableModel(JTable table, String name)
+    public void renderTableModel(JTable table, MouseListener controller, String name)
     {
 
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
@@ -30,41 +30,10 @@ public class TableManager
         table.setTableHeader(jTableHeader);
 
         table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
-        table.addMouseListener(new MouseClickedManager(table, getColumnasConBotones(table)));
+        table.addMouseListener(controller);
         table.setCellEditor(new TableCellManager());
         table.setName(name);
         table.setDragEnabled(false);
-        table.getParent().revalidate();
-
-    }
-
-    /**
-     * @deprecated
-     *
-     * @param table
-     *
-     * @param items
-     */
-    public void updateTableModel(JTable table, Object[][] items)
-    {
-
-        TableModel tableModel = table.getModel();
-
-        for (int i = 0; i < items.length; i++)
-            for (int j = 0; j < items[i].length; j++)
-                tableModel.setValueAt(items[i][j], i, j);
-
-        table.setModel(tableModel);
-
-    }
-
-    public void deleteTableRow(JTable table, int row)
-    {
-
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-        tableModel.removeRow(row);
-
         table.getParent().revalidate();
 
     }
@@ -111,39 +80,39 @@ public class TableManager
         return y / table.getRowHeight();
     }
 
-    public Object[][] recortarFilaItems(Object[][] items, int row)
+    public void deleteTableRow(JTable table, int row)
     {
 
-        Object[][] newItems = new Object[items.length - 1][items[0].length];
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
-        for (int i = 0; i < items.length - 1; i++)
-            System.arraycopy(items[i + (i >= row ? 1 : 0)], 0, newItems[i], 0, items[i].length);
+        tableModel.removeRow(row);
 
-        return newItems;
+        table.getParent().revalidate();
 
     }
 
     public Object[][] getTableItems(JTable table)
     {
-        Object[][] items = new Object[table.getRowCount()][table.getColumnCount()];
+
+        int filas = 0, columnas = 0;
+        Object[][] items = new Object[table.getRowCount()][table.getColumnCount() - getColumnasConComponentes(table).length];
 
         for (int i = 0; i < items.length; i++)
             for (int j = 0; j < items[i].length; j++)
-                items[i][j] = table.getValueAt(i, j);
+                if (!(table.getValueAt(i, j) instanceof Component))
+                {
+                    items[filas][columnas++] = table.getValueAt(i, j);
+
+                    if (columnas == items[i].length)
+                    {
+                        filas++;
+                        columnas = 0;
+
+                    }
+
+                }
 
         return items;
-
-    }
-
-    public Object[][] recortarFilasItems(Object[][] items, int rowInicio, int rowFin)
-    {
-
-        Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
-
-        for (int i = 0; i < items.length - (rowFin - rowInicio) - 1; i++)
-            System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
-
-        return newItems;
 
     }
 
@@ -160,18 +129,6 @@ public class TableManager
         table.getModel().setValueAt(item, row, column);
     }
 
-    public int[] getColumnasConBotones(JTable table)
-    {
-        ArrayList<Integer> lista = new ArrayList<>();
-
-        for (int i = 0; i < table.getColumnCount(); i++)
-            if (table.getValueAt(0, i) instanceof JButton)
-                lista.add(i);
-
-        return Utilities.asArray(lista);
-
-    }
-
     public Object[][] loadItems(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
     {
 
@@ -180,6 +137,43 @@ public class TableManager
                 items[j][columns[i]] = components[i].get(j);
 
         return items;
+
+    }
+
+    public Object[][] recortarFilaItems(Object[][] items, int row)
+    {
+
+        Object[][] newItems = new Object[items.length - 1][items[0].length];
+
+        for (int i = 0; i < items.length - 1; i++)
+            System.arraycopy(items[i + (i >= row ? 1 : 0)], 0, newItems[i], 0, items[i].length);
+
+        return newItems;
+
+    }
+
+    public Object[][] recortarFilasItems(Object[][] items, int rowInicio, int rowFin)
+    {
+
+        Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
+
+        for (int i = 0; i < items.length - (rowFin - rowInicio) - 1; i++)
+            System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
+
+        return newItems;
+
+    }
+
+    public int[] getColumnasConComponentes(JTable table)
+    {
+
+        ArrayList<Integer> lista = new ArrayList<>();
+
+        for (int i = 0; i < table.getColumnCount(); i++)
+            if (table.getValueAt(0, i) instanceof Component)
+                lista.add(i);
+
+        return Utilities.asArray(lista);
 
     }
 

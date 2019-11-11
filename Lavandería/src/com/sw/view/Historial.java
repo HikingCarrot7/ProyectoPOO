@@ -1,13 +1,12 @@
 package com.sw.view;
 
-import com.sw.controller.TableManager;
-import com.sw.renderer.ComboRenderer;
+import com.sw.controller.HistorialController;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import com.sw.utilities.Utilities;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 /**
  *
@@ -22,9 +21,7 @@ public class Historial extends javax.swing.JFrame
 
         initComponents();
 
-        renderTable();
-
-        loadComboModel();
+        new HistorialController(this);
 
     }
 
@@ -41,46 +38,6 @@ public class Historial extends javax.swing.JFrame
             verPrendas.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
 
         }
-
-    }
-
-    private void renderTable()
-    {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(historial, "Historial");
-
-        Object[][] items = new Object[5][6];
-
-        historial.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
-        {
-            1, 5
-
-        }, verPrendas, eliminar), new String[]
-        {
-
-            "Cliente", "Prendas", "Fecha", "Total kg.", "Precio total", "Eliminar"
-
-        }));
-
-    }
-
-    private void loadComboModel()
-    {
-        ordenarPor.setRenderer(new ComboRenderer());
-        ordenarPor.setModel(loadComboItems());
-    }
-
-    private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
-    {
-        DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
-
-        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
-
-        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/fecha.png"), "Fecha"));
-
-        return dm;
 
     }
 
@@ -150,6 +107,26 @@ public class Historial extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public ArrayList<JButton> getEliminar()
+    {
+        return eliminar;
+    }
+
+    public ArrayList<JButton> getVerPrendas()
+    {
+        return verPrendas;
+    }
+
+    public JTable getHistorial()
+    {
+        return historial;
+    }
+
+    public JComboBox<ComboItem> getOrdenarPor()
+    {
+        return ordenarPor;
+    }
 
     /**
      * @param args the command line arguments

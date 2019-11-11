@@ -1,25 +1,25 @@
 package com.sw.view;
 
-import com.sw.controller.TableManager;
+import com.sw.controller.TiposPrendaController;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 
 /**
  *
  * @author Mohammed
  */
-public class TiposPrendas extends javax.swing.JFrame
+public class TiposPrendasInterfaz extends javax.swing.JFrame
 {
 
-    public TiposPrendas()
+    public TiposPrendasInterfaz()
     {
         initComponents();
 
         initMyComponents();
 
-        renderTable();
+        new TiposPrendaController(this);
 
     }
 
@@ -29,28 +29,6 @@ public class TiposPrendas extends javax.swing.JFrame
 
         for (int i = 0; i < 10; i++)
             eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
-
-    }
-
-    private void renderTable()
-    {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(tiposPrendas, "Tipos prenda");
-
-        Object[][] items = new Object[10][2];
-
-        tiposPrendas.setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
-        {
-            1
-
-        }, eliminar), new String[]
-        {
-
-            "Tipo de prenda", "Eliminar"
-
-        }));
 
     }
 
@@ -67,7 +45,7 @@ public class TiposPrendas extends javax.swing.JFrame
         anadir = new javax.swing.JButton();
         scrollTipoPrendas = new javax.swing.JScrollPane();
         tiposPrendas = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tipos prendas");
@@ -109,11 +87,31 @@ public class TiposPrendas extends javax.swing.JFrame
 
         getContentPane().add(scrollTipoPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 490, 490));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 680));
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 680));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public ArrayList<JButton> getEliminar()
+    {
+        return eliminar;
+    }
+
+    public JButton getAnadir()
+    {
+        return anadir;
+    }
+
+    public JButton getEditar()
+    {
+        return editar;
+    }
+
+    public JTable getTiposPrendasTable()
+    {
+        return tiposPrendas;
+    }
 
     /**
      * @param args the command line arguments
@@ -136,8 +134,9 @@ public class TiposPrendas extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(TiposPrendas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TiposPrendasInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         //</editor-fold>
@@ -145,7 +144,7 @@ public class TiposPrendas extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() ->
         {
-            TiposPrendas tiposPrendas = new TiposPrendas();
+            TiposPrendasInterfaz tiposPrendas = new TiposPrendasInterfaz();
 
             tiposPrendas.setVisible(true);
             tiposPrendas.setLocationRelativeTo(null);
@@ -159,7 +158,7 @@ public class TiposPrendas extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anadir;
     private javax.swing.JButton editar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel fondo;
     private javax.swing.JLabel logo;
     private javax.swing.JScrollPane scrollTipoPrendas;
     private javax.swing.JTable tiposPrendas;

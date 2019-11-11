@@ -6,7 +6,7 @@ import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import static javax.swing.BorderFactory.createMatteBorder;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -117,7 +117,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
         ((JLabel) jcomponent).setSize(30, jcomponent.getWidth());
         ((JLabel) jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
-        jcomponent.setBorder(createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
+        jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
         jcomponent.setBackground(row % 2 == 0 ? new Color(180, 180, 180) : Color.white);
         jcomponent.setForeground(Color.black);

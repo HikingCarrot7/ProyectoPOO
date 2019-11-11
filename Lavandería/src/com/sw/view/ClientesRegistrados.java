@@ -1,80 +1,37 @@
 package com.sw.view;
 
-import com.sw.controller.TableManager;
-import com.sw.renderer.ComboRenderer;
+import com.sw.controller.ClientesController;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import com.sw.utilities.Utilities;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
 
 /**
  *
  * @author Mohammed
  */
-public class Clientes extends javax.swing.JFrame
+public class ClientesRegistrados extends javax.swing.JFrame
 {
 
-    public Clientes()
+    public ClientesRegistrados()
     {
         initMyComponents();
 
         initComponents();
 
-        initTable();
-
-        loadComboModel();
+        new ClientesController(this);
 
     }
 
     private void initMyComponents()
     {
+
         verHistorial = new ArrayList<>();
 
         for (int i = 0; i < 5; i++)
             verHistorial.add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
-
-    }
-
-    private void initTable()
-    {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(clientes, "Clientes");
-
-        Object[][] items = new Object[5][6];
-
-        clientes.setModel(new DefaultTableModel(new TableManager().loadItems(items, new int[]
-        {
-            5
-
-        }, verHistorial), new String[]
-        {
-
-            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
-
-        }));
-
-    }
-
-    private void loadComboModel()
-    {
-        ordenarPor.setRenderer(new ComboRenderer());
-        ordenarPor.setModel(loadComboItems());
-
-    }
-
-    private DefaultComboBoxModel<ComboItem> loadComboItems()
-    {
-        DefaultComboBoxModel<ComboItem> dm = new DefaultComboBoxModel<>();
-
-        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
-
-        dm.addElement(new ComboItem(Utilities.getIcon("/com/src/images/numbers.png"), "N° de servicios"));
-
-        return dm;
 
     }
 
@@ -87,21 +44,19 @@ public class Clientes extends javax.swing.JFrame
     {
 
         panelClientes = new javax.swing.JScrollPane();
-        clientes = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        tablaClientes = new javax.swing.JTable();
+        titleLabel = new javax.swing.JLabel();
+        ordernarPorLabel = new javax.swing.JLabel();
         ordenarPor = new javax.swing.JComboBox<>();
         anadirCliente = new javax.swing.JButton();
         modificarCliente = new javax.swing.JButton();
         eliminarCliente = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clientes registrados");
-        setMaximumSize(new java.awt.Dimension(925, 710));
         setMinimumSize(new java.awt.Dimension(925, 710));
-        setPreferredSize(new java.awt.Dimension(925, 710));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -110,7 +65,7 @@ public class Clientes extends javax.swing.JFrame
         panelClientes.setMinimumSize(new java.awt.Dimension(905, 550));
         panelClientes.setPreferredSize(new java.awt.Dimension(905, 550));
 
-        clientes.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
                 {null, null, null, null, null, null},
@@ -122,20 +77,20 @@ public class Clientes extends javax.swing.JFrame
             }
 
         ));
-        panelClientes.setViewportView(clientes);
+        panelClientes.setViewportView(tablaClientes);
 
         getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 919, 530));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteTitle.png"))); // NOI18N
-        jLabel1.setText("Clientes Registrados");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 300, 70));
+        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteTitle.png"))); // NOI18N
+        titleLabel.setText("Clientes Registrados");
+        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 300, 70));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Ordenar por:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 25));
+        ordernarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ordernarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ordernarPorLabel.setText("Ordenar por:");
+        getContentPane().add(ordernarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 25));
 
         ordenarPor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         ordenarPor.setToolTipText("Ordenar por...");
@@ -147,45 +102,66 @@ public class Clientes extends javax.swing.JFrame
         anadirCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         anadirCliente.setText("Añadir cliente");
         anadirCliente.setToolTipText("Añadir cliente");
+        anadirCliente.setActionCommand("Add");
         anadirCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         getContentPane().add(anadirCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 130, 30));
 
         modificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         modificarCliente.setText("Modificar cliente");
         modificarCliente.setToolTipText("Modificar cliente");
+        modificarCliente.setActionCommand("Modificar");
         modificarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-        modificarCliente.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                modificarClienteActionPerformed(evt);
-            }
-        });
         getContentPane().add(modificarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 130, 30));
 
         eliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/delete.png"))); // NOI18N
         eliminarCliente.setText("Eliminar cliente");
         eliminarCliente.setToolTipText("Eliminar a un cliente");
+        eliminarCliente.setActionCommand("Delete");
         eliminarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         getContentPane().add(eliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, 130, 30));
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+        getContentPane().add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        jLabel4.setMaximumSize(new java.awt.Dimension(925, 710));
-        jLabel4.setMinimumSize(new java.awt.Dimension(925, 710));
-        jLabel4.setPreferredSize(new java.awt.Dimension(925, 710));
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        fondo.setMaximumSize(new java.awt.Dimension(925, 710));
+        fondo.setMinimumSize(new java.awt.Dimension(925, 710));
+        fondo.setPreferredSize(new java.awt.Dimension(925, 710));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void modificarClienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_modificarClienteActionPerformed
-    {//GEN-HEADEREND:event_modificarClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modificarClienteActionPerformed
+    public JButton getAnadirCliente()
+    {
+        return anadirCliente;
+    }
+
+    public JButton getEliminarCliente()
+    {
+        return eliminarCliente;
+    }
+
+    public JButton getModificarCliente()
+    {
+        return modificarCliente;
+    }
+
+    public JTable getClientesRegistrados()
+    {
+        return tablaClientes;
+    }
+
+    public JComboBox<ComboItem> getOrdenarPor()
+    {
+        return ordenarPor;
+    }
+
+    public ArrayList<JButton> getVerHistorial()
+    {
+        return verHistorial;
+    }
 
     /**
      * @param args the command line arguments
@@ -208,8 +184,14 @@ public class Clientes extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesRegistrados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -219,7 +201,7 @@ public class Clientes extends javax.swing.JFrame
         java.awt.EventQueue.invokeLater(() ->
         {
 
-            Clientes clientes = new Clientes();
+            ClientesRegistrados clientes = new ClientesRegistrados();
 
             clientes.setVisible(true);
             clientes.setLocationRelativeTo(null);
@@ -232,15 +214,15 @@ public class Clientes extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anadirCliente;
-    private javax.swing.JTable clientes;
     private javax.swing.JButton eliminarCliente;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel fondo;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JButton modificarCliente;
     private javax.swing.JComboBox<ComboItem> ordenarPor;
+    private javax.swing.JLabel ordernarPorLabel;
     private javax.swing.JScrollPane panelClientes;
+    private javax.swing.JTable tablaClientes;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 
 }
