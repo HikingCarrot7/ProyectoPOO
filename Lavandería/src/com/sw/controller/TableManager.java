@@ -35,10 +35,16 @@ public class TableManager
         table.addMouseListener(new MouseClickedManager(table, getColumnasConBotones(table)));
         table.setCellEditor(new TableCellManager());
         table.setName(name);
-        table.revalidate();
+        table.getParent().revalidate();
 
     }
 
+    /**
+     * @deprecated
+     *
+     * @param table
+     * @param items
+     */
     public void updateTableModel(JTable table, Object[][] items)
     {
 
@@ -58,6 +64,8 @@ public class TableManager
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
         tableModel.removeRow(row);
+
+        table.getParent().revalidate();
 
     }
 
