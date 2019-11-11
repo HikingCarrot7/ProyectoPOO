@@ -19,6 +19,7 @@ public class MouseClickedManager extends MouseAdapter
     {
         this.table = table;
         this.columns = columns;
+
     }
 
     @Override
@@ -31,6 +32,8 @@ public class MouseClickedManager extends MouseAdapter
         {
             System.out.println("Hola, botón!, " + tableManager.getClickedRow(table, e.getY()) + " - " + tableManager.getClickedColumn(table, columns, e.getX()));
             tableManager.deleteTableRow(table, 0);
+
+            table.getParent().revalidate();
 
         }
 
