@@ -1,27 +1,33 @@
 package com.sw.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mohammed
  */
-public class Cliente
+public class Cliente implements Serializable
 {
 
-    private String nombre;
-    private String direccion;
-    private String telefono;
+    private static final long serialVersionUID = -4223528775054366634L;
 
-    public Cliente(String nombre, String direccion, String telefono)
+    private String nombre;
+    private String correo;
+    private String telefono;
+    private String direccion;
+
+    public Cliente(String nombre, String correo, String telefono, String direccion)
     {
         this.nombre = nombre;
-        this.direccion = direccion;
+        this.correo = correo;
         this.telefono = telefono;
+        this.direccion = direccion;
 
     }
 
     public Cliente(String nombre)
     {
-        this(nombre, "", "");
+        this(nombre, "", "", "");
     }
 
     public String getNombre()
@@ -34,14 +40,14 @@ public class Cliente
         this.nombre = nombre;
     }
 
-    public String getDireccion()
+    public String getCorreo()
     {
-        return direccion;
+        return correo;
     }
 
-    public void setDireccion(String direccion)
+    public void setCorreo(String correo)
     {
-        this.direccion = direccion;
+        this.correo = correo;
     }
 
     public String getTelefono()
@@ -52,6 +58,16 @@ public class Cliente
     public void setTelefono(String telefono)
     {
         this.telefono = telefono;
+    }
+
+    public String getDireccion()
+    {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion)
+    {
+        this.direccion = direccion;
     }
 
     @Override

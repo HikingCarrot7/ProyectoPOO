@@ -1,11 +1,15 @@
 package com.sw.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mohammed
  */
-public class Prenda
+public class Prenda implements Serializable
 {
+
+    private static final long serialVersionUID = -6261626867347158543L;
 
     private String descripcion;
     private String tipo;

@@ -49,13 +49,13 @@ public class Historial extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jLabel1 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
         panelHistorial = new javax.swing.JScrollPane();
         historial = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        ordenarPorLabel = new javax.swing.JLabel();
         ordenarPor = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(915, 720));
@@ -64,11 +64,11 @@ public class Historial extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historialTitle.png"))); // NOI18N
-        jLabel1.setText("Historial de servicios");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 300, 95));
+        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historialTitle.png"))); // NOI18N
+        titleLabel.setText("Historial de servicios");
+        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 300, 95));
 
         panelHistorial.setMaximumSize(new java.awt.Dimension(910, 530));
         panelHistorial.setMinimumSize(new java.awt.Dimension(910, 530));
@@ -90,20 +90,20 @@ public class Historial extends javax.swing.JFrame
 
         getContentPane().add(panelHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Ordenar por:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 112, -1, 25));
+        ordenarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ordenarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ordenarPorLabel.setText("Ordenar por:");
+        getContentPane().add(ordenarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 112, -1, 25));
 
         ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] {null}));
         getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(101, 112, 125, 25));
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 11, 215, 95));
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+        getContentPane().add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 11, 215, 95));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 720));
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -172,12 +172,12 @@ public class Historial extends javax.swing.JFrame
     private ArrayList<JButton> verPrendas;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel fondo;
     private javax.swing.JTable historial;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JComboBox<ComboItem> ordenarPor;
+    private javax.swing.JLabel ordenarPorLabel;
     private javax.swing.JScrollPane panelHistorial;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

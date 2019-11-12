@@ -37,7 +37,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         Object[][] items = new Object[10][4];
 
-        prendas.getPrendasTable().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        prendas.getPrendasTable().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
 
             1, 3

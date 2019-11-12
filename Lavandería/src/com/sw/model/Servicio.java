@@ -1,13 +1,16 @@
 package com.sw.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  *
  * @author Mohammed
  */
-public abstract class Servicio
+public abstract class Servicio implements Serializable
 {
+
+    private static final long serialVersionUID = 5793287335339414498L;
 
     private Cliente cliente;
     private Calendar fecha;

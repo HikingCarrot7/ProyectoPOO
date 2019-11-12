@@ -36,7 +36,7 @@ public class TiposPrendaController extends MouseAdapter implements ActionListene
 
         Object[][] items = new Object[10][2];
 
-        tiposPrendas.getTiposPrendasTable().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        tiposPrendas.getTiposPrendasTable().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
             1
 

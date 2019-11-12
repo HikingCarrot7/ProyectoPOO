@@ -40,7 +40,7 @@ public class HistorialController extends MouseAdapter implements ActionListener
 
         Object[][] items = new Object[5][6];
 
-        historial.getHistorial().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        historial.getHistorial().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
             1, 5
 

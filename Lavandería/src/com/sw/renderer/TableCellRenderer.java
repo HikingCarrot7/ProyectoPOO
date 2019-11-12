@@ -1,7 +1,7 @@
 package com.sw.renderer;
 
-import com.sw.controller.TableManager;
 import com.sw.controller.MouseMotionModel;
+import com.sw.controller.TableManager;
 import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
@@ -113,7 +113,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
         }
 
         JComponent jcomponent = new JLabel((String) value);
-        ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
+        ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);
         ((JLabel) jcomponent).setSize(30, jcomponent.getWidth());
         ((JLabel) jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 

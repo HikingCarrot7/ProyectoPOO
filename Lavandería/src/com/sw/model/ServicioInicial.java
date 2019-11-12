@@ -1,5 +1,6 @@
 package com.sw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -7,8 +8,10 @@ import java.util.Calendar;
  *
  * @author Mohammed
  */
-public class ServicioInicial extends Servicio
+public class ServicioInicial extends Servicio implements Serializable
 {
+
+    private static final long serialVersionUID = -3305366944888817314L;
 
     private ArrayList<Prenda> prendas;
 

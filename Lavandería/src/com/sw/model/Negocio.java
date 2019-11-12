@@ -2,13 +2,16 @@ package com.sw.model;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.Serializable;
 
 /**
  *
  * @author Mohammed
  */
-public class Negocio
+public class Negocio implements Serializable
 {
+
+    private static final long serialVersionUID = 2231606698466060108L;
 
     public static final String NOMBRENEGOCIO = "Las burbujas mágicas";
     public static final String DIRECCION = "C. 60...";

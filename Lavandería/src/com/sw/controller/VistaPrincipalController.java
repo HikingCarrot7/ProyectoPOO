@@ -35,7 +35,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         Object[][] items = new Object[10][6];
 
-        vistaPrincipal.getTablaEnCola().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        vistaPrincipal.getTablaEnCola().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
             1, 4, 5
 
@@ -56,7 +56,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         Object[][] items = new Object[10][7];
 
-        vistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        vistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
             1, 4, 5, 6
 
@@ -79,7 +79,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         Object[][] items = new Object[10][7];
 
-        vistaPrincipal.getTablaTerminado().setModel(new DefaultTableModel(tableManager.loadItems(items, new int[]
+        vistaPrincipal.getTablaTerminado().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
 
             1, 4, 5, 6

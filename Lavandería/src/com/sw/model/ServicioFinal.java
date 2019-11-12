@@ -1,13 +1,16 @@
 package com.sw.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  *
  * @author Mohammed
  */
-public class ServicioFinal extends Servicio
+public class ServicioFinal extends Servicio implements Serializable
 {
+
+    private static final long serialVersionUID = -6552682746396847096L;
 
     private Ticket ticket;
 

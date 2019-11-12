@@ -1,13 +1,16 @@
 package com.sw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mohammed
  */
-public class Ticket
+public class Ticket implements Serializable
 {
+
+    private static final long serialVersionUID = 6162162262623189765L;
 
     private String numeroTicket;
     private String nombreCliente;

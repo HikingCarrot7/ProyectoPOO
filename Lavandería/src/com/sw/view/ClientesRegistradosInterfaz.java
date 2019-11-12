@@ -1,8 +1,7 @@
 package com.sw.view;
 
-import com.sw.controller.ClientesController;
+import com.sw.controller.ClientesRegistradosController;
 import com.sw.renderer.ComboRenderer.ComboItem;
-import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,27 +11,22 @@ import javax.swing.JTable;
  *
  * @author Mohammed
  */
-public class ClientesRegistrados extends javax.swing.JFrame
+public class ClientesRegistradosInterfaz extends javax.swing.JFrame
 {
 
-    public ClientesRegistrados()
+    public ClientesRegistradosInterfaz()
     {
         initMyComponents();
 
         initComponents();
 
-        new ClientesController(this);
+        new ClientesRegistradosController(this);
 
     }
 
     private void initMyComponents()
     {
-
         verHistorial = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++)
-            verHistorial.add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
-
     }
 
     /**
@@ -148,7 +142,7 @@ public class ClientesRegistrados extends javax.swing.JFrame
         return modificarCliente;
     }
 
-    public JTable getClientesRegistrados()
+    public JTable getTablaClientesRegistrados()
     {
         return tablaClientes;
     }
@@ -184,8 +178,16 @@ public class ClientesRegistrados extends javax.swing.JFrame
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(ClientesRegistrados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesRegistradosInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -201,7 +203,7 @@ public class ClientesRegistrados extends javax.swing.JFrame
         java.awt.EventQueue.invokeLater(() ->
         {
 
-            ClientesRegistrados clientes = new ClientesRegistrados();
+            ClientesRegistradosInterfaz clientes = new ClientesRegistradosInterfaz();
 
             clientes.setVisible(true);
             clientes.setLocationRelativeTo(null);

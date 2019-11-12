@@ -80,7 +80,7 @@ public class TableManager
         return y / table.getRowHeight();
     }
 
-    public void deleteTableRow(JTable table, int row)
+    public void deleteRow(JTable table, int row)
     {
 
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
@@ -88,6 +88,32 @@ public class TableManager
         tableModel.removeRow(row);
 
         table.getParent().revalidate();
+
+    }
+
+    public void addRow(JTable table, Object[] rowData)
+    {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+        tableModel.addRow(rowData);
+
+        table.getParent().revalidate();
+
+    }
+
+    public void updateRow(JTable table, Object[] items, int row)
+    {
+
+        for (int i = 0; i < items.length; i++)
+            table.getModel().setValueAt(items[i], row, i);
+
+    }
+
+    public void updateLastRow(JTable table, Object[] items)
+    {
+
+        for (int i = 0; i < items.length; i++)
+            table.getModel().setValueAt(items[i], table.getRowCount() - 1, i);
 
     }
 
@@ -116,25 +142,46 @@ public class TableManager
 
     }
 
-    public void rellenarFilaTabla(JTable table, Object[] items, int row)
-    {
-
-        for (int i = 0; i < items.length; i++)
-            table.getModel().setValueAt(items[i], row, i);
-
-    }
-
     public synchronized void updateField(JTable table, Object item, int row, int column)
     {
         table.getModel().setValueAt(item, row, column);
     }
 
-    public Object[][] loadItems(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
+    public Object[][] loadTableComponents(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
     {
 
         for (int i = 0; i < components.length; i++)
             for (int j = 0; j < items.length; j++)
                 items[j][columns[i]] = components[i].get(j);
+
+        return items;
+
+    }
+
+    public int[] getColumnasConComponentes(JTable table)
+    {
+
+        ArrayList<Integer> lista = new ArrayList<>();
+
+        for (int i = 0; i < table.getColumnCount(); i++)
+            if (table.getValueAt(0, i) instanceof Component)
+                lista.add(i);
+
+        return Utilities.asArray(lista);
+
+    }
+
+    public Object[] getEmptyRowData(JTable table)
+    {
+
+        if (table.getRowCount() == 0)
+            return null;
+
+        Object[] items = new Object[table.getColumnCount()];
+
+        for (int i = 0; i < items.length; i++)
+            if (table.getValueAt(table.getRowCount() - 1, i) instanceof JButton)
+                items[i] = new JButton(((JButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
 
         return items;
 
@@ -161,19 +208,6 @@ public class TableManager
             System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
 
         return newItems;
-
-    }
-
-    public int[] getColumnasConComponentes(JTable table)
-    {
-
-        ArrayList<Integer> lista = new ArrayList<>();
-
-        for (int i = 0; i < table.getColumnCount(); i++)
-            if (table.getValueAt(0, i) instanceof Component)
-                lista.add(i);
-
-        return Utilities.asArray(lista);
 
     }
 
