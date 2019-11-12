@@ -27,7 +27,7 @@ public class NuevoClienteController implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        clientesRegistradosController.anadirClienteTabla(new Cliente("Nicolás Canul", "ricardoibarra2044@gmail.com", "9992676253", "No where"));
+        clientesRegistradosController.anadirClienteTabla(new Cliente("Nicolás Canul", "ricardoibarra2044@gmail.com", "9992676253", "nowhere"));
 
         nuevoCliente.dispose();
 
