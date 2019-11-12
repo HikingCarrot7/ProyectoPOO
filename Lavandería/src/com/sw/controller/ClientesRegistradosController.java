@@ -151,7 +151,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
         tableManager.updateLastRow(table, new Object[]
         {
 
-            "Nicolás Canul", "ricardoibarra2044@gmail.com", "9992676253", "No where"
+            "Nicolás Canul", "ricardoibarra2044@gmail.com", "9992676253", "nowhere"
 
         });
 
