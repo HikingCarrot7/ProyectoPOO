@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 public class Historial implements Serializable
 {
 
-    // ---CLIENTE---Clave, nombre, fcha, activo;
     private Cliente cliente;
     private Prenda[] prendas;
     private GregorianCalendar fecha;

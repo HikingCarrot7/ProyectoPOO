@@ -1,7 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.ClientesRegistradosController;
-import com.sw.controller.NuevoClienteController;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,11 +11,38 @@ import javax.swing.JTextField;
 public class NuevoCliente extends javax.swing.JFrame
 {
 
-    public NuevoCliente(ClientesRegistradosController clientes)
+    public NuevoCliente()
     {
+        initWindow();
+
         initComponents();
 
-        new NuevoClienteController(this, clientes);
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+
+                    break;
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
 
     }
 
@@ -184,44 +209,6 @@ public class NuevoCliente extends javax.swing.JFrame
     public JLabel getTelefonoValidoLabel()
     {
         return telefonoValidoLabel;
-    }
-
-    public static void iniciarInterfazNuevoCliente(ClientesRegistradosController clientes)
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-            NuevoCliente agregarMaestro = new NuevoCliente(clientes);
-
-            agregarMaestro.setVisible(true);
-            agregarMaestro.setLocationRelativeTo(null);
-
-        });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -111,7 +111,14 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
         {
 
             case "Add":
-                NuevoCliente.iniciarInterfazNuevoCliente(this);
+
+                NuevoCliente nuevoCliente = new NuevoCliente();
+
+                nuevoCliente.setLocationRelativeTo(null);
+                nuevoCliente.setVisible(true);
+
+                new NuevoClienteController(nuevoCliente, this);
+
                 break;
 
             case "Modificar":
