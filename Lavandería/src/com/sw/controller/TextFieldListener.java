@@ -15,49 +15,48 @@ import javax.swing.event.DocumentListener;
 public class TextFieldListener implements DocumentListener, FocusListener
 {
 
+    private boolean valido;
     private String regex;
-    private String text;
-    private JLabel etiqueta;
+    private JLabel label;
     private JTextField campo;
 
     public TextFieldListener(String regex, JLabel etiqueta, JTextField campo)
     {
         this.regex = regex;
-        this.etiqueta = etiqueta;
+        this.label = etiqueta;
         this.campo = campo;
-
-        text = "";
 
     }
 
     @Override
     public void insertUpdate(DocumentEvent e)
     {
-
-        text += campo.getText();
-
-        updateCampos();
-
+        updateFields();
     }
 
     @Override
     public void removeUpdate(DocumentEvent e)
     {
-
-        text += campo.getText();
-
-        updateCampos();
-
+        updateFields();
     }
 
-    private void updateCampos()
+    private void updateFields()
     {
 
         if (!campo.getText().trim().equals(""))
         {
 
-            campo.setBackground(campo.getText().matches(regex) ? Color.green : Color.red);
-            etiqueta.setText(campo.getText().matches(regex) ? "" : "Dato inválido");
+            boolean valid = campo.getText().matches(regex);
+
+            campo.setBackground(valid ? Color.green : Color.red);
+            label.setText(valid ? "" : "Dato inválido");
+            setValido(valid);
+
+        } else
+        {
+            campo.setBackground(Color.white);
+            label.setText("");
+            setValido(false);
 
         }
 
@@ -66,19 +65,36 @@ public class TextFieldListener implements DocumentListener, FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (!isValido())
+        {
+            campo.setBackground(Color.white);
+            label.setText("");
+
+        }
+
     }
 
     @Override
     public void focusLost(FocusEvent e)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        updateFields();
     }
 
     @Override
     public void changedUpdate(DocumentEvent e)
     {
 
+    }
+
+    public boolean isValido()
+    {
+        return valido;
+    }
+
+    public void setValido(boolean valido)
+    {
+        this.valido = valido;
     }
 
     public String getRegex()
@@ -93,12 +109,12 @@ public class TextFieldListener implements DocumentListener, FocusListener
 
     public JLabel getEtiqueta()
     {
-        return etiqueta;
+        return label;
     }
 
-    public void setEtiqueta(JLabel etiqueta)
+    public void setEtiqueta(JLabel label)
     {
-        this.etiqueta = etiqueta;
+        this.label = label;
     }
 
     public JTextField getCampo()

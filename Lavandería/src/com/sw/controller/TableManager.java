@@ -101,6 +101,16 @@ public class TableManager
 
     }
 
+    public void removeRow(JTable table, int row)
+    {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+        tableModel.removeRow(row);
+
+        table.getParent().revalidate();
+
+    }
+
     public void updateRow(JTable table, Object[] items, int row)
     {
 
@@ -139,6 +149,38 @@ public class TableManager
                 }
 
         return items;
+
+    }
+
+    /**
+     * @deprecated
+     *
+     * Los items ya deben estar recortados (No deben tener componentes).
+     *
+     * @param table La tabla a manipular.
+     * @param items Los items a poner en la tabla.
+     *
+     */
+    public void setTableItems(JTable table, Object[][] items)
+    {
+
+        int filas = 0, columnas = 0;
+
+        for (int i = 0; i < items.length; i++)
+            for (int j = 0; j < items[i].length; j++)
+                if (!(table.getValueAt(i, j) instanceof Component))
+                {
+
+                    table.setValueAt(items[filas][columnas++], i, j);
+
+                    if (columnas == items[i].length - 1)
+                    {
+                        filas++;
+                        columnas = 0;
+
+                    }
+
+                }
 
     }
 
@@ -184,6 +226,26 @@ public class TableManager
                 items[i] = new JButton(((JButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
 
         return items;
+
+    }
+
+    public boolean isFirstRowEmpty(JTable table)
+    {
+
+        for (int i = 0; i < table.getColumnCount(); i++)
+            if (!(table.getValueAt(0, i) instanceof Component))
+                if (table.getValueAt(0, i) != null)
+                    return false;
+
+        return true;
+
+    }
+
+    public void vaciarPrimeraFila(JTable table)
+    {
+        for (int i = 0; i < table.getColumnCount(); i++)
+            if (!(table.getValueAt(0, i) instanceof Component))
+                table.setValueAt(null, 0, i);
 
     }
 

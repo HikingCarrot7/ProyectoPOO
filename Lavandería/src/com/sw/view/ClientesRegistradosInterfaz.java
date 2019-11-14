@@ -20,7 +20,7 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
 
         initComponents();
 
-        new ClientesRegistradosController(this);
+        new ClientesRegistradosController(this); // Por el momento
 
     }
 
@@ -180,23 +180,6 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
         {
             java.util.logging.Logger.getLogger(ClientesRegistradosInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
         //</editor-fold>
 
         /* Create and display the form */

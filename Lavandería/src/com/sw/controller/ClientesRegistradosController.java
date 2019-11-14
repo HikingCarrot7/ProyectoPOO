@@ -1,7 +1,7 @@
 package com.sw.controller;
 
-import com.sw.model.Cliente;
-import com.sw.persistence.ClientesDAO;
+import com.sw.model.ClienteRegistrado;
+import com.sw.persistence.ClientesRegistradosDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,14 +25,15 @@ import javax.swing.table.DefaultTableModel;
 public class ClientesRegistradosController extends MouseAdapter implements ActionListener
 {
 
+    private final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
     private ClientesRegistradosInterfaz clientesRegistradosInterfaz;
-    private ArrayList<Cliente> clientes;
+    private ArrayList<ClienteRegistrado> clientesRegistrados;
 
     public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz)
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
-        clientes = new ClientesDAO("res/Clientes.txt").getClientes();
+        clientesRegistrados = new ClientesRegistradosDAO(RUTA_CLIENTESREGISTRADOS).getClientes();
 
         initMyComponents();
 
@@ -42,18 +45,20 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
         clientesRegistradosInterfaz.getModificarCliente().addActionListener(this);
         clientesRegistradosInterfaz.getEliminarCliente().addActionListener(this);
 
+        clientesRegistradosInterfaz.getOrdenarPor().addActionListener(this);
+
     }
 
     private void initMyComponents()
     {
 
-        if (clientes.isEmpty())
+        if (clientesRegistrados.isEmpty())
         {
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
             return;
         }
 
-        clientes.forEach((_item) ->
+        clientesRegistrados.forEach((item) ->
         {
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
         });
@@ -67,9 +72,9 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
         tableManager.renderTableModel(clientesRegistradosInterfaz.getTablaClientesRegistrados(), this, "Clientes");
 
-        Object[][] items = getItems(clientes);
+        Object[][] items = getItems(clientesRegistrados);
 
-        clientesRegistradosInterfaz.getTablaClientesRegistrados().setModel(new DefaultTableModel(new TableManager().loadTableComponents(items, new int[]
+        clientesRegistradosInterfaz.getTablaClientesRegistrados().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
 
             5
@@ -80,6 +85,8 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
             "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
 
         }));
+
+        clientesRegistradosInterfaz.getTablaClientesRegistrados().getParent().revalidate();
 
     }
 
@@ -107,27 +114,94 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
     public void actionPerformed(ActionEvent e)
     {
 
-        switch (e.getActionCommand())
+        if (e.getSource() instanceof JButton)
+            switch (e.getActionCommand())
+            {
+
+                case "Add":
+
+                    NuevoCliente nuevoCliente = new NuevoCliente();
+
+                    nuevoCliente.setLocationRelativeTo(null);
+                    nuevoCliente.setVisible(true);
+
+                    new NuevoClienteController(nuevoCliente, this);
+
+                    break;
+
+                case "Modificar":
+
+                    NuevoCliente nuevoClienteModificar = new NuevoCliente();
+
+                    nuevoClienteModificar.setLocationRelativeTo(null);
+                    nuevoClienteModificar.setVisible(true);
+
+                    new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
+                            clientesRegistrados.get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
+
+                    break;
+
+                case "Delete":
+                    if (!new TableManager().isFirstRowEmpty(clientesRegistradosInterfaz.getTablaClientesRegistrados()))
+                        switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
+                                "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
+                                "Confirmar acción", JOptionPane.YES_NO_OPTION))
+                        {
+
+                            case 0: // Si se presiona Sí
+
+                                eliminarClienteRegistrado(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
+
+                                break;
+
+                        }
+
+                    else
+                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                                "No hay clientes registrados",
+                                "No hay clientes", JOptionPane.ERROR_MESSAGE);
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+        else
         {
 
-            case "Add":
+            switch (((JComboBox) e.getSource()).getSelectedIndex())
+            {
+                case 0:
 
-                NuevoCliente nuevoCliente = new NuevoCliente();
+                    clientesRegistrados.sort((c1, c2) ->
+                    {
 
-                nuevoCliente.setLocationRelativeTo(null);
-                nuevoCliente.setVisible(true);
+                        return c1.getNombre().compareTo(c2.getNombre());
 
-                new NuevoClienteController(nuevoCliente, this);
+                    });
 
-                break;
+                    break;
 
-            case "Modificar":
-                System.out.println("Modificar cliente");
-                break;
+                case 1:
 
-            case "Delete":
-                System.out.println(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
-                break;
+                    clientesRegistrados.sort((c1, c2) ->
+                    {
+                        return c1.getnServicios() - c2.getnServicios();
+
+                    });
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(clientesRegistrados));
+
+            guardarClientes();
 
         }
 
@@ -145,7 +219,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
     }
 
-    public void anadirClienteTabla(Cliente cliente)
+    public void anadirClienteRegistrado(ClienteRegistrado cliente)
     {
 
         getClientes().add(cliente);
@@ -153,20 +227,61 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
         TableManager tableManager = new TableManager();
 
-        tableManager.addRow(table, tableManager.getEmptyRowData(table));
+        if (!tableManager.isFirstRowEmpty(table))
+            tableManager.addRow(table, tableManager.getEmptyRowData(table));
 
         tableManager.updateLastRow(table, new Object[]
         {
-
-            "Nicolás Canul", "ricardoibarra2044@gmail.com", "9992676253", "nowhere"
-
+            cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion(), String.valueOf(cliente.getnServicios())
         });
 
-        new ClientesDAO("res/Clientes.txt").guardarClientes(clientes);
+        guardarClientes();
 
     }
 
-    private Object[][] getItems(ArrayList<Cliente> clientes)
+    public void modificarClienteRegistrado(ClienteRegistrado clienteModificar, ClienteRegistrado cliente)
+    {
+
+        TableManager tableManager = new TableManager();
+
+        clienteModificar.setNombre(cliente.getNombre());
+        clienteModificar.setCorreo(cliente.getCorreo());
+        clienteModificar.setTelefono(cliente.getTelefono());
+        clienteModificar.setDireccion(cliente.getDireccion());
+
+        tableManager.setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(clientesRegistrados));
+
+        guardarClientes();
+
+    }
+
+    public void eliminarClienteRegistrado(int index)
+    {
+
+        JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
+        TableManager tableManager = new TableManager();
+
+        if (table.getRowCount() != 1)
+            tableManager.deleteRow(table, index);
+        else
+            tableManager.vaciarPrimeraFila(table);
+
+        clientesRegistrados.remove(index);
+
+        guardarClientes();
+
+    }
+
+    /**
+     * @deprecated
+     *
+     * Revisar este método para las futuras implementaciones específicas.
+     *
+     * @param clientes Los clientes registrados.
+     *
+     * @return Los items de los clientes registrados en forma de matriz de objetos (este método debe de ignorar aquellas columnas que tengan componentes).
+     */
+    private Object[][] getItems(ArrayList<ClienteRegistrado> clientes)
     {
 
         if (clientes.isEmpty())
@@ -181,7 +296,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
             items[i][1] = clientes.get(i).getCorreo();
             items[i][2] = clientes.get(i).getTelefono();
             items[i][3] = clientes.get(i).getDireccion();
-            items[i][4] = "0"; // Por el momento.
+            items[i][4] = String.valueOf(clientes.get(i).getnServicios());
 
         }
 
@@ -189,9 +304,14 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
     }
 
-    public ArrayList<Cliente> getClientes()
+    private void guardarClientes()
     {
-        return clientes;
+        new ClientesRegistradosDAO(RUTA_CLIENTESREGISTRADOS).guardarClientes(clientesRegistrados);
+    }
+
+    public ArrayList<ClienteRegistrado> getClientes()
+    {
+        return clientesRegistrados;
     }
 
 }

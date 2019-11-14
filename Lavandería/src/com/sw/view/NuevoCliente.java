@@ -42,7 +42,6 @@ public class NuevoCliente extends javax.swing.JFrame
         {
             System.out.println(ex.getMessage());
         }
-        //</editor-fold>
 
     }
 

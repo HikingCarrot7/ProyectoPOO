@@ -10,6 +10,8 @@ import java.util.GregorianCalendar;
 public class Historial implements Serializable
 {
 
+    private static final long serialVersionUID = -8147791639672414830L;
+
     private Cliente cliente;
     private Prenda[] prendas;
     private GregorianCalendar fecha;
@@ -24,6 +26,11 @@ public class Historial implements Serializable
         this.totalKg = totalKg;
         this.precioTotal = precioTotal;
 
+    }
+
+    public Historial()
+    {
+        this(null, null, null, 0, 0);
     }
 
     public Cliente getCliente()

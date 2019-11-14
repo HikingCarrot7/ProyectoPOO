@@ -1,6 +1,6 @@
 package com.sw.persistence;
 
-import com.sw.model.Cliente;
+import com.sw.model.ClienteRegistrado;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
  *
  * @author Mohammed
  */
-public class ClientesDAO
+public class ClientesRegistradosDAO
 {
 
     private final File file;
-    private ArrayList<Cliente> clientes;
+    private ArrayList<ClienteRegistrado> clientes;
 
-    public ClientesDAO(String ruta)
+    public ClientesRegistradosDAO(String ruta)
     {
 
         file = new File(ruta);
@@ -47,7 +47,7 @@ public class ClientesDAO
 
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)))
             {
-                clientes = (ArrayList<Cliente>) in.readObject();
+                clientes = (ArrayList<ClienteRegistrado>) in.readObject();
             }
 
         } catch (IOException | ClassNotFoundException ex)
@@ -57,7 +57,7 @@ public class ClientesDAO
 
     }
 
-    public void guardarClientes(ArrayList<Cliente> clientes)
+    public void guardarClientes(ArrayList<ClienteRegistrado> clientes)
     {
 
         try
@@ -75,7 +75,7 @@ public class ClientesDAO
 
     }
 
-    public ArrayList<Cliente> getClientes()
+    public ArrayList<ClienteRegistrado> getClientes()
     {
         return clientes != null ? clientes : new ArrayList<>();
     }
