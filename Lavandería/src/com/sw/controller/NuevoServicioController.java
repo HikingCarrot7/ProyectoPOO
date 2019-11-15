@@ -125,6 +125,8 @@ public class NuevoServicioController implements ActionListener
 
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.get(clientes.size() - 1).getNombre()));
 
+        nuevoServicio.getClientes().setSelectedIndex(clientes.size() - 1);
+
     }
 
     public void addCliente(Cliente cliente)

@@ -186,7 +186,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                 break;
 
             default:
-                throw new AssertionError();
+                break;
 
         }
 

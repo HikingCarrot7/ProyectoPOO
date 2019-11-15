@@ -20,16 +20,16 @@ public class Configuracion extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        tiltleLabel = new javax.swing.JLabel();
+        precioLabel = new javax.swing.JLabel();
         precio = new javax.swing.JTextField();
         precioValido = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        tiposLabel = new javax.swing.JLabel();
+        tiposPrendas = new javax.swing.JButton();
+        colorLabel = new javax.swing.JLabel();
         colorChooser = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        ok = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Configuración");
@@ -38,19 +38,19 @@ public class Configuracion extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/config.png"))); // NOI18N
-        jLabel2.setText("Configuración");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
+        tiltleLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        tiltleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/config.png"))); // NOI18N
+        tiltleLabel.setText("Configuración");
+        getContentPane().add(tiltleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Precio por kg:");
-        jLabel3.setToolTipText("");
-        jLabel3.setMaximumSize(new java.awt.Dimension(140, 30));
-        jLabel3.setMinimumSize(new java.awt.Dimension(140, 30));
-        jLabel3.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 170, -1));
+        precioLabel.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        precioLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        precioLabel.setText("Precio por kg:");
+        precioLabel.setToolTipText("");
+        precioLabel.setMaximumSize(new java.awt.Dimension(140, 30));
+        precioLabel.setMinimumSize(new java.awt.Dimension(140, 30));
+        precioLabel.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(precioLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 170, -1));
 
         precio.setMaximumSize(new java.awt.Dimension(140, 30));
         precio.setMinimumSize(new java.awt.Dimension(140, 30));
@@ -63,28 +63,28 @@ public class Configuracion extends javax.swing.JFrame
         precioValido.setPreferredSize(new java.awt.Dimension(110, 30));
         getContentPane().add(precioValido, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Tipos de prendas:");
-        jLabel4.setMaximumSize(new java.awt.Dimension(140, 30));
-        jLabel4.setMinimumSize(new java.awt.Dimension(140, 30));
-        jLabel4.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 170, -1));
+        tiposLabel.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        tiposLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        tiposLabel.setText("Tipos de prendas:");
+        tiposLabel.setMaximumSize(new java.awt.Dimension(140, 30));
+        tiposLabel.setMinimumSize(new java.awt.Dimension(140, 30));
+        tiposLabel.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(tiposLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 170, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
-        jButton1.setToolTipText("Añadir tipos de prendas");
-        jButton1.setMaximumSize(new java.awt.Dimension(90, 40));
-        jButton1.setMinimumSize(new java.awt.Dimension(90, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, -1));
+        tiposPrendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
+        tiposPrendas.setToolTipText("Añadir tipos de prendas");
+        tiposPrendas.setMaximumSize(new java.awt.Dimension(90, 40));
+        tiposPrendas.setMinimumSize(new java.awt.Dimension(90, 40));
+        tiposPrendas.setPreferredSize(new java.awt.Dimension(90, 40));
+        getContentPane().add(tiposPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Color de las tablas:");
-        jLabel5.setMaximumSize(new java.awt.Dimension(140, 30));
-        jLabel5.setMinimumSize(new java.awt.Dimension(140, 30));
-        jLabel5.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
+        colorLabel.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        colorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        colorLabel.setText("Color de las tablas:");
+        colorLabel.setMaximumSize(new java.awt.Dimension(140, 30));
+        colorLabel.setMinimumSize(new java.awt.Dimension(140, 30));
+        colorLabel.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(colorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
 
         colorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/color.png"))); // NOI18N
         colorChooser.setMaximumSize(new java.awt.Dimension(90, 40));
@@ -92,14 +92,14 @@ public class Configuracion extends javax.swing.JFrame
         colorChooser.setPreferredSize(new java.awt.Dimension(90, 40));
         getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
-        jButton2.setMaximumSize(new java.awt.Dimension(90, 40));
-        jButton2.setMinimumSize(new java.awt.Dimension(90, 40));
-        jButton2.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, -1, -1));
+        ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
+        ok.setMaximumSize(new java.awt.Dimension(90, 40));
+        ok.setMinimumSize(new java.awt.Dimension(90, 40));
+        ok.setPreferredSize(new java.awt.Dimension(90, 40));
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 370));
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -146,14 +146,14 @@ public class Configuracion extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton colorChooser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel colorLabel;
+    private javax.swing.JLabel fondo;
+    private javax.swing.JButton ok;
     private javax.swing.JTextField precio;
+    private javax.swing.JLabel precioLabel;
     private javax.swing.JLabel precioValido;
+    private javax.swing.JLabel tiltleLabel;
+    private javax.swing.JLabel tiposLabel;
+    private javax.swing.JButton tiposPrendas;
     // End of variables declaration//GEN-END:variables
 }
