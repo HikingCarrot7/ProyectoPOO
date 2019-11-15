@@ -1,6 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.ClientesRegistradosController;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -16,17 +15,43 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
 
     public ClientesRegistradosInterfaz()
     {
+
+        initWindow();
+
         initMyComponents();
 
         initComponents();
-
-        new ClientesRegistradosController(this); // Por el momento
 
     }
 
     private void initMyComponents()
     {
         verHistorial = new ArrayList<>();
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
+
     }
 
     /**
@@ -48,7 +73,7 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
         logoLabel = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes registrados");
         setMinimumSize(new java.awt.Dimension(925, 710));
         setResizable(false);
@@ -70,61 +95,62 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
                 null, null, null, null, null, null
             }
 
-        ));
-        panelClientes.setViewportView(tablaClientes);
+        )
+    );
+    panelClientes.setViewportView(tablaClientes);
 
-        getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 919, 530));
+    getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 919, 530));
 
-        titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteTitle.png"))); // NOI18N
-        titleLabel.setText("Clientes Registrados");
-        getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 300, 70));
+    titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+    titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteTitle.png"))); // NOI18N
+    titleLabel.setText("Clientes Registrados");
+    getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 300, 70));
 
-        ordernarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ordernarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ordernarPorLabel.setText("Ordenar por:");
-        getContentPane().add(ordernarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 25));
+    ordernarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+    ordernarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    ordernarPorLabel.setText("Ordenar por:");
+    getContentPane().add(ordernarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 25));
 
-        ordenarPor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        ordenarPor.setToolTipText("Ordenar por...");
-        ordenarPor.setMaximumSize(new java.awt.Dimension(125, 25));
-        ordenarPor.setMinimumSize(new java.awt.Dimension(125, 25));
-        ordenarPor.setPreferredSize(new java.awt.Dimension(125, 25));
-        getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
+    ordenarPor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+    ordenarPor.setToolTipText("Ordenar por...");
+    ordenarPor.setMaximumSize(new java.awt.Dimension(125, 25));
+    ordenarPor.setMinimumSize(new java.awt.Dimension(125, 25));
+    ordenarPor.setPreferredSize(new java.awt.Dimension(125, 25));
+    getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
 
-        anadirCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
-        anadirCliente.setText("Añadir cliente");
-        anadirCliente.setToolTipText("Añadir cliente");
-        anadirCliente.setActionCommand("Add");
-        anadirCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-        getContentPane().add(anadirCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 130, 30));
+    anadirCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
+    anadirCliente.setText("Añadir cliente");
+    anadirCliente.setToolTipText("Añadir cliente");
+    anadirCliente.setActionCommand("Add");
+    anadirCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+    getContentPane().add(anadirCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 130, 30));
 
-        modificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
-        modificarCliente.setText("Modificar cliente");
-        modificarCliente.setToolTipText("Modificar cliente");
-        modificarCliente.setActionCommand("Modificar");
-        modificarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-        getContentPane().add(modificarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 130, 30));
+    modificarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
+    modificarCliente.setText("Modificar cliente");
+    modificarCliente.setToolTipText("Modificar cliente");
+    modificarCliente.setActionCommand("Modificar");
+    modificarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+    getContentPane().add(modificarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 130, 30));
 
-        eliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/delete.png"))); // NOI18N
-        eliminarCliente.setText("Eliminar cliente");
-        eliminarCliente.setToolTipText("Eliminar a un cliente");
-        eliminarCliente.setActionCommand("Delete");
-        eliminarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-        getContentPane().add(eliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, 130, 30));
+    eliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/delete.png"))); // NOI18N
+    eliminarCliente.setText("Eliminar cliente");
+    eliminarCliente.setToolTipText("Eliminar a un cliente");
+    eliminarCliente.setActionCommand("Delete");
+    eliminarCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+    getContentPane().add(eliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 90, 130, 30));
 
-        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
-        getContentPane().add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
+    logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+    getContentPane().add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
 
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-        fondo.setMaximumSize(new java.awt.Dimension(925, 710));
-        fondo.setMinimumSize(new java.awt.Dimension(925, 710));
-        fondo.setPreferredSize(new java.awt.Dimension(925, 710));
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
+    fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+    fondo.setMaximumSize(new java.awt.Dimension(925, 710));
+    fondo.setMinimumSize(new java.awt.Dimension(925, 710));
+    fondo.setPreferredSize(new java.awt.Dimension(925, 710));
+    getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     public JButton getAnadirCliente()
@@ -155,44 +181,6 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
     public ArrayList<JButton> getVerHistorial()
     {
         return verHistorial;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(ClientesRegistradosInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-
-            ClientesRegistradosInterfaz clientes = new ClientesRegistradosInterfaz();
-
-            clientes.setVisible(true);
-            clientes.setLocationRelativeTo(null);
-
-        });
-
     }
 
     private ArrayList<JButton> verHistorial;

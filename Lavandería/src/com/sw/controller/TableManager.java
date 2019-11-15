@@ -1,6 +1,5 @@
 package com.sw.controller;
 
-import com.sw.renderer.TableCellManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
 import com.sw.utilities.Utilities;
@@ -31,7 +30,8 @@ public class TableManager
 
         table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
         table.addMouseListener(controller);
-        table.setCellEditor(new TableCellManager());
+        table.setCellSelectionEnabled(false);
+        table.setDefaultEditor(Object.class, new TableCellManager());
         table.setName(name);
         table.setDragEnabled(false);
         table.getParent().revalidate();
@@ -61,6 +61,11 @@ public class TableManager
     public boolean encimaBoton(JTable table, int x, int y)
     {
         return table.getValueAt(getClickedRow(table, y), table.getColumnModel().getColumnIndexAtX(x)) instanceof JButton;
+    }
+
+    public boolean encimaBoton(JTable table, int x, int y, int column)
+    {
+        return encimaBoton(table, x, y) && table.getColumnModel().getColumnIndexAtX(x) == column;
     }
 
     public int getClickedColumn(JTable table, int[] columns, int x)

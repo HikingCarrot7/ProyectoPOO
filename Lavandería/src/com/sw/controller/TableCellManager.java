@@ -1,4 +1,4 @@
-package com.sw.renderer;
+package com.sw.controller;
 
 import java.awt.Component;
 import java.util.EventObject;
@@ -26,21 +26,21 @@ public class TableCellManager implements TableCellEditor
     }
 
     @Override
-    public boolean isCellEditable(EventObject anEvent)
+    public boolean isCellEditable(EventObject e)
     {
-        return false;
+        return true;
     }
 
     @Override
     public boolean shouldSelectCell(EventObject anEvent)
     {
-        return false;
+        return true;
     }
 
     @Override
     public boolean stopCellEditing()
     {
-        return false;
+        return true;
     }
 
     @Override

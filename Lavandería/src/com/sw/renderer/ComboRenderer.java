@@ -40,10 +40,10 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
 
         }
 
-        setBackground(index % 2 == 0 ? new Color(180, 180, 180) : Color.white);
-
         if (encimaItem(index, list.getModel().getSize()))
             setBackground(Color.cyan);
+        else
+            setBackground(index % 2 == 0 ? new Color(180, 180, 180) : Color.white);
 
         setFont(list.getFont());
 
@@ -51,10 +51,21 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
 
     }
 
+    /**
+     * @deprecated
+     *
+     * Revisar.
+     *
+     * @param index
+     * @param tamanioLista
+     *
+     * @return
+     */
     private boolean encimaItem(int index, int tamanioLista)
     {
-        if ((getY() >= tamanioLista * 20 || getY() < 7) && getY() != 0)
-            return true;
+
+        if ((getY() >= tamanioLista * 20 || getY() <= 7))
+            return false;
 
         return index == (getY() / 20);
 

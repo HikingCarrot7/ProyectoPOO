@@ -1,7 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.VistaPrincipalController;
-import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,11 +16,37 @@ public class VistaPrincipal extends javax.swing.JFrame
     public VistaPrincipal()
     {
 
+        initWindow();
+
         initMyComponents();
 
         initComponents();
 
-        new VistaPrincipalController(this);
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
 
     }
 
@@ -42,32 +66,6 @@ public class VistaPrincipal extends javax.swing.JFrame
         subirProcesoTerminado = new ArrayList<>();
         empaquetado = new ArrayList<>();
         eliminarTerminado = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            verPrendasEnCola.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            moverLavadoEnCola.add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
-            eliminarEnCola.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            verPrendasEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            subirColaEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            moverTerminadoEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
-            eliminarEnProceso.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            verPrendasTerminado.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            subirProcesoTerminado.add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            eliminarTerminado.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-            empaquetado.add(new JCheckBox());
-
-        }
 
     }
 
@@ -109,6 +107,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
         nuevoServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/nuevo.png"))); // NOI18N
         nuevoServicio.setToolTipText("Nuevo servicio");
+        nuevoServicio.setActionCommand("Nuevo servicio");
         nuevoServicio.setMaximumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setMinimumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -123,67 +122,32 @@ public class VistaPrincipal extends javax.swing.JFrame
         enCola.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null, null, null}
+                {null}
             },
             new String []
             {
-                null, null, null, null, null, null
+                null
             }
         )
+    );
+    enCola.setRowHeight(25);
+    scrollTablaEnCola.setViewportView(enCola);
+
+    panelPrincipal.addTab("En cola", null, scrollTablaEnCola, "Conjunto de prendas que está en la cola.");
+
+    scrollTablaEnProceso.setBackground(new java.awt.Color(204, 204, 204));
+
+    enProceso.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][]
         {
-            Class[] types = new Class []
-            {
-                java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class
-            };
+            {null}
 
-            public Class getColumnClass(int columnIndex)
-            {
-                return types [columnIndex];
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column)
-            {
-                return false;
-            }
-
-        });
-        enCola.setRowHeight(25);
-        scrollTablaEnCola.setViewportView(enCola);
-
-        panelPrincipal.addTab("En cola", null, scrollTablaEnCola, "Conjunto de prendas que está en la cola.");
-
-        scrollTablaEnProceso.setBackground(new java.awt.Color(204, 204, 204));
-
-        enProceso.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
-                {null, null, null, null, null, null, null},
-
-            },
-            new String []
-            {
-                null, null, null, null, null, null, null
-            }
-        )
+        },
+        new String []
         {
-            Class[] types = new Class []
-            {
-                java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class, Object.class
-            };
-
-            public Class getColumnClass(int columnIndex)
-            {
-                return types [columnIndex];
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column)
-            {
-                return false;
-            }
-
+            null
         }
+    )
     );
     scrollTablaEnProceso.setViewportView(enProceso);
 
@@ -200,24 +164,7 @@ public class VistaPrincipal extends javax.swing.JFrame
             null
         }
     )
-    {
-        Class[] types = new Class []
-        {
-            java.lang.String.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class, Object.class
-        };
-
-        public Class getColumnClass(int columnIndex)
-        {
-            return types [columnIndex];
-        }
-
-        @Override
-        public boolean isCellEditable(int row, int column)
-        {
-            return false;
-        }
-
-    });
+    );
     scrollTablaTerminado.setViewportView(terminado);
 
     panelPrincipal.addTab("Terminado", scrollTablaTerminado);
@@ -249,6 +196,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
     verClientes.setToolTipText("Ver clientes");
+    verClientes.setActionCommand("Ver clientes");
     verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
     verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
     verClientes.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -367,47 +315,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     public JButton getVerHIstorial()
     {
         return verHIstorial;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-
-            VistaPrincipal vistaPrincipal = new VistaPrincipal();
-
-            vistaPrincipal.setVisible(true);
-            vistaPrincipal.setLocationRelativeTo(null);
-
-        });
-
     }
 
     private ArrayList<JButton> verPrendasEnCola;

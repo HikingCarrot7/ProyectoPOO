@@ -23,6 +23,7 @@ public class Negocio implements Serializable
     {
         this.nombreEncargado = nombreEncargado;
         this.logo = logo;
+
     }
 
     public Negocio(String nombreEncargado)

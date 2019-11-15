@@ -1,7 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.PrendasController;
-import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -16,11 +14,36 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
     public PrendasInterfaz()
     {
+        initWindow();
+
         initMyComponents();
 
         initComponents();
 
-        new PrendasController(this);
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
 
     }
 
@@ -29,13 +52,6 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         tipoPrenda = new ArrayList<>();
         eliminar = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            tipoPrenda.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            eliminar.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-
-        }
 
     }
 
@@ -60,7 +76,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         editarPrenda = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Añadir prendas");
         setMinimumSize(new java.awt.Dimension(579, 700));
         setName("prendasInterfaz"); // NOI18N
@@ -99,6 +115,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         addPrenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         addPrenda.setToolTipText("Añadir nueva prenda");
+        addPrenda.setActionCommand("addPrenda");
         addPrenda.setMaximumSize(new java.awt.Dimension(100, 80));
         addPrenda.setMinimumSize(new java.awt.Dimension(100, 80));
         getContentPane().add(addPrenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 100, 40));
@@ -145,6 +162,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         editarPrenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         editarPrenda.setToolTipText("Editar prenda");
+        editarPrenda.setActionCommand("modificar");
         editarPrenda.setMaximumSize(new java.awt.Dimension(100, 40));
         editarPrenda.setMinimumSize(new java.awt.Dimension(100, 40));
         editarPrenda.setPreferredSize(new java.awt.Dimension(100, 40));
@@ -197,49 +215,6 @@ public class PrendasInterfaz extends javax.swing.JFrame
     public JTextField getTotalPrecio()
     {
         return totalPrecio;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(PrendasInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-
-            PrendasInterfaz prendas = new PrendasInterfaz();
-
-            prendas.setVisible(true);
-            prendas.setLocationRelativeTo(null);
-
-        });
-
     }
 
     private ArrayList<JButton> tipoPrenda;

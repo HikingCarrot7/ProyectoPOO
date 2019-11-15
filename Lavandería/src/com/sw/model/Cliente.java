@@ -1,79 +1,68 @@
 package com.sw.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
  * @author Mohammed
  */
-public class Cliente implements Serializable
+public class Cliente extends Persona implements Serializable
 {
 
-    private static final long serialVersionUID = -4223528775054366634L;
+    private static final long serialVersionUID = 275600884532878352L;
 
-    private String nombre;
-    private String correo;
-    private String telefono;
-    private String direccion;
+    private int nServicios;
+    private ArrayList<Historial> historiales;
+
+    public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios, ArrayList<Historial> historiales)
+    {
+        super(nombre, correo, telefono, direccion);
+
+        this.nServicios = nServicios;
+        this.historiales = historiales;
+
+    }
 
     public Cliente(String nombre, String correo, String telefono, String direccion)
     {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.direccion = direccion;
-
+        this(nombre, correo, telefono, direccion, new Random().nextInt(50), new ArrayList<>());
     }
 
-    public Cliente(String nombre)
+    public Cliente(Persona cliente)
     {
-        this(nombre, "", "", "");
+        this(cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion());
     }
 
-    public String getNombre()
+    public void addHistorial(Historial historial)
     {
-        return nombre;
+        historiales.add(historial);
     }
 
-    public void setNombre(String nombre)
+    public void removeHistorial(Historial historial)
     {
-        this.nombre = nombre;
+        historiales.remove(historial);
     }
 
-    public String getCorreo()
+    public int getnServicios()
     {
-        return correo;
+        return nServicios;
     }
 
-    public void setCorreo(String correo)
+    public void setnServicios(int nServicios)
     {
-        this.correo = correo;
+        this.nServicios = nServicios;
     }
 
-    public String getTelefono()
+    public ArrayList<Historial> getHistoriales()
     {
-        return telefono;
+        return historiales;
     }
 
-    public void setTelefono(String telefono)
+    public void setHistoriales(ArrayList<Historial> historiales)
     {
-        this.telefono = telefono;
-    }
-
-    public String getDireccion()
-    {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion)
-    {
-        this.direccion = direccion;
-    }
-
-    @Override
-    public String toString()
-    {
-        return null;
+        this.historiales = historiales;
     }
 
 }

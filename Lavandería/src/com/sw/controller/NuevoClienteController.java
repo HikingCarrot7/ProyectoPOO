@@ -1,7 +1,7 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
-import com.sw.model.ClienteRegistrado;
+import com.sw.model.Persona;
 import com.sw.view.NuevoCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,16 +15,34 @@ public class NuevoClienteController implements ActionListener
 {
 
     private boolean modificandoCliente;
-    private ClienteRegistrado clienteModificando;
+    private Cliente clienteModificando;
     private NuevoCliente nuevoCliente;
     private ClientesRegistradosController clientesRegistradosController;
+    private NuevoServicioController nuevoServicioController;
     private TextFieldListener[] textFieldListeners;
 
-    //Nombre, correo, telefono, direccion
     public NuevoClienteController(NuevoCliente nuevoCliente, ClientesRegistradosController clientesRegistradosController)
     {
+
         this.nuevoCliente = nuevoCliente;
         this.clientesRegistradosController = clientesRegistradosController;
+
+        initAllMyComponents();
+
+    }
+
+    public NuevoClienteController(NuevoCliente nuevoCliente, NuevoServicioController nuevoServicioController)
+    {
+
+        this.nuevoCliente = nuevoCliente;
+        this.nuevoServicioController = nuevoServicioController;
+
+        initAllMyComponents();
+
+    }
+
+    private void initAllMyComponents()
+    {
 
         textFieldListeners = new TextFieldListener[4];
 
@@ -51,7 +69,7 @@ public class NuevoClienteController implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-        Cliente cliente;
+        Persona persona;
 
         if (!textFieldListeners[0].isValido())
         {
@@ -65,10 +83,7 @@ public class NuevoClienteController implements ActionListener
 
                 case 0: // Si se presiona Sí
 
-                    cliente = new Cliente(nuevoCliente.getNombre().getText(),
-                            textFieldListeners[1].isValido() ? nuevoCliente.getCorreo().getText() : "",
-                            textFieldListeners[2].isValido() ? nuevoCliente.getTelefono().getText() : "",
-                            textFieldListeners[3].isValido() ? nuevoCliente.getDireccion().getText() : "");
+                    persona = obtenerDatosPersona();
 
                     break;
 
@@ -78,23 +93,34 @@ public class NuevoClienteController implements ActionListener
             }
 
         else
-            cliente = new Cliente(
-                    nuevoCliente.getNombre().getText(),
-                    nuevoCliente.getCorreo().getText(),
-                    nuevoCliente.getTelefono().getText(),
-                    nuevoCliente.getDireccion().getText());
+            persona = obtenerDatosPersona();
 
         nuevoCliente.dispose();
 
-        if (!getModificandoCliente())
-            clientesRegistradosController.anadirClienteRegistrado(new ClienteRegistrado(cliente));
+        if (clientesRegistradosController != null)
+
+            if (!getModificandoCliente())
+                clientesRegistradosController.addClienteRegistrado(new Cliente(persona));
+
+            else
+                clientesRegistradosController.modificarClienteRegistrado(clienteModificando, new Cliente(persona));
 
         else
-            clientesRegistradosController.modificarClienteRegistrado(clienteModificando, new ClienteRegistrado(cliente));
+            nuevoServicioController.addCliente(new Cliente(persona));
 
     }
 
-    public void establecerDatosDefecto(ClienteRegistrado clienteModificando)
+    private Persona obtenerDatosPersona()
+    {
+
+        return new Persona(nuevoCliente.getNombre().getText(),
+                textFieldListeners[1].isValido() ? nuevoCliente.getCorreo().getText() : "",
+                textFieldListeners[2].isValido() ? nuevoCliente.getTelefono().getText() : "",
+                textFieldListeners[3].isValido() ? nuevoCliente.getDireccion().getText() : "");
+
+    }
+
+    public void establecerDatosDefecto(Cliente clienteModificando)
     {
 
         setModificandoCliente(true);

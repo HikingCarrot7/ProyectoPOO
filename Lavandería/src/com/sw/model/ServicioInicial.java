@@ -17,6 +17,7 @@ public class ServicioInicial extends Servicio implements Serializable
 
     public ServicioInicial(Cliente cliente, Calendar fecha, ArrayList<Prenda> prendas)
     {
+
         super(cliente, fecha);
 
         this.prendas = prendas;
@@ -25,6 +26,7 @@ public class ServicioInicial extends Servicio implements Serializable
 
     public ServicioInicial(Cliente cliente, ArrayList<Prenda> prendas)
     {
+
         super(cliente);
 
         this.prendas = prendas;

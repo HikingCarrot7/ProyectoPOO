@@ -1,11 +1,12 @@
 package com.sw.controller;
 
-import com.sw.model.ClienteRegistrado;
-import com.sw.persistence.ClientesRegistradosDAO;
+import com.sw.model.Cliente;
+import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
 import com.sw.view.NuevoCliente;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -25,15 +26,14 @@ import javax.swing.table.DefaultTableModel;
 public class ClientesRegistradosController extends MouseAdapter implements ActionListener
 {
 
-    private final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
     private ClientesRegistradosInterfaz clientesRegistradosInterfaz;
-    private ArrayList<ClienteRegistrado> clientesRegistrados;
+    private ArrayList<Cliente> clientesRegistrados;
 
     public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz)
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
-        clientesRegistrados = new ClientesRegistradosDAO(RUTA_CLIENTESREGISTRADOS).getClientes();
+        clientesRegistrados = (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
 
         initMyComponents();
 
@@ -52,13 +52,13 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
     private void initMyComponents()
     {
 
-        if (clientesRegistrados.isEmpty())
+        if (getClientes().isEmpty())
         {
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
             return;
         }
 
-        clientesRegistrados.forEach((item) ->
+        getClientes().forEach((item) ->
         {
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
         });
@@ -70,9 +70,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
         TableManager tableManager = new TableManager();
 
-        tableManager.renderTableModel(clientesRegistradosInterfaz.getTablaClientesRegistrados(), this, "Clientes");
-
-        Object[][] items = getItems(clientesRegistrados);
+        Object[][] items = getItems(getClientes());
 
         clientesRegistradosInterfaz.getTablaClientesRegistrados().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
@@ -85,6 +83,8 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
             "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
 
         }));
+
+        tableManager.renderTableModel(clientesRegistradosInterfaz.getTablaClientesRegistrados(), this, "Clientes");
 
         clientesRegistradosInterfaz.getTablaClientesRegistrados().getParent().revalidate();
 
@@ -120,24 +120,34 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
                 case "Add":
 
-                    NuevoCliente nuevoCliente = new NuevoCliente();
+                    EventQueue.invokeLater(() ->
+                    {
 
-                    nuevoCliente.setLocationRelativeTo(null);
-                    nuevoCliente.setVisible(true);
+                        NuevoCliente nuevoCliente = new NuevoCliente();
 
-                    new NuevoClienteController(nuevoCliente, this);
+                        nuevoCliente.setLocationRelativeTo(clientesRegistradosInterfaz);
+                        nuevoCliente.setVisible(true);
+
+                        new NuevoClienteController(nuevoCliente, this);
+
+                    });
 
                     break;
 
                 case "Modificar":
 
-                    NuevoCliente nuevoClienteModificar = new NuevoCliente();
+                    EventQueue.invokeLater(() ->
+                    {
 
-                    nuevoClienteModificar.setLocationRelativeTo(null);
-                    nuevoClienteModificar.setVisible(true);
+                        NuevoCliente nuevoClienteModificar = new NuevoCliente();
 
-                    new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
-                            clientesRegistrados.get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
+                        nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
+                        nuevoClienteModificar.setVisible(true);
+
+                        new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
+                                getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
+
+                    });
 
                     break;
 
@@ -199,7 +209,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
             }
 
-            new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(clientesRegistrados));
+            new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
             guardarClientes();
 
@@ -212,14 +222,20 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
     {
 
         TableManager tableManager = new TableManager();
-        JTable tablaClientes = clientesRegistradosInterfaz.getTablaClientesRegistrados();
+        JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
 
-        if (tableManager.encimaBoton(tablaClientes, e.getX(), e.getY()))
-            System.out.println(tableManager.getClickedRow(tablaClientes, e.getY()));
+        if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5) && !tableManager.isFirstRowEmpty(table))
+            if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
+                JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+
+            else
+            {
+                //Aquí habrá algo...
+            }
 
     }
 
-    public void anadirClienteRegistrado(ClienteRegistrado cliente)
+    public void addClienteRegistrado(Cliente cliente)
     {
 
         getClientes().add(cliente);
@@ -239,17 +255,17 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
     }
 
-    public void modificarClienteRegistrado(ClienteRegistrado clienteModificar, ClienteRegistrado cliente)
+    public void modificarClienteRegistrado(Cliente clienteAModificar, Cliente clienteNuevosDatos)
     {
 
         TableManager tableManager = new TableManager();
 
-        clienteModificar.setNombre(cliente.getNombre());
-        clienteModificar.setCorreo(cliente.getCorreo());
-        clienteModificar.setTelefono(cliente.getTelefono());
-        clienteModificar.setDireccion(cliente.getDireccion());
+        clienteAModificar.setNombre(clienteNuevosDatos.getNombre());
+        clienteAModificar.setCorreo(clienteNuevosDatos.getCorreo());
+        clienteAModificar.setTelefono(clienteNuevosDatos.getTelefono());
+        clienteAModificar.setDireccion(clienteNuevosDatos.getDireccion());
 
-        tableManager.setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(clientesRegistrados));
+        tableManager.setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
         guardarClientes();
 
@@ -266,7 +282,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
         else
             tableManager.vaciarPrimeraFila(table);
 
-        clientesRegistrados.remove(index);
+        getClientes().remove(index);
 
         guardarClientes();
 
@@ -279,9 +295,9 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
      *
      * @param clientes Los clientes registrados.
      *
-     * @return Los items de los clientes registrados en forma de matriz de objetos (este método debe de ignorar aquellas columnas que tengan componentes).
+     * @return Los items de los clientes registrados en forma de matriz de objetos (este método debe ignorar aquellas columnas que tengan componentes).
      */
-    private Object[][] getItems(ArrayList<ClienteRegistrado> clientes)
+    private Object[][] getItems(ArrayList<Cliente> clientes)
     {
 
         if (clientes.isEmpty())
@@ -306,10 +322,10 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
     private void guardarClientes()
     {
-        new ClientesRegistradosDAO(RUTA_CLIENTESREGISTRADOS).guardarClientes(clientesRegistrados);
+        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
     }
 
-    public ArrayList<ClienteRegistrado> getClientes()
+    public ArrayList<Cliente> getClientes()
     {
         return clientesRegistrados;
     }

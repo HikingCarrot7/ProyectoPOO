@@ -42,6 +42,7 @@ public class NuevoCliente extends javax.swing.JFrame
         {
             System.out.println(ex.getMessage());
         }
+        //</editor-fold>
 
     }
 
@@ -103,6 +104,7 @@ public class NuevoCliente extends javax.swing.JFrame
 
         direccion.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         direccion.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        direccion.setToolTipText("Dirección del cliente");
         direccion.setMaximumSize(new java.awt.Dimension(195, 35));
         direccion.setMinimumSize(new java.awt.Dimension(195, 35));
         direccion.setPreferredSize(new java.awt.Dimension(195, 35));
@@ -110,13 +112,15 @@ public class NuevoCliente extends javax.swing.JFrame
 
         telefono.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         telefono.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        telefono.setToolTipText("Teléfono del cliente");
         telefono.setMaximumSize(new java.awt.Dimension(195, 35));
         telefono.setMinimumSize(new java.awt.Dimension(195, 35));
         telefono.setPreferredSize(new java.awt.Dimension(195, 35));
         getContentPane().add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(214, 212, -1, -1));
 
         ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
-        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 330, 127, 40));
+        ok.setToolTipText("Añadir cliente");
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 127, 40));
 
         correoLabel.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         correoLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -125,6 +129,7 @@ public class NuevoCliente extends javax.swing.JFrame
 
         correo.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         correo.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        correo.setToolTipText("Correo del cliente");
         correo.setMaximumSize(new java.awt.Dimension(195, 35));
         correo.setMinimumSize(new java.awt.Dimension(195, 35));
         correo.setPreferredSize(new java.awt.Dimension(195, 35));

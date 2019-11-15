@@ -19,6 +19,7 @@ public abstract class Servicio implements Serializable
     {
         this.cliente = cliente;
         this.fecha = fecha;
+
     }
 
     public Servicio(Cliente cliente)
@@ -26,7 +27,7 @@ public abstract class Servicio implements Serializable
         this(cliente, Calendar.getInstance());
     }
 
-    public Cliente getCliente()
+    public Persona getCliente()
     {
         return cliente;
     }

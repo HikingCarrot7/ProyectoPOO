@@ -12,13 +12,13 @@ public class Historial implements Serializable
 
     private static final long serialVersionUID = -8147791639672414830L;
 
-    private Cliente cliente;
+    private Persona cliente;
     private Prenda[] prendas;
     private GregorianCalendar fecha;
     private double totalKg;
     private double precioTotal;
 
-    public Historial(Cliente cliente, Prenda[] prendas, GregorianCalendar fecha, double totalKg, double precioTotal)
+    public Historial(Persona cliente, Prenda[] prendas, GregorianCalendar fecha, double totalKg, double precioTotal)
     {
         this.cliente = cliente;
         this.prendas = prendas;
@@ -33,12 +33,12 @@ public class Historial implements Serializable
         this(null, null, null, 0, 0);
     }
 
-    public Cliente getCliente()
+    public Persona getCliente()
     {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente)
+    public void setCliente(Persona cliente)
     {
         this.cliente = cliente;
     }

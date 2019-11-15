@@ -1,6 +1,5 @@
 package com.sw.persistence;
 
-import com.sw.model.ClienteRegistrado;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,19 +12,20 @@ import java.util.ArrayList;
  *
  * @author Mohammed
  */
-public class ClientesRegistradosDAO
+public class DAO
 {
 
+    public static String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
     private final File file;
-    private ArrayList<ClienteRegistrado> clientes;
+    private ArrayList<?> objects;
 
-    public ClientesRegistradosDAO(String ruta)
+    public DAO(String ruta)
     {
 
         file = new File(ruta);
 
         if (file.exists())
-            loadClientes();
+            loadObjects();
 
         else
             try
@@ -39,7 +39,7 @@ public class ClientesRegistradosDAO
 
     }
 
-    private void loadClientes()
+    private void loadObjects()
     {
 
         try
@@ -47,7 +47,7 @@ public class ClientesRegistradosDAO
 
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)))
             {
-                clientes = (ArrayList<ClienteRegistrado>) in.readObject();
+                objects = (ArrayList<?>) in.readObject();
             }
 
         } catch (IOException | ClassNotFoundException ex)
@@ -57,7 +57,7 @@ public class ClientesRegistradosDAO
 
     }
 
-    public void guardarClientes(ArrayList<ClienteRegistrado> clientes)
+    public void saveObjects(ArrayList<?> objects)
     {
 
         try
@@ -65,7 +65,7 @@ public class ClientesRegistradosDAO
 
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file)))
             {
-                out.writeObject(clientes);
+                out.writeObject(objects);
             }
 
         } catch (IOException ex)
@@ -75,9 +75,9 @@ public class ClientesRegistradosDAO
 
     }
 
-    public ArrayList<ClienteRegistrado> getClientes()
+    public ArrayList<?> getObjects()
     {
-        return clientes != null ? clientes : new ArrayList<>();
+        return objects != null ? objects : new ArrayList<>();
     }
 
 }
