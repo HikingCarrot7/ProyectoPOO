@@ -23,6 +23,7 @@ public class Ticket implements Serializable
 
     public Ticket(String numeroTicket, String nombreCliente, String nombreEncargado, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
     {
+
         this.numeroTicket = numeroTicket;
         this.nombreCliente = nombreCliente;
         this.nombreEncargado = nombreEncargado;

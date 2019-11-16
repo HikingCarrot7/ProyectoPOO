@@ -240,13 +240,9 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
         getClientes().add(cliente);
 
-        JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
         TableManager tableManager = new TableManager();
 
-        if (!tableManager.isFirstRowEmpty(table))
-            tableManager.addRow(table, tableManager.getEmptyRowData(table));
-
-        tableManager.updateLastRow(table, new Object[]
+        tableManager.addRow(clientesRegistradosInterfaz.getTablaClientesRegistrados(), new Object[]
         {
             cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion(), String.valueOf(cliente.getnServicios())
         });
@@ -258,14 +254,12 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
     public void modificarClienteRegistrado(Cliente clienteAModificar, Cliente clienteNuevosDatos)
     {
 
-        TableManager tableManager = new TableManager();
-
         clienteAModificar.setNombre(clienteNuevosDatos.getNombre());
         clienteAModificar.setCorreo(clienteNuevosDatos.getCorreo());
         clienteAModificar.setTelefono(clienteNuevosDatos.getTelefono());
         clienteAModificar.setDireccion(clienteNuevosDatos.getDireccion());
 
-        tableManager.setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
+        new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
         guardarClientes();
 
@@ -274,13 +268,7 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
     public void eliminarClienteRegistrado(int index)
     {
 
-        JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
-        TableManager tableManager = new TableManager();
-
-        if (table.getRowCount() != 1)
-            tableManager.deleteRow(table, index);
-        else
-            tableManager.vaciarPrimeraFila(table);
+        new TableManager().removeRow(clientesRegistradosInterfaz.getTablaClientesRegistrados(), index);
 
         getClientes().remove(index);
 

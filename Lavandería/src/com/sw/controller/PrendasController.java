@@ -1,12 +1,18 @@
 package com.sw.controller;
 
+import com.sw.model.Prenda;
 import com.sw.utilities.Utilities;
+import com.sw.view.AnadirPrendaInterfaz;
 import com.sw.view.PrendasInterfaz;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,30 +22,54 @@ import javax.swing.table.DefaultTableModel;
 public class PrendasController extends MouseAdapter implements ActionListener
 {
 
-    private PrendasInterfaz prendas;
+    private PrendasInterfaz prendasInterfaz;
+    private NuevoServicioController nuevoServicioController;
+    private ArrayList<Prenda> prendas;
 
-    public PrendasController(PrendasInterfaz prendas)
+    public PrendasController(PrendasInterfaz prendasInterfaz, ArrayList<Prenda> prendas)
     {
+
+        this.prendasInterfaz = prendasInterfaz;
         this.prendas = prendas;
 
         initMyComponents();
 
         renderPrendasInterfazTable();
 
-        prendas.getAddPrenda().addActionListener(this);
-        prendas.getEditarPrenda().addActionListener(this);
+        prendasInterfaz.getAddPrenda().addActionListener(this);
+        prendasInterfaz.getEditarPrenda().addActionListener(this);
+
+        //Caso especial, crear clase privada aparte.
+        //prendasInterfaz.getTotalKg().getDocument().addDocumentListener(new TextFieldListener("^[0-9]+(.?[0-9]+)?$", prendasInterfaz.getTotalKg()));
+    }
+
+    public PrendasController(PrendasInterfaz prendasInterfaz)
+    {
+        this(prendasInterfaz, new ArrayList<>());
+    }
+
+    public PrendasController(PrendasInterfaz prendasInterfaz, NuevoServicioController nuevoServicioController)
+    {
+        this(prendasInterfaz);
+
+        this.nuevoServicioController = nuevoServicioController;
 
     }
 
     private void initMyComponents()
     {
 
-        for (int i = 0; i < 10; i++)
+        if (prendas.isEmpty())
         {
-            prendas.getTipoPrenda().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            prendas.getEliminar().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+            prendasInterfaz.getEliminar().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+            return;
 
         }
+
+        prendas.forEach((prenda) ->
+        {
+            prendasInterfaz.getEliminar().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+        });
 
     }
 
@@ -48,16 +78,16 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         TableManager tableManager = new TableManager();
 
-        tableManager.renderTableModel(prendas.getPrendasTable(), this, "Prendas");
+        tableManager.renderTableModel(prendasInterfaz.getPrendasTable(), this, "Prendas");
 
-        Object[][] items = new Object[10][4];
+        Object[][] items = getItems();
 
-        prendas.getPrendasTable().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
+        prendasInterfaz.getPrendasTable().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
 
-            1, 3
+            3
 
-        }, prendas.getTipoPrenda(), prendas.getEliminar()), new String[]
+        }, prendasInterfaz.getEliminar()), new String[]
         {
 
             "Prenda", "Tipo de prenda", "Cantidad (piezas)", "Eliminar"
@@ -70,20 +100,21 @@ public class PrendasController extends MouseAdapter implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-        switch (e.getActionCommand())
+        EventQueue.invokeLater(() ->
         {
-            case "addPrenda":
 
-                break;
+            AnadirPrendaInterfaz anadirPrendaInterfaz = new AnadirPrendaInterfaz();
 
-            case "Modificar":
+            anadirPrendaInterfaz.setVisible(true);
+            anadirPrendaInterfaz.setLocationRelativeTo(prendasInterfaz);
 
-                break;
+            if (e.getActionCommand().equals("addPrenda"))
+                new AnadirPrendaController(anadirPrendaInterfaz, this);
 
-            default:
-                break;
+            else
+                new AnadirPrendaController(anadirPrendaInterfaz, this).establecerPrendaDefecto(prendas.get(prendasInterfaz.getPrendasTable().getSelectedRow()));
 
-        }
+        });
 
     }
 
@@ -91,6 +122,97 @@ public class PrendasController extends MouseAdapter implements ActionListener
     public void mouseClicked(MouseEvent e)
     {
 
+        TableManager tableManager = new TableManager();
+        JTable table = prendasInterfaz.getPrendasTable();
+
+        if (tableManager.encimaBoton(table, e.getX(), e.getY(), 3))
+            if (!tableManager.isFirstRowEmpty(table))
+                eliminarPrenda(tableManager.getClickedRow(table, e.getY()));
+
+            else
+                JOptionPane.showMessageDialog(prendasInterfaz, "Aún no hay prendas", "No hay prendas", JOptionPane.ERROR_MESSAGE);
+
+    }
+
+    /**
+     *
+     * @deprecated
+     *
+     * Revisar para futuras implementaziones.
+     *
+     * @return
+     */
+    private Object[][] getItems()
+    {
+
+        if (prendas.isEmpty())
+            return new Object[1][4];
+
+        Object[][] items = new Object[prendas.size()][4];
+
+        for (int i = 0; i < items.length; i++)
+        {
+
+            items[i][0] = prendas.get(i).getDescripcion();
+            items[i][1] = prendas.get(i).getTipo();
+            items[i][2] = String.valueOf(prendas.get(i).getCantidad());
+
+        }
+
+        return items;
+
+    }
+
+    public void anadirPrenda(Prenda prenda)
+    {
+        prendas.add(prenda);
+
+        new TableManager().addRow(prendasInterfaz.getPrendasTable(), new Object[]
+        {
+            prenda.getDescripcion(), prenda.getTipo(), String.valueOf(prenda.getCantidad())
+        });
+
+        establecerPrendas();
+
+    }
+
+    public void modificarPrenda(Prenda prendaAModificar, Prenda prendaNuevosDatos)
+    {
+
+        prendaAModificar.setDescripcion(prendaNuevosDatos.getDescripcion());
+        prendaAModificar.setTipo(prendaNuevosDatos.getTipo());
+        prendaAModificar.setCantidad(prendaNuevosDatos.getCantidad());
+
+        new TableManager().setTableItems(prendasInterfaz.getPrendasTable(), getItems());
+
+        establecerPrendas();
+
+    }
+
+    private void eliminarPrenda(int index)
+    {
+
+        new TableManager().removeRow(prendasInterfaz.getPrendasTable(), index);
+
+        getPrendas().remove(index);
+
+        establecerPrendas();
+
+    }
+
+    private void establecerPrendas()
+    {
+        nuevoServicioController.setPrendas(getPrendas());
+    }
+
+    public ArrayList<Prenda> getPrendas()
+    {
+        return prendas;
+    }
+
+    public void setPrendas(ArrayList<Prenda> prendas)
+    {
+        this.prendas = prendas;
     }
 
 }

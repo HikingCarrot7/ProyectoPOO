@@ -28,6 +28,11 @@ public class TextFieldListener implements DocumentListener, FocusListener
 
     }
 
+    public TextFieldListener(String regex, JTextField campo)
+    {
+        this(regex, new JLabel(), campo);
+    }
+
     @Override
     public void insertUpdate(DocumentEvent e)
     {
@@ -65,6 +70,8 @@ public class TextFieldListener implements DocumentListener, FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
+
+        campo.selectAll();
 
         if (!isValido())
         {

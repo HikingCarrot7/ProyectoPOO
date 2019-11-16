@@ -18,7 +18,7 @@ import javax.swing.table.JTableHeader;
 public class TableManager
 {
 
-    public void renderTableModel(JTable table, MouseListener controller, String name)
+    public void renderTableModel(JTable table, MouseListener listener, String name)
     {
 
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
@@ -28,8 +28,10 @@ public class TableManager
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
         table.setTableHeader(jTableHeader);
 
+        table.getColumnModel().setColumnSelectionAllowed(false);
+
         table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
-        table.addMouseListener(controller);
+        table.addMouseListener(listener);
         table.setCellSelectionEnabled(false);
         table.setDefaultEditor(Object.class, new TableCellManager());
         table.setName(name);
@@ -85,19 +87,9 @@ public class TableManager
         return y / table.getRowHeight();
     }
 
-    public void deleteRow(JTable table, int row)
+    public void addEmptyRow(JTable table, Object[] rowData)
     {
 
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-        tableModel.removeRow(row);
-
-        table.getParent().revalidate();
-
-    }
-
-    public void addRow(JTable table, Object[] rowData)
-    {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
         tableModel.addRow(rowData);
@@ -106,21 +98,30 @@ public class TableManager
 
     }
 
-    public void removeRow(JTable table, int row)
+    public void addRow(JTable table, Object[] items)
     {
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
-        tableModel.removeRow(row);
+        if (!isFirstRowEmpty(table))
+            addEmptyRow(table, getEmptyRowData(table));
 
-        table.getParent().revalidate();
+        updateLastRow(table, items);
 
     }
 
-    public void updateRow(JTable table, Object[] items, int row)
+    public void removeRow(JTable table, int row)
     {
 
-        for (int i = 0; i < items.length; i++)
-            table.getModel().setValueAt(items[i], row, i);
+        if (table.getRowCount() != 1)
+        {
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            tableModel.removeRow(row);
+
+            table.getParent().revalidate();
+
+        } else
+            vaciarPrimeraFila(table);
 
     }
 
@@ -218,6 +219,14 @@ public class TableManager
 
     }
 
+    /**
+     * @deprecated
+     *
+     * Revisar.
+     *
+     * @param table
+     * @return
+     */
     public Object[] getEmptyRowData(JTable table)
     {
 

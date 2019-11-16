@@ -98,7 +98,6 @@ public class NuevoClienteController implements ActionListener
         nuevoCliente.dispose();
 
         if (clientesRegistradosController != null)
-
             if (!getModificandoCliente())
                 clientesRegistradosController.addClienteRegistrado(new Cliente(persona));
 

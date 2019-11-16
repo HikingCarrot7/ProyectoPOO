@@ -1,8 +1,11 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
+import com.sw.model.Prenda;
+import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
+import com.sw.utilities.Temporizador;
 import com.sw.utilities.Utilities;
 import com.sw.view.NuevoCliente;
 import com.sw.view.NuevoServicio;
@@ -22,11 +25,15 @@ public class NuevoServicioController implements ActionListener
 {
 
     private NuevoServicio nuevoServicio;
+    private VistaPrincipalController vistaPrincipalController;
+    private Temporizador tiempoEstimado;
     private ArrayList<Cliente> clientes;
+    private ArrayList<Prenda> prendas;
 
-    public NuevoServicioController(NuevoServicio nuevoServicio)
+    public NuevoServicioController(NuevoServicio nuevoServicio, VistaPrincipalController vistaPrincipalController)
     {
         this.nuevoServicio = nuevoServicio;
+        this.vistaPrincipalController = vistaPrincipalController;
 
         clientes = obtenerClientes();
 
@@ -73,6 +80,7 @@ public class NuevoServicioController implements ActionListener
         if (e.getSource() instanceof JButton)
             switch (e.getActionCommand())
             {
+
                 case "addCliente":
 
                     EventQueue.invokeLater(() ->
@@ -98,11 +106,17 @@ public class NuevoServicioController implements ActionListener
 
                         prendasInterfaz.setVisible(true);
                         prendasInterfaz.setLocationRelativeTo(nuevoServicio);
-                        //nuevoServicio.setVisible(false);
 
-                        new PrendasController(prendasInterfaz);
+                        //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
+                        new PrendasController(prendasInterfaz, this);
 
                     });
+
+                    break;
+
+                case "ok":
+
+                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()), getTiempoEstimado(), getPrendas()));
 
                     break;
 
@@ -138,6 +152,36 @@ public class NuevoServicioController implements ActionListener
 
         saveClientes();
 
+    }
+
+    public ArrayList<Cliente> getClientes()
+    {
+        return clientes;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes)
+    {
+        this.clientes = clientes;
+    }
+
+    public ArrayList<Prenda> getPrendas()
+    {
+        return prendas;
+    }
+
+    public void setPrendas(ArrayList<Prenda> prendas)
+    {
+        this.prendas = prendas;
+    }
+
+    public Temporizador getTiempoEstimado()
+    {
+        return tiempoEstimado;
+    }
+
+    public void setTiempoEstimado(Temporizador tiempoEstimado)
+    {
+        this.tiempoEstimado = tiempoEstimado;
     }
 
     private void saveClientes()

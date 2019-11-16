@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.sw.model.ServicioInicial;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
 import com.sw.view.NuevoServicio;
@@ -163,7 +164,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     nuevoServicio.setVisible(true);
                     nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
-                    new NuevoServicioController(nuevoServicio);
+                    new NuevoServicioController(nuevoServicio, this);
 
                 });
 
@@ -189,6 +190,11 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                 break;
 
         }
+
+    }
+
+    public void anadirServicioCola(ServicioInicial servicioInicial)
+    {
 
     }
 

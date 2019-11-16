@@ -49,10 +49,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
     private void initMyComponents()
     {
-
-        tipoPrenda = new ArrayList<>();
         eliminar = new ArrayList<>();
-
     }
 
     /**
@@ -78,8 +75,10 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Añadir prendas");
-        setMinimumSize(new java.awt.Dimension(579, 700));
+        setMaximumSize(new java.awt.Dimension(579, 690));
+        setMinimumSize(new java.awt.Dimension(579, 690));
         setName("prendasInterfaz"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(579, 690));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -143,16 +142,11 @@ public class PrendasInterfaz extends javax.swing.JFrame
         piezasLabel.setMinimumSize(new java.awt.Dimension(105, 25));
         piezasLabel.setPreferredSize(new java.awt.Dimension(105, 25));
         getContentPane().add(piezasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
-
-        totalKg.setText("Total kg...");
-        totalKg.setEnabled(false);
         getContentPane().add(totalKg, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 100, -1));
 
-        totalPrecio.setText("Precio total...");
         totalPrecio.setEnabled(false);
         getContentPane().add(totalPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 100, -1));
 
-        totalPiezas.setText("Total piezas...");
         totalPiezas.setEnabled(false);
         getContentPane().add(totalPiezas, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 100, -1));
 
@@ -176,11 +170,6 @@ public class PrendasInterfaz extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public ArrayList<JButton> getTipoPrenda()
-    {
-        return tipoPrenda;
-    }
 
     public ArrayList<JButton> getEliminar()
     {
@@ -217,7 +206,6 @@ public class PrendasInterfaz extends javax.swing.JFrame
         return totalPrecio;
     }
 
-    private ArrayList<JButton> tipoPrenda;
     private ArrayList<JButton> eliminar;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

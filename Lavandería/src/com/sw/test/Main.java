@@ -1,4 +1,4 @@
-package com.sw.main;
+package com.sw.test;
 
 import com.sw.controller.VistaPrincipalController;
 import com.sw.view.VistaPrincipal;
@@ -22,7 +22,7 @@ public class Main
             vistaPrincipal.setVisible(true);
             vistaPrincipal.setLocationRelativeTo(null);
 
-            VistaPrincipalController vistaPrincipalController = new VistaPrincipalController(vistaPrincipal);
+            new VistaPrincipalController(vistaPrincipal);
 
         });
 

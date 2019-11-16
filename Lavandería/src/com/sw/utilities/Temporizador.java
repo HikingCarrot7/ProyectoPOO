@@ -12,7 +12,6 @@ public class Temporizador implements Runnable
     public Temporizador(Time time)
     {
         this.time = time;
-
     }
 
     public Temporizador()
@@ -28,6 +27,7 @@ public class Temporizador implements Runnable
     @Override
     public void run()
     {
+
         while (true)
             try
             {
