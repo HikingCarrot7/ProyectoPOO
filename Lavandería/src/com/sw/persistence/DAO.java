@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class DAO
 {
 
-    public static String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
+    public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
+    public static final String RUTA_SERVICIOSINICIALES = "res/ServiciosIniciales.txt";
     private final File file;
     private ArrayList<?> objects;
 

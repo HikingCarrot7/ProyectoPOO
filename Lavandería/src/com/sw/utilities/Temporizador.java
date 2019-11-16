@@ -1,11 +1,15 @@
 package com.sw.utilities;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mohammed
  */
-public class Temporizador implements Runnable
+public class Temporizador implements Runnable, Serializable
 {
+
+    private static final long serialVersionUID = 8178588319113726860L;
 
     private Time time;
 

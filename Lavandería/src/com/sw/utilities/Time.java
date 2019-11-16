@@ -1,11 +1,15 @@
 package com.sw.utilities;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mohammed
  */
-public class Time
+public class Time implements Serializable
 {
+
+    private static final long serialVersionUID = 7216530014763594439L;
 
     private int seconds;
     private int minutes;

@@ -98,13 +98,19 @@ public class TableManager
 
     }
 
+    /**
+     * Cuidado, los items deben estar recortados.
+     *
+     * @param table
+     * @param items
+     */
     public void addRow(JTable table, Object[] items)
     {
 
         if (!isFirstRowEmpty(table))
             addEmptyRow(table, getEmptyRowData(table));
 
-        updateLastRow(table, items);
+        updateLastRow(table, getRowData(getEmptyRowData(table), items));
 
     }
 
@@ -130,6 +136,22 @@ public class TableManager
 
         for (int i = 0; i < items.length; i++)
             table.getModel().setValueAt(items[i], table.getRowCount() - 1, i);
+
+    }
+
+    public Object[] getRowData(Object[] emptyRowData, Object[] rowData)
+    {
+
+        Object[] newRowData = new Object[rowData.length];
+
+        for (int i = 0; i < rowData.length; i++)
+            if (!(emptyRowData[i] instanceof Component))
+                newRowData[i] = rowData[i];
+
+            else
+                newRowData[i] = emptyRowData[i];
+
+        return newRowData;
 
     }
 
@@ -170,23 +192,11 @@ public class TableManager
     public void setTableItems(JTable table, Object[][] items)
     {
 
-        int filas = 0, columnas = 0;
-
         for (int i = 0; i < items.length; i++)
+
             for (int j = 0; j < items[i].length; j++)
                 if (!(table.getValueAt(i, j) instanceof Component))
-                {
-
-                    table.setValueAt(items[filas][columnas++], i, j);
-
-                    if (columnas == items[i].length - 1)
-                    {
-                        filas++;
-                        columnas = 0;
-
-                    }
-
-                }
+                    table.setValueAt(items[i][j], i, j);
 
     }
 
@@ -257,6 +267,7 @@ public class TableManager
 
     public void vaciarPrimeraFila(JTable table)
     {
+
         for (int i = 0; i < table.getColumnCount(); i++)
             if (!(table.getValueAt(0, i) instanceof Component))
                 table.setValueAt(null, 0, i);

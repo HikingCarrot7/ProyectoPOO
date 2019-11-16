@@ -116,6 +116,7 @@ public class NuevoServicio extends javax.swing.JFrame
         tiempoEstimadoLabel.setText("Tiempo estimado:");
         getContentPane().add(tiempoEstimadoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
+        horas.setModel(new javax.swing.SpinnerNumberModel(1, 0, 23, 1));
         horas.setToolTipText("Horas");
         horas.setMaximumSize(new java.awt.Dimension(35, 20));
         horas.setMinimumSize(new java.awt.Dimension(35, 20));
@@ -125,6 +126,7 @@ public class NuevoServicio extends javax.swing.JFrame
         horasLabel.setText("Horas");
         getContentPane().add(horasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, -1, -1));
 
+        minutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
         minutos.setToolTipText("Minutos");
         minutos.setMaximumSize(new java.awt.Dimension(35, 20));
         minutos.setMinimumSize(new java.awt.Dimension(35, 20));
@@ -134,6 +136,7 @@ public class NuevoServicio extends javax.swing.JFrame
         minutosLabel.setText("Minutos");
         getContentPane().add(minutosLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, -1, -1));
 
+        segundos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
         segundos.setToolTipText("Segundos");
         segundos.setMaximumSize(new java.awt.Dimension(35, 20));
         segundos.setMinimumSize(new java.awt.Dimension(35, 20));

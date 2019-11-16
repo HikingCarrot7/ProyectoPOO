@@ -108,6 +108,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         nuevoServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/nuevo.png"))); // NOI18N
         nuevoServicio.setToolTipText("Nuevo servicio");
         nuevoServicio.setActionCommand("Nuevo servicio");
+        nuevoServicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         nuevoServicio.setMaximumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setMinimumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setPreferredSize(new java.awt.Dimension(200, 100));
@@ -189,6 +190,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     verHIstorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historial.png"))); // NOI18N
     verHIstorial.setToolTipText("Ver historial");
+    verHIstorial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
     verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
     verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));
     verHIstorial.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -197,6 +199,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
     verClientes.setToolTipText("Ver clientes");
     verClientes.setActionCommand("Ver clientes");
+    verClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
     verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
     verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
     verClientes.setPreferredSize(new java.awt.Dimension(200, 35));

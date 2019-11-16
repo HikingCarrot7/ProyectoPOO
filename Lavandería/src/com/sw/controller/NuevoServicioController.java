@@ -6,6 +6,7 @@ import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Temporizador;
+import com.sw.utilities.Time;
 import com.sw.utilities.Utilities;
 import com.sw.view.NuevoCliente;
 import com.sw.view.NuevoServicio;
@@ -15,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 
 /**
  *
@@ -26,20 +26,19 @@ public class NuevoServicioController implements ActionListener
 
     private NuevoServicio nuevoServicio;
     private VistaPrincipalController vistaPrincipalController;
-    private Temporizador tiempoEstimado;
     private ArrayList<Cliente> clientes;
     private ArrayList<Prenda> prendas;
+    private double totalKg;
 
     public NuevoServicioController(NuevoServicio nuevoServicio, VistaPrincipalController vistaPrincipalController)
     {
+
         this.nuevoServicio = nuevoServicio;
         this.vistaPrincipalController = vistaPrincipalController;
 
         clientes = obtenerClientes();
 
         loadComboModel();
-
-        initMyComponents();
 
         nuevoServicio.getAddCliente().addActionListener(this);
         nuevoServicio.getAnadirPrendas().addActionListener(this);
@@ -49,13 +48,9 @@ public class NuevoServicioController implements ActionListener
 
     }
 
-    private void initMyComponents()
-    {
-        nuevoServicio.getHoras().setValue(1);
-    }
-
     private void loadComboModel()
     {
+
         nuevoServicio.getClientes().setRenderer(new ComboRenderer());
         nuevoServicio.getClientes().setModel(loadComboItems());
         nuevoServicio.getClientes().setMaximumRowCount(5);
@@ -64,6 +59,7 @@ public class NuevoServicioController implements ActionListener
 
     private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
     {
+
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
         for (int i = 0; i < clientes.size(); i++)
@@ -77,56 +73,60 @@ public class NuevoServicioController implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-        if (e.getSource() instanceof JButton)
-            switch (e.getActionCommand())
-            {
-
-                case "addCliente":
-
-                    EventQueue.invokeLater(() ->
-                    {
-
-                        NuevoCliente nuevoCliente = new NuevoCliente();
-
-                        nuevoCliente.setLocationRelativeTo(nuevoServicio);
-                        nuevoCliente.setVisible(true);
-
-                        new NuevoClienteController(nuevoCliente, this);
-
-                    });
-
-                    break;
-
-                case "addPrendas":
-
-                    EventQueue.invokeLater(() ->
-                    {
-
-                        PrendasInterfaz prendasInterfaz = new PrendasInterfaz();
-
-                        prendasInterfaz.setVisible(true);
-                        prendasInterfaz.setLocationRelativeTo(nuevoServicio);
-
-                        //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                        new PrendasController(prendasInterfaz, this);
-
-                    });
-
-                    break;
-
-                case "ok":
-
-                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()), getTiempoEstimado(), getPrendas()));
-
-                    break;
-
-                default:
-                    break;
-
-            }
-
-        else
+        switch (e.getActionCommand())
         {
+
+            case "addCliente":
+
+                EventQueue.invokeLater(() ->
+                {
+
+                    NuevoCliente nuevoCliente = new NuevoCliente();
+
+                    nuevoCliente.setLocationRelativeTo(nuevoServicio);
+                    nuevoCliente.setVisible(true);
+
+                    new NuevoClienteController(nuevoCliente, this);
+
+                });
+
+                break;
+
+            case "addPrendas":
+
+                EventQueue.invokeLater(() ->
+                {
+
+                    PrendasInterfaz prendasInterfaz = new PrendasInterfaz();
+
+                    prendasInterfaz.setVisible(true);
+                    prendasInterfaz.setLocationRelativeTo(nuevoServicio);
+
+                    //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
+                    new PrendasController(prendasInterfaz, this);
+
+                });
+
+                break;
+
+            case "ok":
+
+                if (!getPrendas().isEmpty())
+                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
+                            getTiempoEstimado(),
+                            getPrendas(),
+                            getTotalKg()));
+
+                else
+                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
+                            getTiempoEstimado()));
+
+                nuevoServicio.dispose();
+
+                break;
+
+            default:
+                break;
 
         }
 
@@ -166,7 +166,7 @@ public class NuevoServicioController implements ActionListener
 
     public ArrayList<Prenda> getPrendas()
     {
-        return prendas;
+        return prendas != null ? prendas : new ArrayList<>();
     }
 
     public void setPrendas(ArrayList<Prenda> prendas)
@@ -176,12 +176,21 @@ public class NuevoServicioController implements ActionListener
 
     public Temporizador getTiempoEstimado()
     {
-        return tiempoEstimado;
+
+        return new Temporizador(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
+                Integer.parseInt(String.valueOf(getNuevoServicio().getMinutos().getValue())),
+                Integer.parseInt(String.valueOf(getNuevoServicio().getSegundos().getValue()))));
+
     }
 
-    public void setTiempoEstimado(Temporizador tiempoEstimado)
+    private double getTotalKg()
     {
-        this.tiempoEstimado = tiempoEstimado;
+        return totalKg;
+    }
+
+    public void setTotalKg(double totalKg)
+    {
+        this.totalKg = totalKg;
     }
 
     private void saveClientes()

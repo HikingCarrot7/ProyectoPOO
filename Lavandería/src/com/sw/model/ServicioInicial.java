@@ -16,35 +16,38 @@ public class ServicioInicial extends Servicio implements Serializable
 
     private ArrayList<Prenda> prendas;
     private Temporizador tiempoEstimado;
+    private double totalKg;
 
-    public ServicioInicial(Cliente cliente, Calendar fecha, Temporizador tiempoEstimado, ArrayList<Prenda> prendas)
+    public ServicioInicial(Cliente cliente, Calendar fecha, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
     {
 
         super(cliente, fecha);
 
         this.prendas = prendas;
         this.tiempoEstimado = tiempoEstimado;
+        this.totalKg = totalKg;
 
     }
 
-    public ServicioInicial(Cliente cliente, Temporizador tiempoEstimado, ArrayList<Prenda> prendas)
+    public ServicioInicial(Cliente cliente, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
     {
 
         super(cliente);
 
         this.prendas = prendas;
         this.tiempoEstimado = tiempoEstimado;
+        this.totalKg = totalKg;
 
     }
 
-    public ServicioInicial(Cliente cliente, ArrayList<Prenda> prendas)
+    public ServicioInicial(Cliente cliente, ArrayList<Prenda> prendas, double totalKg)
     {
-        this(cliente, new Temporizador(), prendas);
+        this(cliente, new Temporizador(), prendas, totalKg);
     }
 
     public ServicioInicial(Cliente cliente, Temporizador temporizador)
     {
-        this(cliente, temporizador, new ArrayList<>());
+        this(cliente, temporizador, new ArrayList<>(), 0);
     }
 
     public ServicioInicial(Cliente cliente)
@@ -81,5 +84,17 @@ public class ServicioInicial extends Servicio implements Serializable
     {
         this.tiempoEstimado = tiempoEstimado;
     }
+
+    public double getTotalKg()
+    {
+        return totalKg;
+    }
+
+    public void setTotalKg(double totalKg)
+    {
+        this.totalKg = totalKg;
+    }
+    
+    
 
 }
