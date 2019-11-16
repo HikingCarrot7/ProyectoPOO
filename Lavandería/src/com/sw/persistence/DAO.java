@@ -16,7 +16,9 @@ public class DAO
 {
 
     public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
+    public static final String RUTA_CLAVECLIENTES = "res/ClaveCliente.txt";
     public static final String RUTA_SERVICIOSINICIALES = "res/ServiciosIniciales.txt";
+
     private final File file;
     private ArrayList<?> objects;
 

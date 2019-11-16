@@ -54,21 +54,23 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         prendas = servicioInicial.getPrendas();
 
+        initCamposPrecio(servicioInicial.getTotalKg());
+
         initAllMyComponents();
 
     }
 
-    public PrendasController(PrendasInterfaz prendasInterfaz, NuevoServicioController nuevoServicioController)
+    public PrendasController(PrendasInterfaz prendasInterfaz, NuevoServicioController nuevoServicioController, ArrayList<Prenda> prendas, double totalKg)
     {
-        this(prendasInterfaz);
 
+        this.prendasInterfaz = prendasInterfaz;
         this.nuevoServicioController = nuevoServicioController;
+        this.prendas = prendas;
 
-    }
+        initCamposPrecio(totalKg);
 
-    public PrendasController(PrendasInterfaz prendasInterfaz)
-    {
-        this(prendasInterfaz, new ArrayList<>());
+        initAllMyComponents();
+
     }
 
     private void iniciarLista()
@@ -88,6 +90,13 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
+    private void initCamposPrecio(double totalKg)
+    {
+        prendasInterfaz.getTotalKg().setText(String.valueOf(totalKg));
+        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * 9.5));
+
+    }
+
     private void initAllMyComponents()
     {
 
@@ -102,9 +111,6 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         if (!prendas.isEmpty())
             prendasInterfaz.getTotalPiezas().setText(String.valueOf(getNumTotalPrendas()));
-
-        prendasInterfaz.getTotalKg().setText(String.valueOf(servicioInicial.getTotalKg()));
-        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", servicioInicial.getTotalKg() * 9.5));
 
         prendasInterfaz.getAddPrenda().addActionListener(this);
         prendasInterfaz.getEditarPrenda().addActionListener(this);
@@ -350,8 +356,12 @@ public class PrendasController extends MouseAdapter implements ActionListener
             else
                 servicioInicial.setTotalKg(0);
 
-            vistaPrincipalController.saveServiciosEnCola();
-            vistaPrincipalController.updateAllTables();
+            if (vistaPrincipalController != null)
+            {
+                vistaPrincipalController.saveServiciosEnCola();
+                vistaPrincipalController.updateAllTables();
+
+            }
 
         }
 
@@ -378,8 +388,12 @@ public class PrendasController extends MouseAdapter implements ActionListener
                 else
                     servicioInicial.setTotalKg(Double.parseDouble(totalKg.getText()));
 
-                vistaPrincipalController.saveServiciosEnCola();
-                vistaPrincipalController.updateAllTables();
+                if (vistaPrincipalController != null)
+                {
+                    vistaPrincipalController.saveServiciosEnCola();
+                    vistaPrincipalController.updateAllTables();
+
+                }
 
             } else
             {

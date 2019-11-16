@@ -27,7 +27,7 @@ public abstract class Servicio implements Serializable
         this(cliente, Calendar.getInstance());
     }
 
-    public Persona getCliente()
+    public Cliente getCliente()
     {
         return cliente;
     }

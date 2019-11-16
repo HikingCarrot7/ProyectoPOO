@@ -14,8 +14,13 @@ import com.sw.view.PrendasInterfaz;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -62,6 +67,13 @@ public class NuevoServicioController implements ActionListener
 
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
+        if (clientes.isEmpty())
+        {
+            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "No hay clientes"));
+            return dm;
+
+        }
+
         for (int i = 0; i < clientes.size(); i++)
             dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.get(i).getNombre()));
 
@@ -103,7 +115,7 @@ public class NuevoServicioController implements ActionListener
                     prendasInterfaz.setLocationRelativeTo(nuevoServicio);
 
                     //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                    new PrendasController(prendasInterfaz, this);
+                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg());
 
                 });
 
@@ -111,17 +123,18 @@ public class NuevoServicioController implements ActionListener
 
             case "ok":
 
-                if (!getPrendas().isEmpty())
+                if (!clientes.isEmpty())
+                {
+
                     vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
                             getTiempoEstimado(),
                             getPrendas(),
                             getTotalKg()));
 
-                else
-                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
-                            getTiempoEstimado()));
+                    nuevoServicio.dispose();
 
-                nuevoServicio.dispose();
+                } else
+                    JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
 
                 break;
 
@@ -143,8 +156,20 @@ public class NuevoServicioController implements ActionListener
 
     }
 
+    public void eliminarElementoCombo(int index)
+    {
+
+        DefaultComboBoxModel<ComboRenderer.ComboItem> dm = (DefaultComboBoxModel) nuevoServicio.getClientes().getModel();
+
+        dm.removeElementAt(index);
+
+    }
+
     public void addCliente(Cliente cliente)
     {
+
+        if (clientes.isEmpty())
+            eliminarElementoCombo(0);
 
         clientes.add(cliente);
 
@@ -196,6 +221,17 @@ public class NuevoServicioController implements ActionListener
     private void saveClientes()
     {
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
+
+        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
+        {
+
+            out.format("%s", Cliente.getClave());
+
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     private ArrayList<Cliente> obtenerClientes()

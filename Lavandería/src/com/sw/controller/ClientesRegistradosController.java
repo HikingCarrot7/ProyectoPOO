@@ -9,9 +9,12 @@ import com.sw.view.NuevoCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Mohammed
  */
-public class ClientesRegistradosController extends MouseAdapter implements ActionListener
+public class ClientesRegistradosController extends MyMouseAdapter implements ActionListener
 {
 
     private ClientesRegistradosInterfaz clientesRegistradosInterfaz;
@@ -136,18 +139,19 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
                 case "Modificar":
 
-                    EventQueue.invokeLater(() ->
-                    {
+                    if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() >= 0)
+                        EventQueue.invokeLater(() ->
+                        {
 
-                        NuevoCliente nuevoClienteModificar = new NuevoCliente();
+                            NuevoCliente nuevoClienteModificar = new NuevoCliente();
 
-                        nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
-                        nuevoClienteModificar.setVisible(true);
+                            nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
+                            nuevoClienteModificar.setVisible(true);
 
-                        new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
-                                getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
+                            new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
+                                    getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
 
-                    });
+                        });
 
                     break;
 
@@ -261,6 +265,8 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
         new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
+        notificarCambioClientes();
+
         guardarClientes();
 
     }
@@ -308,9 +314,29 @@ public class ClientesRegistradosController extends MouseAdapter implements Actio
 
     }
 
+    private void notificarCambioClientes()
+    {
+
+        setChanged();
+        notifyObservers(getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
+        clearChanged();
+
+    }
+
     private void guardarClientes()
     {
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
+
+        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
+        {
+
+            out.format("%s", Cliente.getClave());
+
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public ArrayList<Cliente> getClientes()

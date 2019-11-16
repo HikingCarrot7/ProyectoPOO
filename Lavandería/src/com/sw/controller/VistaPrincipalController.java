@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.sw.model.Cliente;
 import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
 import com.sw.utilities.Utilities;
@@ -13,6 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -22,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Mohammed
  */
-public class VistaPrincipalController extends MouseAdapter implements ActionListener
+public class VistaPrincipalController extends MouseAdapter implements ActionListener, Observer
 {
 
     private VistaPrincipal vistaPrincipal;
@@ -32,6 +35,9 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     {
         this.vistaPrincipal = vistaPrincipal;
         serviciosEnCola = getServiciosEnCola();
+
+        for (int i = 0; i < serviciosEnCola.size(); i++)
+            System.out.println(serviciosEnCola.get(i).getCliente().getClaveCliente());
 
         initMyComponents();
 
@@ -43,6 +49,8 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         vistaPrincipal.getNuevoServicio().addActionListener(this);
         vistaPrincipal.getVerClientes().addActionListener(this);
+
+        System.out.println(Cliente.getClave());
 
     }
 
@@ -111,6 +119,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     private void renderTableEnProceso()
     {
+
         TableManager tableManager = new TableManager();
 
         Object[][] items = new Object[10][7];
@@ -158,6 +167,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     @Override
     public void mouseClicked(MouseEvent e)
     {
+
         TableManager tableManager = new TableManager();
 
         if (!tableManager.isFirstRowEmpty(vistaPrincipal.getTablaEnCola()))
@@ -228,7 +238,9 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     clientesRegistradosInterfaz.setVisible(true);
                     clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
 
-                    new ClientesRegistradosController(clientesRegistradosInterfaz);
+                    ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+
+                    clientesRegistradosController.addObserver(this);
 
                 });
 
@@ -271,6 +283,8 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
             servicioInicial.getCliente().getNombre(), null, "", "", null, null
         });
 
+        updateAllTables();
+
         saveServiciosEnCola();
 
     }
@@ -284,6 +298,16 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         saveServiciosEnCola();
 
+    }
+
+    public void saveServiciosEnCola()
+    {
+        new DAO(DAO.RUTA_SERVICIOSINICIALES).saveObjects(serviciosEnCola);
+    }
+
+    private ArrayList<ServicioInicial> getServiciosEnCola()
+    {
+        return (ArrayList<ServicioInicial>) new DAO(DAO.RUTA_SERVICIOSINICIALES).getObjects();
     }
 
     public void updateAllTables()
@@ -301,14 +325,18 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         JOptionPane.showMessageDialog(vistaPrincipal, text, titulo, JOptionPane.ERROR_MESSAGE);
     }
 
-    public void saveServiciosEnCola()
+    @Override
+    public void update(Observable o, Object item)
     {
-        new DAO(DAO.RUTA_SERVICIOSINICIALES).saveObjects(serviciosEnCola);
-    }
 
-    private ArrayList<ServicioInicial> getServiciosEnCola()
-    {
-        return (ArrayList<ServicioInicial>) new DAO(DAO.RUTA_SERVICIOSINICIALES).getObjects();
+        Cliente clienteNuevo = (Cliente) item;
+
+        for (int i = 0; i < serviciosEnCola.size(); i++)
+            if (clienteNuevo.getClaveCliente() == serviciosEnCola.get(i).getCliente().getClaveCliente())
+                serviciosEnCola.get(i).getCliente().setNombre(clienteNuevo.getNombre());
+
+        updateAllTables();
+
     }
 
 }
