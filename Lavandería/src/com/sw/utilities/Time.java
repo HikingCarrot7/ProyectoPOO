@@ -91,7 +91,7 @@ public class Time implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%02d:%02d:%02d", getHours(), getMinutes(), getSeconds());
+        return String.format("%02d:%02d:%02d horas", getHours(), getMinutes(), getSeconds());
     }
 
 }

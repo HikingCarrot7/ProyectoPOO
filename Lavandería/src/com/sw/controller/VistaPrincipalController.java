@@ -19,6 +19,8 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,14 +32,16 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     private VistaPrincipal vistaPrincipal;
     private ArrayList<ServicioInicial> serviciosEnCola;
+    private ArrayList<ServicioInicial> serviciosEnProceso;
+    private ArrayList<ServicioInicial> serviciosTerminados;
 
     public VistaPrincipalController(VistaPrincipal vistaPrincipal)
     {
-        this.vistaPrincipal = vistaPrincipal;
-        serviciosEnCola = getServiciosEnCola();
 
-        for (int i = 0; i < serviciosEnCola.size(); i++)
-            System.out.println(serviciosEnCola.get(i).getCliente().getClaveCliente());
+        this.vistaPrincipal = vistaPrincipal;
+        serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
+        serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
+        serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
 
         initMyComponents();
 
@@ -50,7 +54,9 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         vistaPrincipal.getNuevoServicio().addActionListener(this);
         vistaPrincipal.getVerClientes().addActionListener(this);
 
-        System.out.println(Cliente.getClave());
+        vistaPrincipal.getPanelPrincipal().addMouseListener(this);
+
+        vistaPrincipal.getWave().addActionListener(this);
 
     }
 
@@ -64,25 +70,19 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
             for (int i = 0; i < serviciosEnCola.size(); i++)
                 loadBotonesTablaEnCola();
 
-        for (int i = 0; i < 10; i++)
-        {
+        if (serviciosEnProceso.isEmpty())
+            loadBotonesTablaEnProceso();
 
-            vistaPrincipal.getVerPrendasEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            vistaPrincipal.getSubirColaEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            vistaPrincipal.getMoverTerminadoEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
-            vistaPrincipal.getEliminarEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+        else
+            for (int i = 0; i < serviciosEnProceso.size(); i++)
+                loadBotonesTablaEnProceso();
 
-        }
+        if (serviciosTerminados.isEmpty())
+            loadBotonesTablaTerminado();
 
-        for (int i = 0; i < 10; i++)
-        {
-
-            vistaPrincipal.getVerPrendasTerminado().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            vistaPrincipal.getSubirProcesoTerminado().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            vistaPrincipal.getEliminarTerminado().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-            vistaPrincipal.getEmpaquetado().add(new JCheckBox());
-
-        }
+        else
+            for (int i = 0; i < serviciosTerminados.size(); i++)
+                loadBotonesTablaTerminado();
 
     }
 
@@ -92,6 +92,26 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         vistaPrincipal.getVerPrendasEnCola().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
         vistaPrincipal.getMoverLavadoEnCola().add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
         vistaPrincipal.getEliminarEnCola().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+
+    }
+
+    private void loadBotonesTablaEnProceso()
+    {
+
+        vistaPrincipal.getVerPrendasEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+        vistaPrincipal.getSubirColaEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+        vistaPrincipal.getMoverTerminadoEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
+        vistaPrincipal.getEliminarEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+
+    }
+
+    private void loadBotonesTablaTerminado()
+    {
+
+        vistaPrincipal.getVerPrendasTerminado().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+        vistaPrincipal.getSubirProcesoTerminado().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+        vistaPrincipal.getEliminarTerminado().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+        vistaPrincipal.getEmpaquetado().add(new JCheckBox());
 
     }
 
@@ -122,7 +142,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         TableManager tableManager = new TableManager();
 
-        Object[][] items = new Object[10][7];
+        Object[][] items = getItemsEnProceso();
 
         vistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
@@ -145,7 +165,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         TableManager tableManager = new TableManager();
 
-        Object[][] items = new Object[10][7];
+        Object[][] items = getItemsTerminado();
 
         vistaPrincipal.getTablaTerminado().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
@@ -168,12 +188,19 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     public void mouseClicked(MouseEvent e)
     {
 
-        TableManager tableManager = new TableManager();
+        if (e.getSource() instanceof JTabbedPane)
+        {
+            revalidateAllTables();
+            return;
+        }
 
-        if (!tableManager.isFirstRowEmpty(vistaPrincipal.getTablaEnCola()))
+        TableManager tableManager = new TableManager();
+        JTable table = vistaPrincipal.getTablaEnCola();
+
+        if (!tableManager.isFirstRowEmpty(table))
         {
 
-            if (tableManager.encimaBoton(vistaPrincipal.getTablaEnCola(), e.getX(), e.getY(), 1))
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 1))
                 EventQueue.invokeLater(() ->
                 {
 
@@ -182,19 +209,29 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
-                    new PrendasController(prendas, this, serviciosEnCola.get(tableManager.getClickedRow(vistaPrincipal.getTablaEnCola(), e.getY())));
+                    new PrendasController(prendas, this, serviciosEnCola.get(tableManager.getClickedRow(table, e.getY())));
 
                 });
 
-            else if (tableManager.encimaBoton(vistaPrincipal.getTablaEnCola(), e.getX(), e.getY(), 5))
+            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 4))
+            {
+                anadirServicioAProceso(serviciosEnCola.get(table.getSelectedRow()));
+
+                serviciosEnCola.remove(vistaPrincipal.getTablaEnCola().getSelectedRow());
+
+                saveServiciosEnCola();
+
+                updateAllTables();
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
                 switch (JOptionPane.showConfirmDialog(vistaPrincipal,
-                        "Se borrará este servicio y toda la información relacionada en él. ¿Continuar?",
+                        "Se borrará este servicio y toda la información relacionada con él. ¿Continuar?",
                         "Confirmar acción", JOptionPane.YES_NO_OPTION))
                 {
 
                     case 0: // Si se presiona Sí
 
-                        eliminarServicioCola(tableManager.getClickedRow(vistaPrincipal.getTablaEnCola(), e.getY()));
+                        eliminarServicioCola(tableManager.getClickedRow(table, e.getY()));
                         saveServiciosEnCola();
 
                         break;
@@ -209,47 +246,49 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        switch (e.getActionCommand())
-        {
 
-            case "Nuevo servicio":
+        if (e.getSource() instanceof JButton)
+            switch (e.getActionCommand())
+            {
 
-                EventQueue.invokeLater(() ->
-                {
+                case "Nuevo servicio":
 
-                    NuevoServicio nuevoServicio = new NuevoServicio();
+                    EventQueue.invokeLater(() ->
+                    {
 
-                    nuevoServicio.setVisible(true);
-                    nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+                        NuevoServicio nuevoServicio = new NuevoServicio();
 
-                    new NuevoServicioController(nuevoServicio, this);
+                        nuevoServicio.setVisible(true);
+                        nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
-                });
+                        new NuevoServicioController(nuevoServicio, this);
 
-                break;
+                    });
 
-            case "Ver clientes":
+                    break;
 
-                EventQueue.invokeLater(() ->
-                {
+                case "Ver clientes":
 
-                    ClientesRegistradosInterfaz clientesRegistradosInterfaz = new ClientesRegistradosInterfaz();
+                    EventQueue.invokeLater(() ->
+                    {
 
-                    clientesRegistradosInterfaz.setVisible(true);
-                    clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
+                        ClientesRegistradosInterfaz clientesRegistradosInterfaz = new ClientesRegistradosInterfaz();
 
-                    ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+                        clientesRegistradosInterfaz.setVisible(true);
+                        clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
 
-                    clientesRegistradosController.addObserver(this);
+                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
 
-                });
+                        clientesRegistradosController.addObserver(this);
 
-                break;
+                    });
 
-            default:
-                break;
+                    break;
 
-        }
+                default:
+                    break;
+
+            }
 
     }
 
@@ -273,6 +312,32 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     }
 
+    private Object[][] getItemsEnProceso()
+    {
+
+        if (serviciosEnProceso.isEmpty())
+            return new Object[1][7];
+
+        Object[][] items = new Object[serviciosEnProceso.size()][7];
+
+        for (int i = 0; i < serviciosEnProceso.size(); i++)
+        {
+
+            items[i][0] = serviciosEnProceso.get(i).getCliente().getNombre();
+            items[i][2] = String.valueOf(serviciosEnProceso.get(i).getTotalKg());
+            items[i][3] = serviciosEnProceso.get(i).getTiempoEstimado().toString();
+
+        }
+
+        return items;
+
+    }
+
+    private Object[][] getItemsTerminado()
+    {
+        return new Object[1][7];
+    }
+
     public void anadirServicioCola(ServicioInicial servicioInicial)
     {
 
@@ -280,12 +345,32 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         new TableManager().addRow(vistaPrincipal.getTablaEnCola(), new Object[]
         {
+
             servicioInicial.getCliente().getNombre(), null, "", "", null, null
+
         });
 
         updateAllTables();
 
         saveServiciosEnCola();
+
+    }
+
+    private void anadirServicioAProceso(ServicioInicial servicioInicial)
+    {
+
+        serviciosEnProceso.add(servicioInicial);
+
+        new TableManager().addRow(vistaPrincipal.getTablaEnProceso(), new Object[]
+        {
+
+            servicioInicial.getCliente().getNombre(), null, "", "", null, null, null
+
+        });
+
+        updateAllTables();
+
+        saveServiciosEnProceso();
 
     }
 
@@ -300,14 +385,30 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     }
 
-    public void saveServiciosEnCola()
+    private void eliminarServicioEnProceso(int index)
     {
-        new DAO(DAO.RUTA_SERVICIOSINICIALES).saveObjects(serviciosEnCola);
+
+        new TableManager().removeRow(vistaPrincipal.getTablaEnProceso(), index);
+
+        serviciosEnProceso.remove(index);
+
+        saveServiciosEnProceso();
+
     }
 
-    private ArrayList<ServicioInicial> getServiciosEnCola()
+    public void saveServiciosEnCola()
     {
-        return (ArrayList<ServicioInicial>) new DAO(DAO.RUTA_SERVICIOSINICIALES).getObjects();
+        new DAO(DAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
+    }
+
+    public void saveServiciosEnProceso()
+    {
+        new DAO(DAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
+    }
+
+    private ArrayList<ServicioInicial> getServicios(String ruta)
+    {
+        return (ArrayList<ServicioInicial>) new DAO(ruta).getObjects();
     }
 
     public void updateAllTables()
@@ -316,7 +417,21 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         TableManager tableManager = new TableManager();
 
         tableManager.setTableItems(vistaPrincipal.getTablaEnCola(), getItemsEnCola());
+
+        tableManager.setTableItems(vistaPrincipal.getTablaEnProceso(), getItemsEnProceso());
+
+        tableManager.setTableItems(vistaPrincipal.getTablaTerminado(), getItemsTerminado());
+
+        revalidateAllTables();
+
+    }
+
+    private void revalidateAllTables()
+    {
+
         vistaPrincipal.getTablaEnCola().getParent().revalidate();
+        vistaPrincipal.getTablaEnProceso().getParent().revalidate();
+        vistaPrincipal.getTablaTerminado().getParent().revalidate();
 
     }
 
@@ -335,8 +450,15 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
             if (clienteNuevo.getClaveCliente() == serviciosEnCola.get(i).getCliente().getClaveCliente())
                 serviciosEnCola.get(i).getCliente().setNombre(clienteNuevo.getNombre());
 
+        saveServiciosEnCola();
+
         updateAllTables();
 
+    }
+
+    public VistaPrincipal getVistaPrincipal()
+    {
+        return vistaPrincipal;
     }
 
 }

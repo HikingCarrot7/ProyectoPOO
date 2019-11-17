@@ -3,6 +3,7 @@ package com.sw.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.Serializable;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -14,8 +15,10 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Mohammed
  */
-public class TableHeaderRenderer implements TableCellRenderer
+public class TableHeaderRenderer implements TableCellRenderer, Serializable
 {
+
+    private static final long serialVersionUID = -6170812323573504404L;
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
@@ -41,8 +44,8 @@ public class TableHeaderRenderer implements TableCellRenderer
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
-        ((JLabel) jcomponent).setSize(30, jcomponent.getWidth());
-        ((JLabel) jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
+        jcomponent.setSize(30, jcomponent.getWidth());
+        jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);

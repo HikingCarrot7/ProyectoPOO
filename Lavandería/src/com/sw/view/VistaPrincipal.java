@@ -3,6 +3,8 @@ package com.sw.view;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -94,7 +96,6 @@ public class VistaPrincipal extends javax.swing.JFrame
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
         utilidades = new javax.swing.JMenu();
-        miscelaneos = new javax.swing.JMenu();
         juegos = new javax.swing.JMenu();
         wave = new javax.swing.JMenuItem();
 
@@ -214,13 +215,12 @@ public class VistaPrincipal extends javax.swing.JFrame
     utilidades.setText("Utilidades");
     menuBar.add(utilidades);
 
-    miscelaneos.setText("Misceláneos");
-    menuBar.add(miscelaneos);
-
     juegos.setText("Juegos");
 
+    wave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/wave.png"))); // NOI18N
     wave.setText("Wave");
     wave.setToolTipText("Wave");
+    wave.setActionCommand("wave");
     juegos.add(wave);
 
     menuBar.add(juegos);
@@ -320,6 +320,16 @@ public class VistaPrincipal extends javax.swing.JFrame
         return verHIstorial;
     }
 
+    public JMenuItem getWave()
+    {
+        return wave;
+    }
+
+    public JTabbedPane getPanelPrincipal()
+    {
+        return panelPrincipal;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -344,7 +354,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JMenu juegos;
     private javax.swing.JLabel logo;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu miscelaneos;
     private javax.swing.JButton nuevoServicio;
     private javax.swing.JTabbedPane panelPrincipal;
     private javax.swing.JScrollPane scrollTablaEnCola;
