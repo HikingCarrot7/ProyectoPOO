@@ -58,7 +58,7 @@ public class NuevoServicioController implements ActionListener
 
         nuevoServicio.getClientes().setRenderer(new ComboRenderer());
         nuevoServicio.getClientes().setModel(loadComboItems());
-        nuevoServicio.getClientes().setMaximumRowCount(5);
+        nuevoServicio.getClientes().setMaximumRowCount(4);
 
     }
 

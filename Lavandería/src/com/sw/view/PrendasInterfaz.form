@@ -82,6 +82,11 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="A&#xf1;adir nueva prenda"/>
         <Property name="actionCommand" type="java.lang.String" value="addPrenda"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder roundedCorners="true" thickness="3"/>
+          </Border>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 80]"/>
         </Property>
@@ -211,6 +216,11 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Editar prenda"/>
         <Property name="actionCommand" type="java.lang.String" value="modificar"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder roundedCorners="true" thickness="3"/>
+          </Border>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 40]"/>
         </Property>

@@ -55,6 +55,23 @@ public class ServicioInicial extends Servicio implements Serializable
         this(cliente, new Temporizador());
     }
 
+    public int getTotalPrendas()
+    {
+
+        int total = 0;
+
+        for (int i = 0; i < prendas.size(); i++)
+            total += prendas.get(i).getCantidad();
+
+        return total;
+
+    }
+
+    public double getPrecioTotal()
+    {
+        return totalKg * 9.5;
+    }
+
     public void anadirPrenda(Prenda prenda)
     {
         prendas.add(prenda);
@@ -94,7 +111,5 @@ public class ServicioInicial extends Servicio implements Serializable
     {
         this.totalKg = totalKg;
     }
-    
-    
 
 }

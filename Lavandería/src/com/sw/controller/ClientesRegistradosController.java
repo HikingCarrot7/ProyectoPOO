@@ -185,26 +185,20 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         else
         {
 
+            DataSorterManager dataSorterManager = new DataSorterManager();
+
             switch (((JComboBox) e.getSource()).getSelectedIndex())
             {
+
                 case 0:
 
-                    clientesRegistrados.sort((c1, c2) ->
-                    {
-
-                        return c1.getNombre().compareTo(c2.getNombre());
-
-                    });
+                    dataSorterManager.ordenarPorNombreClientes(clientesRegistrados);
 
                     break;
 
                 case 1:
 
-                    clientesRegistrados.sort((c1, c2) ->
-                    {
-                        return c1.getnServicios() - c2.getnServicios();
-
-                    });
+                    dataSorterManager.ordenarPorNServiciosClientes(clientesRegistrados);
 
                     break;
 
