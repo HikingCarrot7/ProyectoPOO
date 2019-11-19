@@ -31,9 +31,6 @@ public class Ticket implements Serializable
         this.totalPrecio = totalPrecio;
         this.totalKg = totalKg;
 
-        nombreNegocio = Negocio.NOMBRENEGOCIO;
-        direccionNegocio = Negocio.DIRECCION;
-
     }
 
     public Ticket(String numeroTicket, String nombreCliente, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
@@ -44,9 +41,6 @@ public class Ticket implements Serializable
         this.prendas = prendas;
         this.totalPrecio = totalPrecio;
         this.totalKg = totalKg;
-
-        nombreNegocio = Negocio.NOMBRENEGOCIO;
-        direccionNegocio = Negocio.DIRECCION;
 
     }
 

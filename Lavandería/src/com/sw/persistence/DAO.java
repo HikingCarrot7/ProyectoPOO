@@ -2,11 +2,14 @@ package com.sw.persistence;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -78,6 +81,36 @@ public class DAO
         {
             System.out.println(ex.getMessage());
         }
+
+    }
+
+    public int getClientesRegistrados()
+    {
+
+        if (!file.exists())
+            try
+            {
+                file.createNewFile();
+
+                return 0;
+
+            } catch (IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+
+        else
+            try (Scanner in = new Scanner(new FileReader(file)))
+            {
+
+                return in.nextInt();
+
+            } catch (FileNotFoundException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+
+        return 0;
 
     }
 

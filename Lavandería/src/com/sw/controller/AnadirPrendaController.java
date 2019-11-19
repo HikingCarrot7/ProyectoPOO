@@ -27,7 +27,7 @@ public class AnadirPrendaController implements ActionListener
 
         textFieldListeners = new TextFieldListener[2];
 
-        textFieldListeners[0] = new TextFieldListener("^[á-úÁ-Úa-zA-Z0-9 _-]+$", anadirPrendaInterfaz.getPrenda());
+        textFieldListeners[0] = new TextFieldListener("^[á-úÁ-Úa-zA-Z0-9 ,_-]+$", anadirPrendaInterfaz.getPrenda());
         textFieldListeners[1] = new TextFieldListener("^[1-90*]+$", anadirPrendaInterfaz.getCantidad());
 
         anadirPrendaInterfaz.getPrenda().getDocument().addDocumentListener(textFieldListeners[0]);
@@ -55,7 +55,8 @@ public class AnadirPrendaController implements ActionListener
         else
             prendasController.modificarPrenda(prendaAModificar, getPrenda());
 
-        anadirPrendaInterfaz.dispose();
+        if (todosLosCampoValidos())
+            anadirPrendaInterfaz.dispose();
 
     }
 

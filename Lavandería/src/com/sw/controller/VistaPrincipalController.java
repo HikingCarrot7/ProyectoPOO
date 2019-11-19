@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.game.src.main.Game;
 import com.sw.model.Cliente;
 import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
@@ -21,6 +22,7 @@ import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -452,6 +454,9 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         else if (e.getSource() instanceof JComboBox)
             ordernarPor(e);
 
+        else if (e.getSource() instanceof JMenuItem)
+            Game.main(null);
+
     }
 
     private void ordernarPor(ActionEvent e)
@@ -548,6 +553,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     private Object[][] getItemsTerminado()
     {
+
         if (serviciosTerminados.isEmpty())
             return new Object[1][7];
 
