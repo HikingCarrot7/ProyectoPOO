@@ -1,13 +1,8 @@
 package com.sw.model;
 
 import com.sw.persistence.DAO;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *
@@ -25,32 +20,7 @@ public class Cliente extends Persona implements Serializable
 
     static
     {
-
-        File file = new File(DAO.RUTA_CLAVECLIENTES);
-
-        if (!file.exists())
-            try
-            {
-                file.createNewFile();
-
-                clave = 0;
-
-            } catch (IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-
-        else
-            try (Scanner in = new Scanner(new FileReader(new File(DAO.RUTA_CLAVECLIENTES))))
-            {
-
-                clave = in.nextInt();
-
-            } catch (FileNotFoundException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-
+        clave = new DAO(DAO.RUTA_CLAVECLIENTES).getClientesRegistrados();
     }
 
     public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios, ArrayList<Historial> historiales)

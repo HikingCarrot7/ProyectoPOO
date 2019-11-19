@@ -116,7 +116,7 @@ public class NuevoServicio extends javax.swing.JFrame
         tiempoEstimadoLabel.setText("Tiempo estimado:");
         getContentPane().add(tiempoEstimadoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
-        horas.setModel(new javax.swing.SpinnerNumberModel(1, 0, 23, 1));
+        horas.setModel(new javax.swing.SpinnerNumberModel(1, 0, 96, 1));
         horas.setToolTipText("Horas");
         horas.setMaximumSize(new java.awt.Dimension(35, 20));
         horas.setMinimumSize(new java.awt.Dimension(35, 20));
