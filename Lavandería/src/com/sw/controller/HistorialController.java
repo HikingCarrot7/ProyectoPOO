@@ -121,7 +121,7 @@ public class HistorialController extends MouseAdapter implements ActionListener
         {
 
             items[i][0] = historiales.get(i).getCliente().getNombre();
-            items[i][2] = String.valueOf(historiales.get(i).getFecha()); //revisar
+            items[i][2] = String.format("%tF", historiales.get(i).getFecha());
             items[i][3] = String.format("$%,.2f", historiales.get(i).getPrecioTotal());
 
         }

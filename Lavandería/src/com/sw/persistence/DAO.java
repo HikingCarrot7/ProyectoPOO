@@ -31,20 +31,22 @@ public class DAO
     public static final String RUTA_SERVICIOSTERMINADOS = "res/ServiciosTerminados.txt";
 
     private final File file;
-    private ArrayList<?> objects;
 
     public DAO(String ruta)
     {
 
         file = new File(ruta);
 
-        if (file.exists())
-            loadObjects();
-
-        else
+        if (!file.exists())
             try
             {
+
                 file.createNewFile();
+
+                try (Formatter out = new Formatter(new FileWriter(file, false)))
+                {
+                    out.format("%s", "0");
+                }
 
             } catch (IOException ex)
             {
@@ -53,7 +55,7 @@ public class DAO
 
     }
 
-    private void loadObjects()
+    public ArrayList<?> getObjects()
     {
 
         try
@@ -61,13 +63,15 @@ public class DAO
 
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)))
             {
-                objects = (ArrayList<?>) in.readObject();
+                return (ArrayList<?>) in.readObject();
             }
 
         } catch (IOException | ClassNotFoundException ex)
         {
             System.out.println(ex.getMessage());
         }
+
+        return new ArrayList<>();
 
     }
 
@@ -92,34 +96,15 @@ public class DAO
     public int getClaves()
     {
 
-        if (!file.exists())
-            try
-            {
+        try (Scanner in = new Scanner(new FileReader(file)))
+        {
 
-                file.createNewFile();
+            return in.nextInt();
 
-                try (Formatter out = new Formatter(new FileWriter(file, false)))
-                {
-                    out.format("%s", "0");
-                }
-
-                return 0;
-
-            } catch (IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-
-        else
-            try (Scanner in = new Scanner(new FileReader(file)))
-            {
-
-                return in.nextInt();
-
-            } catch (FileNotFoundException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
+        } catch (FileNotFoundException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
 
         return 0;
 
@@ -138,11 +123,6 @@ public class DAO
             System.out.println(ex.getMessage());
         }
 
-    }
-
-    public ArrayList<?> getObjects()
-    {
-        return objects != null ? objects : new ArrayList<>();
     }
 
 }
