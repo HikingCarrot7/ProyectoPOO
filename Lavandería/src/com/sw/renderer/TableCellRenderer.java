@@ -28,7 +28,13 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : table.getColumnCount() == 2 ? 370 : 255);
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325
+                : table.getWidth() == 913 ? 280
+                : table.getColumnCount() == 2 ? 370
+                : table.getColumnCount() == 6 ? 450
+                : table.getColumnCount() == 7 ? 350
+                : table.getColumnCount() == 8 ? 350 : 280);
+
         table.setRowHeight(30);
 
         if (value instanceof JButton)
@@ -51,15 +57,15 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                 case "En cola":
                     switch (column)
                     {
-                        case 1:
+                        case 2:
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
                             return (Component) value;
 
-                        case 4:
+                        case 5:
                             updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
                             return (Component) value;
 
-                        case 5:
+                        case 6:
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
                             return (Component) value;
 
@@ -70,15 +76,15 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                     switch (column)
                     {
 
-                        case 1:
+                        case 2:
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
                             return (Component) value;
 
-                        case 4:
+                        case 5:
                             updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
                             return (Component) value;
 
-                        case 5:
+                        case 6:
                             if (!table.getName().equals("Terminado"))
                                 updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
 
@@ -87,7 +93,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
                             return (Component) value;
 
-                        case 6:
+                        case 7:
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
                             return (Component) value;
 

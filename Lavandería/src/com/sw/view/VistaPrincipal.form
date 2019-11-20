@@ -46,6 +46,7 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1230, 800]"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
@@ -254,7 +255,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/com/src/images/edit.png"/>
         </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Nuevo servicio"/>
+        <Property name="toolTipText" type="java.lang.String" value="Editar servicio"/>
         <Property name="actionCommand" type="java.lang.String" value="Editar"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -273,7 +274,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="1000" y="80" width="-1" height="35"/>
+          <AbsoluteConstraints x="1000" y="40" width="-1" height="35"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -313,7 +314,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="1000" y="40" width="-1" height="-1"/>
+          <AbsoluteConstraints x="1000" y="80" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -341,7 +342,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="1105" y="40" width="-1" height="-1"/>
+          <AbsoluteConstraints x="1105" y="80" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>

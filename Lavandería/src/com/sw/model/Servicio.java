@@ -1,5 +1,6 @@
 package com.sw.model;
 
+import com.sw.persistence.DAO;
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -14,11 +15,21 @@ public abstract class Servicio implements Serializable
 
     private Cliente cliente;
     private Calendar fecha;
+    private static int numeroTickets;
+    private int numeroTicket;
+
+    static
+    {
+        numeroTickets = new DAO(DAO.RUTA_NUMTICKETS).getClaves();
+    }
 
     public Servicio(Cliente cliente, Calendar fecha)
     {
+
         this.cliente = cliente;
         this.fecha = fecha;
+
+        numeroTicket = ++numeroTickets;
 
     }
 
@@ -45,6 +56,16 @@ public abstract class Servicio implements Serializable
     public void setFecha(Calendar fecha)
     {
         this.fecha = fecha;
+    }
+
+    public int getNumeroTicket()
+    {
+        return numeroTicket;
+    }
+
+    public static int getNumeroTickets()
+    {
+        return numeroTickets;
     }
 
 }

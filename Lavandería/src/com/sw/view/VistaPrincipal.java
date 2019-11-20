@@ -107,6 +107,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(1230, 800));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         nuevoServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/nuevo.png"))); // NOI18N
@@ -187,13 +188,13 @@ public class VistaPrincipal extends javax.swing.JFrame
     getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 550, 60));
 
     editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
-    editar.setToolTipText("Nuevo servicio");
+    editar.setToolTipText("Editar servicio");
     editar.setActionCommand("Editar");
     editar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
     editar.setMaximumSize(new java.awt.Dimension(200, 75));
     editar.setMinimumSize(new java.awt.Dimension(200, 75));
     editar.setPreferredSize(new java.awt.Dimension(200, 100));
-    getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, -1, 35));
+    getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 40, -1, 35));
 
     logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
@@ -205,7 +206,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
     verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));
     verHIstorial.setPreferredSize(new java.awt.Dimension(95, 35));
-    getContentPane().add(verHIstorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 40, -1, -1));
+    getContentPane().add(verHIstorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, -1, -1));
 
     verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
     verClientes.setToolTipText("Ver clientes");
@@ -214,7 +215,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
     verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
     verClientes.setPreferredSize(new java.awt.Dimension(95, 35));
-    getContentPane().add(verClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1105, 40, -1, -1));
+    getContentPane().add(verClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1105, 80, -1, -1));
 
     ordenarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
     ordenarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

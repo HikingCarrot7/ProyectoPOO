@@ -134,7 +134,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
         }, prendasInterfaz.getEliminar()), new String[]
         {
 
-            "Prenda", "Tipo de prenda", "Cantidad (piezas)", "Eliminar"
+            "Prenda", "Tipo de prenda", "Cantidad", "Eliminar"
 
         }));
 
@@ -297,10 +297,13 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     private int getNumTotalPrendas()
     {
+
         int nTotal = 0;
 
         for (int i = 0; i < getPrendas().size(); i++)
             nTotal += getPrendas().get(i).getCantidad();
+
+        nuevoServicioController.setNTotalPrendas(nTotal);
 
         return nTotal;
 
@@ -385,7 +388,8 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
                 if (valido && nuevoServicioController != null)
                     nuevoServicioController.setTotalKg(Double.parseDouble(totalKg.getText()));
-                else
+
+                else if (valido)
                     servicioInicial.setTotalKg(Double.parseDouble(totalKg.getText()));
 
                 if (vistaPrincipalController != null)

@@ -12,49 +12,33 @@ public class Ticket implements Serializable
 
     private static final long serialVersionUID = 6162162262623189765L;
 
-    private String numeroTicket;
     private String nombreCliente;
     private String nombreNegocio;
-    private String nombreEncargado;
     private String direccionNegocio;
     private ArrayList<Prenda> prendas;
-    private double totalPrecio;
+    private int numeroTicket;
+    private int totalPiezas;
+    private double precioTotal;
     private double totalKg;
 
-    public Ticket(String numeroTicket, String nombreCliente, String nombreEncargado, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
-    {
-
-        this.numeroTicket = numeroTicket;
-        this.nombreCliente = nombreCliente;
-        this.nombreEncargado = nombreEncargado;
-        this.prendas = prendas;
-        this.totalPrecio = totalPrecio;
-        this.totalKg = totalKg;
-
-    }
-
-    public Ticket(String numeroTicket, String nombreCliente, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
+    public Ticket(int numeroTicket, String nombreCliente, ArrayList<Prenda> prendas, int totalPiezas, double precioTotal, double totalKg)
     {
 
         this.numeroTicket = numeroTicket;
         this.nombreCliente = nombreCliente;
         this.prendas = prendas;
-        this.totalPrecio = totalPrecio;
+        this.totalPiezas = totalPiezas;
+        this.precioTotal = precioTotal;
         this.totalKg = totalKg;
 
     }
 
-    public void generarTicket()
-    {
-
-    }
-
-    public String getNumeroTicket()
+    public int getNumeroTicket()
     {
         return numeroTicket;
     }
 
-    public void setNumeroTicket(String numeroTicket)
+    public void setNumeroTicket(int numeroTicket)
     {
         this.numeroTicket = numeroTicket;
     }
@@ -79,16 +63,6 @@ public class Ticket implements Serializable
         this.nombreNegocio = nombreNegocio;
     }
 
-    public String getNombreEncargado()
-    {
-        return nombreEncargado;
-    }
-
-    public void setNombreEncargado(String nombreEncargado)
-    {
-        this.nombreEncargado = nombreEncargado;
-    }
-
     public String getDireccionNegocio()
     {
         return direccionNegocio;
@@ -109,14 +83,24 @@ public class Ticket implements Serializable
         this.prendas = prendas;
     }
 
-    public double getTotalPrecio()
+    public int getTotalPiezas()
     {
-        return totalPrecio;
+        return totalPiezas;
+    }
+
+    public void setTotalPiezas(int totalPiezas)
+    {
+        this.totalPiezas = totalPiezas;
+    }
+
+    public double getPrecioTotal()
+    {
+        return precioTotal;
     }
 
     public void setTotalPrecio(double totalPrecio)
     {
-        this.totalPrecio = totalPrecio;
+        this.precioTotal = totalPrecio;
     }
 
     public double getTotalKg()

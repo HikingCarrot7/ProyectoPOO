@@ -20,7 +20,7 @@ public class Cliente extends Persona implements Serializable
 
     static
     {
-        clave = new DAO(DAO.RUTA_CLAVECLIENTES).getClientesRegistrados();
+        clave = new DAO(DAO.RUTA_CLAVECLIENTES).getClaves();
     }
 
     public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios, ArrayList<Historial> historiales)
@@ -85,7 +85,7 @@ public class Cliente extends Persona implements Serializable
         this.claveCliente = claveCliente;
     }
 
-    public static int getClave()
+    public static int getClaves()
     {
         return clave;
     }

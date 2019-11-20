@@ -2,23 +2,23 @@ package com.sw.controller;
 
 import com.sw.model.Cliente;
 import com.sw.model.Prenda;
+import com.sw.model.Servicio;
 import com.sw.model.ServicioInicial;
+import com.sw.model.Ticket;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
+import com.sw.renderer.ComboRenderer.ComboItem;
 import com.sw.utilities.Temporizador;
 import com.sw.utilities.Time;
 import com.sw.utilities.Utilities;
 import com.sw.view.NuevoCliente;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
+import com.sw.view.TicketInterfaz;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -33,6 +33,7 @@ public class NuevoServicioController implements ActionListener
     private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientes;
     private ArrayList<Prenda> prendas;
+    private int nTotalPrendas;
     private double totalKg;
 
     public NuevoServicioController(NuevoServicio nuevoServicio, VistaPrincipalController vistaPrincipalController)
@@ -48,6 +49,7 @@ public class NuevoServicioController implements ActionListener
         nuevoServicio.getAddCliente().addActionListener(this);
         nuevoServicio.getAnadirPrendas().addActionListener(this);
         nuevoServicio.getOk().addActionListener(this);
+        nuevoServicio.getVerTicket().addActionListener(this);
 
         nuevoServicio.getClientes().addActionListener(this);
 
@@ -131,10 +133,40 @@ public class NuevoServicioController implements ActionListener
                             getPrendas(),
                             getTotalKg()));
 
+                    saveClaveNumTickets();
+
                     nuevoServicio.dispose();
 
                 } else
                     JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
+
+                break;
+
+            case "verTicket":
+
+                if (prendas != null && !prendas.isEmpty() && getTotalKg() != 0)
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        TicketInterfaz ticketInterfaz = new TicketInterfaz();
+
+                        ticketInterfaz.setVisible(true);
+                        ticketInterfaz.setLocationRelativeTo(null);
+
+                        new VerTicketController(ticketInterfaz, new Ticket(Servicio.getNumeroTickets() + 1,
+                                ((ComboItem) nuevoServicio.getClientes().getSelectedItem()).getText(),
+                                prendas,
+                                getNTotalPrendas(),
+                                getTotalKg() * 9.5,
+                                getTotalKg())).mostrarTicket();
+
+                    });
+
+                else
+                    JOptionPane.showMessageDialog(nuevoServicio,
+                            "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0",
+                            "Datos inválidos",
+                            JOptionPane.ERROR_MESSAGE);
 
                 break;
 
@@ -218,20 +250,28 @@ public class NuevoServicioController implements ActionListener
         this.totalKg = totalKg;
     }
 
+    public void setNTotalPrendas(int nTotalPrendas)
+    {
+        this.nTotalPrendas = nTotalPrendas;
+    }
+
+    private int getNTotalPrendas()
+    {
+        return nTotalPrendas;
+    }
+
     private void saveClientes()
     {
+
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
 
-        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
-        {
+        new DAO(DAO.RUTA_CLAVECLIENTES).saveClaves(Cliente.getClaves());
 
-            out.format("%s", Cliente.getClave());
+    }
 
-        } catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-
+    private void saveClaveNumTickets()
+    {
+        new DAO(DAO.RUTA_NUMTICKETS).saveClaves(Servicio.getNumeroTickets());
     }
 
     private ArrayList<Cliente> obtenerClientes()
