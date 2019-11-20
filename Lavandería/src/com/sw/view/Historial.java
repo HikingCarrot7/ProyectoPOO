@@ -25,6 +25,11 @@ public class Historial extends javax.swing.JFrame
 
     }
 
+    private void initWindow()
+    {
+
+    }
+
     private void initMyComponents()
     {
 

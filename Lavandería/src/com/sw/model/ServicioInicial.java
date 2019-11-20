@@ -16,6 +16,7 @@ public class ServicioInicial extends Servicio implements Serializable
 
     private ArrayList<Prenda> prendas;
     private Temporizador tiempoEstimado;
+    private boolean ticketGenerado;
     private double totalKg;
 
     public ServicioInicial(Cliente cliente, Calendar fecha, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
@@ -60,16 +61,6 @@ public class ServicioInicial extends Servicio implements Serializable
         return totalKg * 9.5;
     }
 
-    public void anadirPrenda(Prenda prenda)
-    {
-        prendas.add(prenda);
-    }
-
-    public void eliminarPrenda(Prenda prenda)
-    {
-        prendas.remove(prenda);
-    }
-
     public ArrayList<Prenda> getPrendas()
     {
         return prendas;
@@ -98,6 +89,16 @@ public class ServicioInicial extends Servicio implements Serializable
     public void setTotalKg(double totalKg)
     {
         this.totalKg = totalKg;
+    }
+
+    public boolean isTicketGenerado()
+    {
+        return ticketGenerado;
+    }
+
+    public void setTicketGenerado(boolean ticketGenerado)
+    {
+        this.ticketGenerado = ticketGenerado;
     }
 
 }

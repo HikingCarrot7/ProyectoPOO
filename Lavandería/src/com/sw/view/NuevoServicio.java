@@ -3,6 +3,7 @@ package com.sw.view;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 
 /**
@@ -84,7 +85,7 @@ public class NuevoServicio extends javax.swing.JFrame
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/servicioTitle.png"))); // NOI18N
         titleLabel.setText("Nuevo servicio");
-        titleLabel.setToolTipText("Nuevo servicio");
+        titleLabel.setToolTipText("");
         getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 250, -1));
 
         clienteLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -207,6 +208,11 @@ public class NuevoServicio extends javax.swing.JFrame
     public JSpinner getSegundos()
     {
         return segundos;
+    }
+
+    public JLabel getTitleLabel()
+    {
+        return titleLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

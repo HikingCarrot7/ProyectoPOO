@@ -1,13 +1,11 @@
 package com.sw.controller;
 
-import com.game.src.main.Game;
 import com.sw.model.Cliente;
 import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
-import com.sw.view.EditarServicio;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
 import com.sw.view.VistaPrincipal;
@@ -23,7 +21,6 @@ import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -67,26 +64,14 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     private void initMyComponents()
     {
 
-        if (serviciosEnCola.isEmpty())
+        for (int i = serviciosEnCola.isEmpty() ? -1 : 0; i < serviciosEnCola.size(); i++)
             loadBotonesTablaEnCola();
 
-        else
-            for (int i = 0; i < serviciosEnCola.size(); i++)
-                loadBotonesTablaEnCola();
-
-        if (serviciosEnProceso.isEmpty())
+        for (int i = serviciosEnProceso.isEmpty() ? -1 : 0; i < serviciosEnProceso.size(); i++)
             loadBotonesTablaEnProceso();
 
-        else
-            for (int i = 0; i < serviciosEnProceso.size(); i++)
-                loadBotonesTablaEnProceso();
-
-        if (serviciosTerminados.isEmpty())
+        for (int i = serviciosTerminados.isEmpty() ? -1 : 0; i < serviciosTerminados.size(); i++)
             loadBotonesTablaTerminado();
-
-        else
-            for (int i = 0; i < serviciosTerminados.size(); i++)
-                loadBotonesTablaTerminado();
 
         vistaPrincipal.getNuevoServicio().addActionListener(this);
         vistaPrincipal.getVerClientes().addActionListener(this);
@@ -468,12 +453,15 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     if (servicioInicial != null)
                         EventQueue.invokeLater(() ->
                         {
-                            EditarServicio editarServicio = new EditarServicio();
+                            NuevoServicio nuevoServicio = new NuevoServicio();
 
-                            editarServicio.setVisible(true);
-                            editarServicio.setLocationRelativeTo(vistaPrincipal);
+                            nuevoServicio.setVisible(true);
+                            nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
-                            new EditarServicioController(editarServicio, servicioInicial, this);
+                            nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
+                            nuevoServicio.getTitleLabel().setText("Editar servicio");
+
+                            new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicioInicial);
 
                         });
 
@@ -489,9 +477,6 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         else if (e.getSource() instanceof JComboBox)
             ordernarPor(e);
-
-        else if (e.getSource() instanceof JMenuItem)
-            Game.main(null);
 
     }
 

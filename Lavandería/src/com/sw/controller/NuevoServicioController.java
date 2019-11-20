@@ -33,6 +33,8 @@ public class NuevoServicioController implements ActionListener
     private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientes;
     private ArrayList<Prenda> prendas;
+    private ServicioInicial servicioInicial;
+    private boolean editandoServicio;
     private int nTotalPrendas;
     private double totalKg;
 
@@ -125,22 +127,39 @@ public class NuevoServicioController implements ActionListener
 
             case "ok":
 
-                if (!clientes.isEmpty())
+                if (!isEditandoServicio())
+                    if (!clientes.isEmpty())
+                    {
+
+                        vistaPrincipalController.anadirServicioCola(new ServicioInicial(
+                                obtenerClientes().get(nuevoServicio.getClientes().getSelectedIndex()),
+                                Calendar.getInstance(),
+                                getTiempoEstimado(),
+                                getPrendas(),
+                                getTotalKg()));
+
+                        saveClaveNumTickets();
+
+                        nuevoServicio.dispose();
+
+                    } else
+                        JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
+
+                else
                 {
 
-                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(
-                            clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
-                            Calendar.getInstance(),
-                            getTiempoEstimado(),
-                            getPrendas(),
-                            getTotalKg()));
+                    servicioInicial.setCliente(getClientes().get(nuevoServicio.getClientes().getSelectedIndex()));
+                    servicioInicial.setPrendas(getPrendas());
+                    servicioInicial.setTiempoEstimado(getTiempoEstimado());
+                    servicioInicial.setTotalKg(getTotalKg());
 
-                    saveClaveNumTickets();
+                    vistaPrincipalController.updateAllTables();
+
+                    vistaPrincipalController.saveAllServices();
 
                     nuevoServicio.dispose();
 
-                } else
-                    JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
+                }
 
                 break;
 
@@ -158,7 +177,7 @@ public class NuevoServicioController implements ActionListener
                         new VerTicketController(ticketInterfaz,
                                 new Ticket(
                                         Servicio.getNumeroTickets() + 1,
-                                        Calendar.getInstance(),
+                                        isEditandoServicio() ? servicioInicial.getFecha() : Calendar.getInstance(),
                                         getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
                                         prendas,
                                         getNTotalPrendas(),
@@ -213,6 +232,36 @@ public class NuevoServicioController implements ActionListener
         anadirElementoCombo();
 
         saveClientes();
+
+    }
+
+    public void establecerDatosDefecto(ServicioInicial servicioInicial)
+    {
+
+        setEditandoServicio(true);
+
+        this.servicioInicial = servicioInicial;
+        prendas = servicioInicial.getPrendas();
+
+        nuevoServicio.getClientes().setSelectedIndex(getCurrentCliente());
+
+        nuevoServicio.getHoras().setValue(servicioInicial.getTiempoEstimado().getTime().getHours());
+        nuevoServicio.getMinutos().setValue(servicioInicial.getTiempoEstimado().getTime().getMinutes());
+        nuevoServicio.getSegundos().setValue(servicioInicial.getTiempoEstimado().getTime().getSeconds());
+
+        setTotalKg(servicioInicial.getTotalKg());
+        setNTotalPrendas(servicioInicial.getTotalPrendas());
+
+    }
+
+    private int getCurrentCliente()
+    {
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (servicioInicial.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+                return i;
+
+        return -1;
 
     }
 
@@ -287,6 +336,16 @@ public class NuevoServicioController implements ActionListener
     public NuevoServicio getNuevoServicio()
     {
         return nuevoServicio;
+    }
+
+    public boolean isEditandoServicio()
+    {
+        return editandoServicio;
+    }
+
+    public void setEditandoServicio(boolean editandoServicio)
+    {
+        this.editandoServicio = editandoServicio;
     }
 
 }
