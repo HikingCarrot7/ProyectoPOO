@@ -56,9 +56,9 @@ public class TicketInterfaz extends javax.swing.JFrame
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ticket");
         setMaximumSize(new java.awt.Dimension(500, 600));
         setMinimumSize(new java.awt.Dimension(500, 600));
-        setPreferredSize(new java.awt.Dimension(500, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -69,6 +69,7 @@ public class TicketInterfaz extends javax.swing.JFrame
 
         verTicket.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         verTicket.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        verTicket.setFocusable(false);
         panelPrincipal.setViewportView(verTicket);
 
         getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

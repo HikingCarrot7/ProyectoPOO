@@ -29,30 +29,18 @@ public class ServicioInicial extends Servicio implements Serializable
 
     }
 
-    public ServicioInicial(Cliente cliente, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
+    public Ticket getTicket()
     {
 
-        super(cliente);
+        return new Ticket(
+                getNumeroTicket(),
+                getFecha(),
+                getCliente().getNombre(),
+                getPrendas(),
+                getTotalPrendas(),
+                getPrecioTotal(),
+                getTotalKg());
 
-        this.prendas = prendas;
-        this.tiempoEstimado = tiempoEstimado;
-        this.totalKg = totalKg;
-
-    }
-
-    public ServicioInicial(Cliente cliente, ArrayList<Prenda> prendas, double totalKg)
-    {
-        this(cliente, new Temporizador(), prendas, totalKg);
-    }
-
-    public ServicioInicial(Cliente cliente, Temporizador temporizador)
-    {
-        this(cliente, temporizador, new ArrayList<>(), 0);
-    }
-
-    public ServicioInicial(Cliente cliente)
-    {
-        this(cliente, new Temporizador());
     }
 
     public int getTotalPrendas()

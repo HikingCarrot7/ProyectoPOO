@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -140,6 +141,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     scrollTablaEnCola.setViewportView(enCola);
 
     panelPrincipal.addTab("En cola", new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fila.png")), scrollTablaEnCola, "Conjunto de prendas que está en la cola."); // NOI18N
+    scrollTablaEnCola.getAccessibleContext().setAccessibleName("");
 
     scrollTablaEnProceso.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -177,6 +179,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     panelPrincipal.addTab("Terminado", new javax.swing.ImageIcon(getClass().getResource("/com/src/images/terminado.png")), scrollTablaTerminado, "Conjunto de prendas listas para empaquetar."); // NOI18N
 
     getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1210, 676));
+    panelPrincipal.getAccessibleContext().setAccessibleName("panelPrincipal");
 
     buscar.setToolTipText("Buscar cliente");
     buscar.setAlignmentX(0.0F);
@@ -348,6 +351,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return verHIstorial;
     }
 
+    public JButton getEditar()
+    {
+        return editar;
+    }
+
     public JMenuItem getWave()
     {
         return wave;
@@ -361,6 +369,21 @@ public class VistaPrincipal extends javax.swing.JFrame
     public JComboBox<ComboItem> getOrdenarPor()
     {
         return ordenarPor;
+    }
+
+    public JScrollPane getScrollTablaEnCola()
+    {
+        return scrollTablaEnCola;
+    }
+
+    public JScrollPane getScrollTablaEnProceso()
+    {
+        return scrollTablaEnProceso;
+    }
+
+    public JScrollPane getScrollTablaTerminado()
+    {
+        return scrollTablaTerminado;
     }
 
     private ArrayList<JButton> verPrendasEnCola;

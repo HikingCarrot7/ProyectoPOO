@@ -33,11 +33,6 @@ public abstract class Servicio implements Serializable
 
     }
 
-    public Servicio(Cliente cliente)
-    {
-        this(cliente, Calendar.getInstance());
-    }
-
     public Cliente getCliente()
     {
         return cliente;

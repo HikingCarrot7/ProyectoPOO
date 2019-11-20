@@ -2,6 +2,7 @@ package com.sw.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
@@ -16,18 +17,20 @@ public class Ticket implements Serializable
     private String nombreNegocio;
     private String direccionNegocio;
     private ArrayList<Prenda> prendas;
+    private Calendar fecha;
     private int numeroTicket;
-    private int totalPiezas;
+    private int totalPrendas;
     private double precioTotal;
     private double totalKg;
 
-    public Ticket(int numeroTicket, String nombreCliente, ArrayList<Prenda> prendas, int totalPiezas, double precioTotal, double totalKg)
+    public Ticket(int numeroTicket, Calendar fecha, String nombreCliente, ArrayList<Prenda> prendas, int totalPrendas, double precioTotal, double totalKg)
     {
 
         this.numeroTicket = numeroTicket;
+        this.fecha = fecha;
         this.nombreCliente = nombreCliente;
         this.prendas = prendas;
-        this.totalPiezas = totalPiezas;
+        this.totalPrendas = totalPrendas;
         this.precioTotal = precioTotal;
         this.totalKg = totalKg;
 
@@ -41,6 +44,16 @@ public class Ticket implements Serializable
     public void setNumeroTicket(int numeroTicket)
     {
         this.numeroTicket = numeroTicket;
+    }
+
+    public Calendar getFecha()
+    {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha)
+    {
+        this.fecha = fecha;
     }
 
     public String getNombreCliente()
@@ -83,14 +96,14 @@ public class Ticket implements Serializable
         this.prendas = prendas;
     }
 
-    public int getTotalPiezas()
+    public int getTotalPrendas()
     {
-        return totalPiezas;
+        return totalPrendas;
     }
 
-    public void setTotalPiezas(int totalPiezas)
+    public void setTotalPrendas(int totalPiezas)
     {
-        this.totalPiezas = totalPiezas;
+        this.totalPrendas = totalPiezas;
     }
 
     public double getPrecioTotal()

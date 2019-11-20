@@ -277,7 +277,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
         {
 
             servicioInicial.setPrendas(getPrendas());
-            vistaPrincipalController.saveServiciosEnCola();
+            vistaPrincipalController.saveAllServices();
 
         }
 
@@ -303,7 +303,8 @@ public class PrendasController extends MouseAdapter implements ActionListener
         for (int i = 0; i < getPrendas().size(); i++)
             nTotal += getPrendas().get(i).getCantidad();
 
-        nuevoServicioController.setNTotalPrendas(nTotal);
+        if (nuevoServicioController != null)
+            nuevoServicioController.setNTotalPrendas(nTotal);
 
         return nTotal;
 

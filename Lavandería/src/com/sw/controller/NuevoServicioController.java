@@ -7,7 +7,6 @@ import com.sw.model.ServicioInicial;
 import com.sw.model.Ticket;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
-import com.sw.renderer.ComboRenderer.ComboItem;
 import com.sw.utilities.Temporizador;
 import com.sw.utilities.Time;
 import com.sw.utilities.Utilities;
@@ -19,6 +18,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -128,7 +128,9 @@ public class NuevoServicioController implements ActionListener
                 if (!clientes.isEmpty())
                 {
 
-                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
+                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(
+                            clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
+                            Calendar.getInstance(),
                             getTiempoEstimado(),
                             getPrendas(),
                             getTotalKg()));
@@ -153,12 +155,15 @@ public class NuevoServicioController implements ActionListener
                         ticketInterfaz.setVisible(true);
                         ticketInterfaz.setLocationRelativeTo(null);
 
-                        new VerTicketController(ticketInterfaz, new Ticket(Servicio.getNumeroTickets() + 1,
-                                ((ComboItem) nuevoServicio.getClientes().getSelectedItem()).getText(),
-                                prendas,
-                                getNTotalPrendas(),
-                                getTotalKg() * 9.5,
-                                getTotalKg())).mostrarTicket();
+                        new VerTicketController(ticketInterfaz,
+                                new Ticket(
+                                        Servicio.getNumeroTickets() + 1,
+                                        Calendar.getInstance(),
+                                        getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
+                                        prendas,
+                                        getNTotalPrendas(),
+                                        getTotalKg() * 9.5,
+                                        getTotalKg())).mostrarTicket();
 
                     });
 

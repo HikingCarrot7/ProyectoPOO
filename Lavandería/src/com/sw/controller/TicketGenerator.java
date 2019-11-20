@@ -1,7 +1,6 @@
 package com.sw.controller;
 
 import com.sw.model.Ticket;
-import java.util.Calendar;
 
 /**
  *
@@ -26,13 +25,13 @@ public class TicketGenerator
 
         textoTicket += String.format("%s%3$s%s%3$s%3$s", centrarLinea("Lavandería."), centrarLinea("Las burbujas mágicas."), lineSeparator);
 
-        textoTicket += String.format("%s%s", centrarLinea("Cliente : " + ticket.getNombreCliente()), lineSeparator);
+        textoTicket += String.format("%s%s", centrarLinea("Cliente : " + ticket.getNombreCliente().toUpperCase()), lineSeparator);
 
         textoTicket += centrarLinea("Teléfono : 9992676253");
 
         textoTicket += String.format("%3$s%s%3$s%s%3$s%3$s", centrarLinea("Avenida constitución, 25"), centrarLinea("02520 - Chinchilla de Monte Aragón"), lineSeparator);
 
-        textoTicket += String.format("%1$tA, %1$tB %1$td, %1$tY%2$s%tr%s", Calendar.getInstance(), lineSeparator);
+        textoTicket += String.format("%1$tA, %1$tB %1$td, %1$tY%2$s%tr%s", ticket.getFecha(), lineSeparator);
 
         textoTicket += String.format("%-10s%03d%s", "Ticket N°", ticket.getNumeroTicket(), lineSeparator);
 
@@ -42,11 +41,11 @@ public class TicketGenerator
 
         textoTicket += getSeparador();
 
-        textoTicket += getDesglocePrendas();
+        textoTicket += getDesglosePrendas();
 
         textoTicket += getSeparador();
 
-        textoTicket += alinearDerechaLinea(12, "Cantidad de prendas :") + String.format("%12d", ticket.getTotalPiezas()) + lineSeparator;
+        textoTicket += alinearDerechaLinea(12, "Cantidad de prendas :") + String.format("%12d", ticket.getTotalPrendas()) + lineSeparator;
 
         textoTicket += alinearDerechaLinea(12, "Total de kg :") + String.format("%12.2f", ticket.getTotalKg()) + lineSeparator;
 
@@ -135,7 +134,7 @@ public class TicketGenerator
 
     }
 
-    private String getDesglocePrendas()
+    private String getDesglosePrendas()
     {
 
         String temp = "";
