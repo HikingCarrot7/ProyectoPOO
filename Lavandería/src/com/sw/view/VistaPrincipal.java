@@ -205,6 +205,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     verHIstorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historial.png"))); // NOI18N
     verHIstorial.setToolTipText("Ver historial");
+    verHIstorial.setActionCommand("Historial");
     verHIstorial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
     verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
     verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));

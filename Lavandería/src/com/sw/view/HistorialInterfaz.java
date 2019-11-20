@@ -1,8 +1,6 @@
 package com.sw.view;
 
-import com.sw.controller.HistorialController;
 import com.sw.renderer.ComboRenderer.ComboItem;
-import com.sw.utilities.Utilities;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,37 +10,48 @@ import javax.swing.JTable;
  *
  * @author Mohammed
  */
-public class Historial extends javax.swing.JFrame
+public class HistorialInterfaz extends javax.swing.JFrame
 {
 
-    public Historial()
+    public HistorialInterfaz()
     {
         initMyComponents();
 
         initComponents();
-
-        new HistorialController(this);
 
     }
 
     private void initWindow()
     {
 
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
+
     }
 
     private void initMyComponents()
     {
 
-        eliminar = new ArrayList<>();
         verPrendas = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++)
-        {
-
-            eliminar.add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-            verPrendas.add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-
-        }
+        verTicket = new ArrayList<>();
+        eliminar = new ArrayList<>();
 
     }
 
@@ -62,7 +71,7 @@ public class Historial extends javax.swing.JFrame
         logoLabel = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(915, 720));
         setMinimumSize(new java.awt.Dimension(915, 720));
         setPreferredSize(new java.awt.Dimension(915, 720));
@@ -113,17 +122,22 @@ public class Historial extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public ArrayList<JButton> getEliminar()
-    {
-        return eliminar;
-    }
-
     public ArrayList<JButton> getVerPrendas()
     {
         return verPrendas;
     }
 
-    public JTable getHistorial()
+    public ArrayList<JButton> getEliminar()
+    {
+        return eliminar;
+    }
+
+    public ArrayList<JButton> getVerTicket()
+    {
+        return verTicket;
+    }
+
+    public JTable getTablaHistorial()
     {
         return historial;
     }
@@ -133,48 +147,9 @@ public class Historial extends javax.swing.JFrame
         return ordenarPor;
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(Historial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-            Historial historial = new Historial();
-
-            historial.setVisible(true);
-            historial.setLocationRelativeTo(null);
-
-        });
-
-    }
-
-    private ArrayList<JButton> eliminar;
     private ArrayList<JButton> verPrendas;
+    private ArrayList<JButton> verTicket;
+    private ArrayList<JButton> eliminar;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;

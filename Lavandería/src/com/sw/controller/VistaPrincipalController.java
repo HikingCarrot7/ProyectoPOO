@@ -1,11 +1,13 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
+import com.sw.model.Historial;
 import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
+import com.sw.view.HistorialInterfaz;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
 import com.sw.view.VistaPrincipal;
@@ -16,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
@@ -74,8 +77,9 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
             loadBotonesTablaTerminado();
 
         vistaPrincipal.getNuevoServicio().addActionListener(this);
-        vistaPrincipal.getVerClientes().addActionListener(this);
         vistaPrincipal.getEditar().addActionListener(this);
+        vistaPrincipal.getVerClientes().addActionListener(this);
+        vistaPrincipal.getVerHIstorial().addActionListener(this);
 
         vistaPrincipal.getPanelPrincipal().addMouseListener(this);
 
@@ -386,7 +390,29 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
             } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 6))
             {
 
-                //Aquí debe de ir algo...
+                ServicioInicial servicioInicial = serviciosTerminados.get(table.getSelectedRow());
+
+                if (!servicioInicial.getPrendas().isEmpty() && servicioInicial.getTotalKg() != 0)
+                {
+
+                    HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                    new HistorialController(historialInterfaz).anadirHistorial(new Historial(
+                            servicioInicial.getCliente(),
+                            servicioInicial.getPrendas(),
+                            Calendar.getInstance(),
+                            servicioInicial.getTotalKg(),
+                            servicioInicial.getPrecioTotal()));
+
+                    servicioInicial.setTicketGenerado(true);
+                    historialInterfaz.dispose();
+
+                } else
+                    JOptionPane.showMessageDialog(vistaPrincipal,
+                            "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0",
+                            "Datos inválidos",
+                            JOptionPane.ERROR_MESSAGE);
+
             } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 7))
                 switch (mostrarConfirmacion("Confirmar acción", "No podrá generar el ticket para este servicio. ¿Continuar?"))
                 {
@@ -467,6 +493,22 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
                     else
                         mostrarError("Error", "No ha seleccionado ninguna fila o aún no hay servicios en esta tabla");
+
+                    break;
+
+                case "Historial":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                        historialInterfaz.setVisible(true);
+                        historialInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        new HistorialController(historialInterfaz);
+
+                    });
 
                     break;
 

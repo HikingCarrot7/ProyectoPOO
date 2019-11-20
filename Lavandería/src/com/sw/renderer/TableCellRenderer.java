@@ -42,34 +42,61 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
             {
 
                 case "Clientes":
+
                     updateIcon(((JButton) value), table, 5, "/com/src/images/historialSelected.png", "/com/src/images/historial.png");
                     return (Component) value;
 
                 case "Prendas":
+
+                    updateIcon(((JButton) value), table, 3, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    return (Component) value;
+
                 case "Historial":
 
-                    updateIcon(((JButton) value), table, column == 1 ? 1 : table.getName().equals("Historial") ? 5 : 3,
-                            column == 1 ? "/com/src/images/tshirtSelected.png" : "/com/src/images/deleteSelected.png",
-                            column == 1 ? "/com/src/images/tshirt.png" : "/com/src/images/delete.png");
+                    switch (column)
+                    {
+
+                        case 1:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
+
+                        case 4:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
+                            break;
+
+                        case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    }
 
                     return (Component) value;
 
                 case "En cola":
                     switch (column)
                     {
+
                         case 2:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (Component) value;
+                            break;
 
                         case 5:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
-                            return (Component) value;
+                            break;
 
                         case 6:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (Component) value;
+                            break;
 
                     }
+
+                    return (Component) value;
 
                 case "Terminado":
                 case "En proceso":
@@ -77,27 +104,32 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                     {
 
                         case 2:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (Component) value;
+                            break;
 
                         case 5:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
-                            return (Component) value;
+                            break;
 
                         case 6:
+
                             if (!table.getName().equals("Terminado"))
                                 updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
 
                             else
                                 updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
 
-                            return (Component) value;
+                            break;
 
                         case 7:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (Component) value;
 
                     }
+
+                    return (Component) value;
 
                 case "Tipos prenda":
                     updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");

@@ -21,6 +21,7 @@ public class DAO
 {
 
     public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
+    public static final String RUTA_HISTORIALES = "res/Historiales.txt";
 
     public static final String RUTA_CLAVECLIENTES = "res/ClaveCliente.txt";
     public static final String RUTA_NUMTICKETS = "res/NumTickets.txt";
