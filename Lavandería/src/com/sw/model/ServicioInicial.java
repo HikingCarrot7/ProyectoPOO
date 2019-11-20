@@ -16,6 +16,7 @@ public class ServicioInicial extends Servicio implements Serializable
 
     private ArrayList<Prenda> prendas;
     private Temporizador tiempoEstimado;
+    private boolean ticketGenerado;
     private double totalKg;
 
     public ServicioInicial(Cliente cliente, Calendar fecha, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
@@ -29,40 +30,35 @@ public class ServicioInicial extends Servicio implements Serializable
 
     }
 
-    public ServicioInicial(Cliente cliente, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg)
+    public Ticket getTicket()
     {
 
-        super(cliente);
-
-        this.prendas = prendas;
-        this.tiempoEstimado = tiempoEstimado;
-        this.totalKg = totalKg;
+        return new Ticket(
+                getNumeroTicket(),
+                getFecha(),
+                getCliente().getNombre(),
+                getPrendas(),
+                getTotalPrendas(),
+                getPrecioTotal(),
+                getTotalKg());
 
     }
 
-    public ServicioInicial(Cliente cliente, ArrayList<Prenda> prendas, double totalKg)
+    public int getTotalPrendas()
     {
-        this(cliente, new Temporizador(), prendas, totalKg);
+
+        int total = 0;
+
+        for (int i = 0; i < prendas.size(); i++)
+            total += prendas.get(i).getCantidad();
+
+        return total;
+
     }
 
-    public ServicioInicial(Cliente cliente, Temporizador temporizador)
+    public double getPrecioTotal()
     {
-        this(cliente, temporizador, new ArrayList<>(), 0);
-    }
-
-    public ServicioInicial(Cliente cliente)
-    {
-        this(cliente, new Temporizador());
-    }
-
-    public void anadirPrenda(Prenda prenda)
-    {
-        prendas.add(prenda);
-    }
-
-    public void eliminarPrenda(Prenda prenda)
-    {
-        prendas.remove(prenda);
+        return totalKg * 9.5;
     }
 
     public ArrayList<Prenda> getPrendas()
@@ -94,7 +90,15 @@ public class ServicioInicial extends Servicio implements Serializable
     {
         this.totalKg = totalKg;
     }
-    
-    
+
+    public boolean isTicketGenerado()
+    {
+        return ticketGenerado;
+    }
+
+    public void setTicketGenerado(boolean ticketGenerado)
+    {
+        this.ticketGenerado = ticketGenerado;
+    }
 
 }

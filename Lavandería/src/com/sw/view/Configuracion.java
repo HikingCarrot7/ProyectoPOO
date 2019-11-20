@@ -29,6 +29,8 @@ public class Configuracion extends javax.swing.JFrame
         colorLabel = new javax.swing.JLabel();
         colorChooser = new javax.swing.JButton();
         ok = new javax.swing.JButton();
+        ordenarPor = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,14 +71,14 @@ public class Configuracion extends javax.swing.JFrame
         tiposLabel.setMaximumSize(new java.awt.Dimension(140, 30));
         tiposLabel.setMinimumSize(new java.awt.Dimension(140, 30));
         tiposLabel.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(tiposLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 170, -1));
+        getContentPane().add(tiposLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 170, -1));
 
         tiposPrendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
         tiposPrendas.setToolTipText("Añadir tipos de prendas");
         tiposPrendas.setMaximumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setMinimumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(tiposPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, -1));
+        getContentPane().add(tiposPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, -1, -1));
 
         colorLabel.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         colorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -84,19 +86,33 @@ public class Configuracion extends javax.swing.JFrame
         colorLabel.setMaximumSize(new java.awt.Dimension(140, 30));
         colorLabel.setMinimumSize(new java.awt.Dimension(140, 30));
         colorLabel.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(colorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
+        getContentPane().add(colorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 170, -1));
 
         colorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/color.png"))); // NOI18N
         colorChooser.setMaximumSize(new java.awt.Dimension(90, 40));
         colorChooser.setMinimumSize(new java.awt.Dimension(90, 40));
         colorChooser.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
+        getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, -1, -1));
 
         ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
         ok.setMaximumSize(new java.awt.Dimension(90, 40));
         ok.setMinimumSize(new java.awt.Dimension(90, 40));
         ok.setPreferredSize(new java.awt.Dimension(90, 40));
-        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, -1, -1));
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, -1, -1));
+
+        ordenarPor.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        ordenarPor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ordenarPor.setText("Ordenar de forma:");
+        ordenarPor.setMaximumSize(new java.awt.Dimension(140, 30));
+        ordenarPor.setMinimumSize(new java.awt.Dimension(140, 30));
+        ordenarPor.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setMaximumSize(new java.awt.Dimension(140, 30));
+        jComboBox1.setMinimumSize(new java.awt.Dimension(140, 30));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 370));
@@ -148,7 +164,9 @@ public class Configuracion extends javax.swing.JFrame
     private javax.swing.JButton colorChooser;
     private javax.swing.JLabel colorLabel;
     private javax.swing.JLabel fondo;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JButton ok;
+    private javax.swing.JLabel ordenarPor;
     private javax.swing.JTextField precio;
     private javax.swing.JLabel precioLabel;
     private javax.swing.JLabel precioValido;

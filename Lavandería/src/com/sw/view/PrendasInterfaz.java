@@ -115,6 +115,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         addPrenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         addPrenda.setToolTipText("Añadir nueva prenda");
         addPrenda.setActionCommand("addPrenda");
+        addPrenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         addPrenda.setMaximumSize(new java.awt.Dimension(100, 80));
         addPrenda.setMinimumSize(new java.awt.Dimension(100, 80));
         getContentPane().add(addPrenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, 100, 40));
@@ -157,6 +158,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         editarPrenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         editarPrenda.setToolTipText("Editar prenda");
         editarPrenda.setActionCommand("modificar");
+        editarPrenda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
         editarPrenda.setMaximumSize(new java.awt.Dimension(100, 40));
         editarPrenda.setMinimumSize(new java.awt.Dimension(100, 40));
         editarPrenda.setPreferredSize(new java.awt.Dimension(100, 40));

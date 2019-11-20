@@ -1,6 +1,8 @@
 package com.sw.utilities;
 
+import com.sw.controller.TableManager;
 import java.io.Serializable;
+import javax.swing.JTable;
 
 /**
  *
@@ -12,6 +14,9 @@ public class Temporizador implements Runnable, Serializable
     private static final long serialVersionUID = 8178588319113726860L;
 
     private Time time;
+    private JTable table;
+    private int fila;
+    private int columna;
 
     public Temporizador(Time time)
     {
@@ -40,7 +45,7 @@ public class Temporizador implements Runnable, Serializable
 
                 time.updateTime();
 
-                System.out.println(time);
+                new TableManager().updateField(table, time.toString(), fila, columna);
 
             } catch (InterruptedException ex)
             {
@@ -57,6 +62,21 @@ public class Temporizador implements Runnable, Serializable
     public void setTime(Time time)
     {
         this.time = time;
+    }
+
+    public void setTable(JTable table)
+    {
+        this.table = table;
+    }
+
+    public void setFila(int fila)
+    {
+        this.fila = fila;
+    }
+
+    public void setColumna(int columna)
+    {
+        this.columna = columna;
     }
 
     @Override

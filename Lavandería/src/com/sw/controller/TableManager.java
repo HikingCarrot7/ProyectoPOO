@@ -34,8 +34,8 @@ public class TableManager
         table.addMouseListener(listener);
         table.setCellSelectionEnabled(false);
         table.setDefaultEditor(Object.class, new TableCellManager());
-        table.setName(name);
         table.setDragEnabled(false);
+        table.setName(name);
         table.getParent().revalidate();
 
     }

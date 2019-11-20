@@ -10,11 +10,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -185,26 +181,20 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         else
         {
 
+            DataSorterManager dataSorterManager = new DataSorterManager();
+
             switch (((JComboBox) e.getSource()).getSelectedIndex())
             {
+
                 case 0:
 
-                    clientesRegistrados.sort((c1, c2) ->
-                    {
-
-                        return c1.getNombre().compareTo(c2.getNombre());
-
-                    });
+                    dataSorterManager.ordenarPorNombreClientes(clientesRegistrados);
 
                     break;
 
                 case 1:
 
-                    clientesRegistrados.sort((c1, c2) ->
-                    {
-                        return c1.getnServicios() - c2.getnServicios();
-
-                    });
+                    dataSorterManager.ordenarPorNServiciosClientes(clientesRegistrados);
 
                     break;
 
@@ -325,17 +315,10 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     private void guardarClientes()
     {
+
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
 
-        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
-        {
-
-            out.format("%s", Cliente.getClave());
-
-        } catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        new DAO(DAO.RUTA_CLAVECLIENTES).saveClaves(Cliente.getClaves());
 
     }
 

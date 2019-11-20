@@ -2,6 +2,7 @@ package com.sw.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
@@ -12,57 +13,47 @@ public class Ticket implements Serializable
 
     private static final long serialVersionUID = 6162162262623189765L;
 
-    private String numeroTicket;
     private String nombreCliente;
     private String nombreNegocio;
-    private String nombreEncargado;
     private String direccionNegocio;
     private ArrayList<Prenda> prendas;
-    private double totalPrecio;
+    private Calendar fecha;
+    private int numeroTicket;
+    private int totalPrendas;
+    private double precioTotal;
     private double totalKg;
 
-    public Ticket(String numeroTicket, String nombreCliente, String nombreEncargado, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
+    public Ticket(int numeroTicket, Calendar fecha, String nombreCliente, ArrayList<Prenda> prendas, int totalPrendas, double precioTotal, double totalKg)
     {
 
         this.numeroTicket = numeroTicket;
-        this.nombreCliente = nombreCliente;
-        this.nombreEncargado = nombreEncargado;
-        this.prendas = prendas;
-        this.totalPrecio = totalPrecio;
-        this.totalKg = totalKg;
-
-        nombreNegocio = Negocio.NOMBRENEGOCIO;
-        direccionNegocio = Negocio.DIRECCION;
-
-    }
-
-    public Ticket(String numeroTicket, String nombreCliente, ArrayList<Prenda> prendas, double totalPrecio, double totalKg)
-    {
-
-        this.numeroTicket = numeroTicket;
+        this.fecha = fecha;
         this.nombreCliente = nombreCliente;
         this.prendas = prendas;
-        this.totalPrecio = totalPrecio;
+        this.totalPrendas = totalPrendas;
+        this.precioTotal = precioTotal;
         this.totalKg = totalKg;
 
-        nombreNegocio = Negocio.NOMBRENEGOCIO;
-        direccionNegocio = Negocio.DIRECCION;
-
     }
 
-    public void generarTicket()
-    {
-
-    }
-
-    public String getNumeroTicket()
+    public int getNumeroTicket()
     {
         return numeroTicket;
     }
 
-    public void setNumeroTicket(String numeroTicket)
+    public void setNumeroTicket(int numeroTicket)
     {
         this.numeroTicket = numeroTicket;
+    }
+
+    public Calendar getFecha()
+    {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha)
+    {
+        this.fecha = fecha;
     }
 
     public String getNombreCliente()
@@ -85,16 +76,6 @@ public class Ticket implements Serializable
         this.nombreNegocio = nombreNegocio;
     }
 
-    public String getNombreEncargado()
-    {
-        return nombreEncargado;
-    }
-
-    public void setNombreEncargado(String nombreEncargado)
-    {
-        this.nombreEncargado = nombreEncargado;
-    }
-
     public String getDireccionNegocio()
     {
         return direccionNegocio;
@@ -115,14 +96,24 @@ public class Ticket implements Serializable
         this.prendas = prendas;
     }
 
-    public double getTotalPrecio()
+    public int getTotalPrendas()
     {
-        return totalPrecio;
+        return totalPrendas;
+    }
+
+    public void setTotalPrendas(int totalPiezas)
+    {
+        this.totalPrendas = totalPiezas;
+    }
+
+    public double getPrecioTotal()
+    {
+        return precioTotal;
     }
 
     public void setTotalPrecio(double totalPrecio)
     {
-        this.totalPrecio = totalPrecio;
+        this.precioTotal = totalPrecio;
     }
 
     public double getTotalKg()

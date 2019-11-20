@@ -8,10 +8,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,92 +28,122 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : table.getColumnCount() == 2 ? 370 : 255);
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325
+                : table.getWidth() == 913 ? 280
+                : table.getColumnCount() == 2 ? 370
+                : table.getColumnCount() == 6 ? 450
+                : table.getColumnCount() == 7 ? 350
+                : table.getColumnCount() == 8 ? 350 : 280);
+
         table.setRowHeight(30);
 
         if (value instanceof JButton)
             switch (table.getName())
             {
+
                 case "Clientes":
+
                     updateIcon(((JButton) value), table, 5, "/com/src/images/historialSelected.png", "/com/src/images/historial.png");
-                    return (JButton) value;
+                    return (Component) value;
 
                 case "Prendas":
+
+                    updateIcon(((JButton) value), table, 3, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    return (Component) value;
+
                 case "Historial":
 
-                    updateIcon(((JButton) value), table, column == 1 ? 1 : table.getName().equals("Historial") ? 5 : 3,
-                            column == 1 ? "/com/src/images/tshirtSelected.png" : "/com/src/images/deleteSelected.png",
-                            column == 1 ? "/com/src/images/tshirt.png" : "/com/src/images/delete.png");
+                    switch (column)
+                    {
 
-                    return (JButton) value;
+                        case 1:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
+
+                        case 4:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
+                            break;
+
+                        case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    }
+
+                    return (Component) value;
 
                 case "En cola":
                     switch (column)
                     {
-                        case 1:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (JButton) value;
 
-                        case 4:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
-                            return (JButton) value;
+                        case 2:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
 
                         case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
+                            break;
+
+                        case 6:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (JButton) value;
+                            break;
 
                     }
+
+                    return (Component) value;
 
                 case "Terminado":
                 case "En proceso":
                     switch (column)
                     {
-                        case 1:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (JButton) value;
 
-                        case 4:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
-                            return (JButton) value;
+                        case 2:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
 
                         case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
+                            break;
+
+                        case 6:
+
                             if (!table.getName().equals("Terminado"))
                                 updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
 
-                            return (JButton) value;
+                            else
+                                updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
 
-                        case 6:
+                            break;
+
+                        case 7:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (JButton) value;
 
                     }
 
+                    return (Component) value;
+
                 case "Tipos prenda":
                     updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                    return (JButton) value;
+                    return (Component) value;
 
                 default:
-                    return (JButton) value;
+                    return (Component) value;
 
             }
 
-        if (value instanceof JCheckBox)
-        {
-            JComponent jcomponent = new JPanel();
-            ((JPanel) jcomponent).setLayout(null);
-            ((JCheckBox) value).setBounds(table.getColumnModel().getColumn(5).getWidth() / 2 - 8, 7, 16, 16);
-            ((JPanel) jcomponent).add(((JCheckBox) value));
-            jcomponent.setOpaque(true);
-            jcomponent.setBackground(row % 2 == 0 ? new Color(180, 180, 180) : Color.white);
-
-            return jcomponent;
-
-        }
-
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);
-        ((JLabel) jcomponent).setSize(30, jcomponent.getWidth());
-        ((JLabel) jcomponent).setPreferredSize(new Dimension(6, jcomponent.getWidth()));
+        jcomponent.setSize(30, jcomponent.getWidth());
+        jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);

@@ -1,24 +1,32 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
+import com.sw.model.Historial;
 import com.sw.model.ServicioInicial;
 import com.sw.persistence.DAO;
+import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
+import com.sw.view.HistorialInterfaz;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
 import com.sw.view.VistaPrincipal;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,15 +37,20 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 {
 
     private VistaPrincipal vistaPrincipal;
+    private String selectedTable;
     private ArrayList<ServicioInicial> serviciosEnCola;
+    private ArrayList<ServicioInicial> serviciosEnProceso;
+    private ArrayList<ServicioInicial> serviciosTerminados;
 
     public VistaPrincipalController(VistaPrincipal vistaPrincipal)
     {
-        this.vistaPrincipal = vistaPrincipal;
-        serviciosEnCola = getServiciosEnCola();
 
-        for (int i = 0; i < serviciosEnCola.size(); i++)
-            System.out.println(serviciosEnCola.get(i).getCliente().getClaveCliente());
+        this.vistaPrincipal = vistaPrincipal;
+        serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
+        serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
+        serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
+
+        selectedTable = "En cola";
 
         initMyComponents();
 
@@ -47,42 +60,36 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         renderTableTerminado();
 
-        vistaPrincipal.getNuevoServicio().addActionListener(this);
-        vistaPrincipal.getVerClientes().addActionListener(this);
-
-        System.out.println(Cliente.getClave());
+        loadComboModel();
 
     }
 
     private void initMyComponents()
     {
 
-        if (serviciosEnCola.isEmpty())
+        for (int i = serviciosEnCola.isEmpty() ? -1 : 0; i < serviciosEnCola.size(); i++)
             loadBotonesTablaEnCola();
 
-        else
-            for (int i = 0; i < serviciosEnCola.size(); i++)
-                loadBotonesTablaEnCola();
+        for (int i = serviciosEnProceso.isEmpty() ? -1 : 0; i < serviciosEnProceso.size(); i++)
+            loadBotonesTablaEnProceso();
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = serviciosTerminados.isEmpty() ? -1 : 0; i < serviciosTerminados.size(); i++)
+            loadBotonesTablaTerminado();
 
-            vistaPrincipal.getVerPrendasEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            vistaPrincipal.getSubirColaEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            vistaPrincipal.getMoverTerminadoEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
-            vistaPrincipal.getEliminarEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+        vistaPrincipal.getNuevoServicio().addActionListener(this);
+        vistaPrincipal.getEditar().addActionListener(this);
+        vistaPrincipal.getVerClientes().addActionListener(this);
+        vistaPrincipal.getVerHIstorial().addActionListener(this);
 
-        }
+        vistaPrincipal.getPanelPrincipal().addMouseListener(this);
 
-        for (int i = 0; i < 10; i++)
-        {
+        vistaPrincipal.getOrdenarPor().addActionListener(this);
 
-            vistaPrincipal.getVerPrendasTerminado().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
-            vistaPrincipal.getSubirProcesoTerminado().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
-            vistaPrincipal.getEliminarTerminado().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
-            vistaPrincipal.getEmpaquetado().add(new JCheckBox());
+        vistaPrincipal.getWave().addActionListener(this);
 
-        }
+        vistaPrincipal.getScrollTablaEnCola().setName("En cola");
+        vistaPrincipal.getScrollTablaEnProceso().setName("En proceso");
+        vistaPrincipal.getScrollTablaTerminado().setName("Terminado");
 
     }
 
@@ -95,6 +102,48 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
     }
 
+    private void loadBotonesTablaEnProceso()
+    {
+
+        vistaPrincipal.getVerPrendasEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+        vistaPrincipal.getSubirColaEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+        vistaPrincipal.getMoverTerminadoEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/down.png")));
+        vistaPrincipal.getEliminarEnProceso().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+
+    }
+
+    private void loadBotonesTablaTerminado()
+    {
+
+        vistaPrincipal.getVerPrendasTerminado().add(new JButton(Utilities.getIcon("/com/src/images/tshirt.png")));
+        vistaPrincipal.getSubirProcesoTerminado().add(new JButton(Utilities.getIcon("/com/src/images/up.png")));
+        vistaPrincipal.getGenerarTicket().add(new JButton(Utilities.getIcon("/com/src/images/ticket.png")));
+        vistaPrincipal.getEliminarTerminado().add(new JButton(Utilities.getIcon("/com/src/images/delete.png")));
+
+    }
+
+    private void loadComboModel()
+    {
+
+        vistaPrincipal.getOrdenarPor().setRenderer(new ComboRenderer());
+        vistaPrincipal.getOrdenarPor().setModel(loadComboItems());
+
+    }
+
+    private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
+    {
+
+        DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
+
+        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "Nombre"));
+        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/precio.png"), "Precio total"));
+        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/kilos.png"), "Kilogramos"));
+        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/tshirt.png"), "Total prendas"));
+
+        return dm;
+
+    }
+
     private void renderTableEnCola()
     {
 
@@ -104,16 +153,19 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         vistaPrincipal.getTablaEnCola().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
-            1, 4, 5
+
+            2, 5, 6
 
         }, vistaPrincipal.getVerPrendasEnCola(), vistaPrincipal.getMoverLavadoEnCola(), vistaPrincipal.getEliminarEnCola()), new String[]
         {
 
-            "Cliente", "Prendas", "Kilos", "Total", "Mover a lavado", "Eliminar"
+            "Cliente", "N° ticket", "Prendas", "Kilos", "Total", "Mover a lavado", "Eliminar"
 
         }));
 
         tableManager.renderTableModel(vistaPrincipal.getTablaEnCola(), this, "En cola");
+
+        vistaPrincipal.getTablaEnCola().setName("En cola");
 
     }
 
@@ -122,17 +174,17 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         TableManager tableManager = new TableManager();
 
-        Object[][] items = new Object[10][7];
+        Object[][] items = getItemsEnProceso();
 
         vistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
-            1, 4, 5, 6
+            2, 5, 6, 7
 
         }, vistaPrincipal.getVerPrendasEnProceso(), vistaPrincipal.getSubirColaEnProceso(),
                 vistaPrincipal.getMoverTerminadoEnProceso(), vistaPrincipal.getEliminarEnProceso()), new String[]
         {
 
-            "Cliente", "Prendas", "Kilos", "Tiempo estimado", "Subir a la cola", "Mover a terminado", "Eliminar"
+            "Cliente", "N° ticket", "Prendas", "Kilos", "Tiempo estimado", "Subir a la cola", "Mover a terminado", "Eliminar"
 
         }));
 
@@ -145,18 +197,18 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         TableManager tableManager = new TableManager();
 
-        Object[][] items = new Object[10][7];
+        Object[][] items = getItemsTerminado();
 
         vistaPrincipal.getTablaTerminado().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
 
-            1, 4, 5, 6
+            2, 5, 6, 7
 
         }, vistaPrincipal.getVerPrendasTerminado(), vistaPrincipal.getSubirProcesoTerminado(),
-                vistaPrincipal.getEmpaquetado(), vistaPrincipal.getEliminarTerminado()), new String[]
+                vistaPrincipal.getGenerarTicket(), vistaPrincipal.getEliminarTerminado()), new String[]
         {
 
-            "Cliente", "Prendas", "Kilos", "Total", "Subir a proceso", "¿Empaquetado?", "Eliminar"
+            "Cliente", "N° ticket", "Prendas", "Kilos", "Total", "Subir a proceso", "Generar ticket", "Eliminar"
 
         }));
 
@@ -168,12 +220,55 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
     public void mouseClicked(MouseEvent e)
     {
 
-        TableManager tableManager = new TableManager();
-
-        if (!tableManager.isFirstRowEmpty(vistaPrincipal.getTablaEnCola()))
+        if (e.getSource() instanceof JTabbedPane)
         {
 
-            if (tableManager.encimaBoton(vistaPrincipal.getTablaEnCola(), e.getX(), e.getY(), 1))
+            setSelectedTable(((JTabbedPane) e.getSource()).getSelectedComponent().getName());
+            revalidateAllTables();
+
+        } else if (e.getSource() instanceof JTable)
+        {
+            setSelectedTable(((Component) e.getSource()).getName());
+
+            switch (((Component) e.getSource()).getName())
+            {
+                case "En cola":
+
+                    gestionarTablaEnCola(e);
+
+                    break;
+
+                case "En proceso":
+
+                    gestionarTablaEnProceso(e);
+
+                    break;
+
+                case "Terminado":
+
+                    gestionarTablaTerminado(e);
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+        }
+
+    }
+
+    private void gestionarTablaEnCola(MouseEvent e)
+    {
+
+        TableManager tableManager = new TableManager();
+        JTable table = vistaPrincipal.getTablaEnCola();
+
+        if (!tableManager.isFirstRowEmpty(table))
+        {
+
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 2))
                 EventQueue.invokeLater(() ->
                 {
 
@@ -182,67 +277,287 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
-                    new PrendasController(prendas, this, serviciosEnCola.get(tableManager.getClickedRow(vistaPrincipal.getTablaEnCola(), e.getY())));
+                    new PrendasController(prendas, this, serviciosEnCola.get(table.getSelectedRow()));
 
                 });
 
-            else if (tableManager.encimaBoton(vistaPrincipal.getTablaEnCola(), e.getX(), e.getY(), 5))
-                switch (JOptionPane.showConfirmDialog(vistaPrincipal,
-                        "Se borrará este servicio y toda la información relacionada en él. ¿Continuar?",
-                        "Confirmar acción", JOptionPane.YES_NO_OPTION))
+            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+            {
+
+                anadirServicioAProceso(serviciosEnCola.get(table.getSelectedRow()));
+
+                eliminarServicioCola(table.getSelectedRow());
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 6))
+                switch (mostrarConfirmacion("Confirmar acción", "Se borrará este servicio y toda la información relacionada con él. ¿Continuar?"))
                 {
 
                     case 0: // Si se presiona Sí
 
-                        eliminarServicioCola(tableManager.getClickedRow(vistaPrincipal.getTablaEnCola(), e.getY()));
-                        saveServiciosEnCola();
+                        eliminarServicioCola(table.getSelectedRow());
 
                         break;
 
                 }
 
         } else
-            mostrarError("No hay servicios", "Aún no hay servicios");
+            mostrarError("No hay servicios", "Aún no hay en la cola servicios");
+
+    }
+
+    private void gestionarTablaEnProceso(MouseEvent e)
+    {
+
+        TableManager tableManager = new TableManager();
+        JTable table = vistaPrincipal.getTablaEnProceso();
+
+        if (!tableManager.isFirstRowEmpty(table))
+        {
+
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 2))
+                EventQueue.invokeLater(() ->
+                {
+
+                    PrendasInterfaz prendas = new PrendasInterfaz();
+
+                    prendas.setVisible(true);
+                    prendas.setLocationRelativeTo(vistaPrincipal);
+
+                    new PrendasController(prendas, this, serviciosEnProceso.get(table.getSelectedRow()));
+
+                });
+
+            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+            {
+
+                anadirServicioCola(serviciosEnProceso.get(table.getSelectedRow()));
+
+                eliminarServicioEnProceso(table.getSelectedRow());
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 6))
+            {
+
+                anadirServicioTerminado(serviciosEnProceso.get(table.getSelectedRow()));
+
+                eliminarServicioEnProceso(table.getSelectedRow());
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 7))
+                switch (mostrarConfirmacion("Confirmar acción", "Se borrará este servicio y toda la información relacionada con él. ¿Continuar?"))
+                {
+
+                    case 0: // Si se presiona Sí
+
+                        eliminarServicioEnProceso(table.getSelectedRow());
+
+                        break;
+
+                }
+
+        } else
+            mostrarError("No hay servicios", "Aún no hay servicios en proceso");
+
+    }
+
+    private void gestionarTablaTerminado(MouseEvent e)
+    {
+
+        TableManager tableManager = new TableManager();
+        JTable table = vistaPrincipal.getTablaTerminado();
+
+        if (!tableManager.isFirstRowEmpty(table))
+        {
+
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 2))
+                EventQueue.invokeLater(() ->
+                {
+
+                    PrendasInterfaz prendas = new PrendasInterfaz();
+
+                    prendas.setVisible(true);
+                    prendas.setLocationRelativeTo(vistaPrincipal);
+
+                    new PrendasController(prendas, this, serviciosTerminados.get(table.getSelectedRow()));
+
+                });
+
+            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+            {
+
+                anadirServicioAProceso(serviciosTerminados.get(table.getSelectedRow()));
+
+                eliminarServicioTerminado(table.getSelectedRow());
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 6))
+            {
+
+                ServicioInicial servicioInicial = serviciosTerminados.get(table.getSelectedRow());
+
+                if (!servicioInicial.getPrendas().isEmpty() && servicioInicial.getTotalKg() != 0)
+                {
+
+                    HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                    new HistorialController(historialInterfaz).anadirHistorial(new Historial(
+                            servicioInicial.getCliente(),
+                            servicioInicial.getPrendas(),
+                            Calendar.getInstance(),
+                            servicioInicial.getTotalKg(),
+                            servicioInicial.getPrecioTotal()));
+
+                    servicioInicial.setTicketGenerado(true);
+                    historialInterfaz.dispose();
+
+                } else
+                    JOptionPane.showMessageDialog(vistaPrincipal,
+                            "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0",
+                            "Datos inválidos",
+                            JOptionPane.ERROR_MESSAGE);
+
+            } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 7))
+                switch (mostrarConfirmacion("Confirmar acción", "No podrá generar el ticket para este servicio. ¿Continuar?"))
+                {
+
+                    case 0: // Si se presiona Sí
+
+                        eliminarServicioTerminado(table.getSelectedRow());
+
+                        break;
+
+                }
+
+        } else
+            mostrarError("No hay servicios", "Aún no hay servicios terminados");
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        switch (e.getActionCommand())
+
+        if (e.getSource() instanceof JButton)
+            switch (e.getActionCommand())
+            {
+
+                case "Nuevo servicio":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        NuevoServicio nuevoServicio = new NuevoServicio();
+
+                        nuevoServicio.setVisible(true);
+                        nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+
+                        new NuevoServicioController(nuevoServicio, this);
+
+                    });
+
+                    break;
+
+                case "Ver clientes":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        ClientesRegistradosInterfaz clientesRegistradosInterfaz = new ClientesRegistradosInterfaz();
+
+                        clientesRegistradosInterfaz.setVisible(true);
+                        clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+
+                        clientesRegistradosController.addObserver(this);
+
+                    });
+
+                    break;
+
+                case "Editar":
+
+                    ServicioInicial servicioInicial = obtenerServicioSeleccionado();
+
+                    if (servicioInicial != null)
+                        EventQueue.invokeLater(() ->
+                        {
+                            NuevoServicio nuevoServicio = new NuevoServicio();
+
+                            nuevoServicio.setVisible(true);
+                            nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+
+                            nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
+                            nuevoServicio.getTitleLabel().setText("Editar servicio");
+
+                            new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicioInicial);
+
+                        });
+
+                    else
+                        mostrarError("Error", "No ha seleccionado ninguna fila o aún no hay servicios en esta tabla");
+
+                    break;
+
+                case "Historial":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                        historialInterfaz.setVisible(true);
+                        historialInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        new HistorialController(historialInterfaz);
+
+                    });
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+        else if (e.getSource() instanceof JComboBox)
+            ordernarPor(e);
+
+    }
+
+    private void ordernarPor(ActionEvent e)
+    {
+        DataSorterManager dataSorterManager = new DataSorterManager();
+
+        switch (((JComboBox) e.getSource()).getSelectedIndex())
         {
 
-            case "Nuevo servicio":
+            case 0:
 
-                EventQueue.invokeLater(() ->
-                {
-
-                    NuevoServicio nuevoServicio = new NuevoServicio();
-
-                    nuevoServicio.setVisible(true);
-                    nuevoServicio.setLocationRelativeTo(vistaPrincipal);
-
-                    new NuevoServicioController(nuevoServicio, this);
-
-                });
+                dataSorterManager.ordenarPorNombreServicios(serviciosEnCola);
+                dataSorterManager.ordenarPorNombreServicios(serviciosEnProceso);
+                dataSorterManager.ordenarPorNombreServicios(serviciosTerminados);
 
                 break;
 
-            case "Ver clientes":
+            case 1:
 
-                EventQueue.invokeLater(() ->
-                {
+                dataSorterManager.ordenarPorPrecioTotal(serviciosEnCola);
+                dataSorterManager.ordenarPorPrecioTotal(serviciosEnProceso);
+                dataSorterManager.ordenarPorPrecioTotal(serviciosTerminados);
 
-                    ClientesRegistradosInterfaz clientesRegistradosInterfaz = new ClientesRegistradosInterfaz();
+                break;
 
-                    clientesRegistradosInterfaz.setVisible(true);
-                    clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
+            case 2:
 
-                    ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+                dataSorterManager.ordenarPorTotalKg(serviciosEnCola);
+                dataSorterManager.ordenarPorTotalKg(serviciosEnProceso);
+                dataSorterManager.ordenarPorTotalKg(serviciosTerminados);
 
-                    clientesRegistradosController.addObserver(this);
+                break;
 
-                });
+            case 3:
+
+                dataSorterManager.ordenarPorTotalPiezas(serviciosEnCola);
+                dataSorterManager.ordenarPorTotalPiezas(serviciosEnProceso);
+                dataSorterManager.ordenarPorTotalPiezas(serviciosTerminados);
 
                 break;
 
@@ -251,21 +566,71 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         }
 
+        updateAllTables();
+
+        saveAllServices();
+
     }
 
     private Object[][] getItemsEnCola()
     {
-        if (serviciosEnCola.isEmpty())
-            return new Object[1][6];
 
-        Object[][] items = new Object[serviciosEnCola.size()][6];
+        if (serviciosEnCola.isEmpty())
+            return new Object[1][7];
+
+        Object[][] items = new Object[serviciosEnCola.size()][7];
 
         for (int i = 0; i < serviciosEnCola.size(); i++)
         {
 
             items[i][0] = serviciosEnCola.get(i).getCliente().getNombre();
-            items[i][2] = String.valueOf(serviciosEnCola.get(i).getTotalKg());
-            items[i][3] = String.format("$%,.2f", serviciosEnCola.get(i).getTotalKg() * 9.5);
+            items[i][1] = String.valueOf(serviciosEnCola.get(i).getNumeroTicket());
+            items[i][3] = String.valueOf(serviciosEnCola.get(i).getTotalKg());
+            items[i][4] = String.format("$%,.2f", serviciosEnCola.get(i).getPrecioTotal());
+
+        }
+
+        return items;
+
+    }
+
+    private Object[][] getItemsEnProceso()
+    {
+
+        if (serviciosEnProceso.isEmpty())
+            return new Object[1][8];
+
+        Object[][] items = new Object[serviciosEnProceso.size()][8];
+
+        for (int i = 0; i < serviciosEnProceso.size(); i++)
+        {
+
+            items[i][0] = serviciosEnProceso.get(i).getCliente().getNombre();
+            items[i][1] = String.valueOf(serviciosEnProceso.get(i).getNumeroTicket());
+            items[i][3] = String.valueOf(serviciosEnProceso.get(i).getTotalKg());
+            items[i][4] = serviciosEnProceso.get(i).getTiempoEstimado().toString();
+
+        }
+
+        return items;
+
+    }
+
+    private Object[][] getItemsTerminado()
+    {
+
+        if (serviciosTerminados.isEmpty())
+            return new Object[1][8];
+
+        Object[][] items = new Object[serviciosTerminados.size()][8];
+
+        for (int i = 0; i < serviciosTerminados.size(); i++)
+        {
+
+            items[i][0] = serviciosTerminados.get(i).getCliente().getNombre();
+            items[i][1] = String.valueOf(serviciosTerminados.get(i).getNumeroTicket());
+            items[i][3] = String.valueOf(serviciosTerminados.get(i).getTotalKg());
+            items[i][4] = String.format("$%,.2f", serviciosTerminados.get(i).getPrecioTotal());
 
         }
 
@@ -280,12 +645,50 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         new TableManager().addRow(vistaPrincipal.getTablaEnCola(), new Object[]
         {
-            servicioInicial.getCliente().getNombre(), null, "", "", null, null
+
+            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null
+
         });
 
         updateAllTables();
 
         saveServiciosEnCola();
+
+    }
+
+    private void anadirServicioAProceso(ServicioInicial servicioInicial)
+    {
+
+        serviciosEnProceso.add(servicioInicial);
+
+        new TableManager().addRow(vistaPrincipal.getTablaEnProceso(), new Object[]
+        {
+
+            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null, null
+
+        });
+
+        saveServiciosEnProceso();
+
+        updateAllTables();
+
+    }
+
+    private void anadirServicioTerminado(ServicioInicial servicioInicial)
+    {
+
+        serviciosTerminados.add(servicioInicial);
+
+        new TableManager().addRow(vistaPrincipal.getTablaTerminado(), new Object[]
+        {
+
+            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null, null
+
+        });
+
+        saveServiciosTerminados();
+
+        updateAllTables();
 
     }
 
@@ -298,16 +701,63 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
 
         saveServiciosEnCola();
 
+        updateAllTables();
+
+    }
+
+    private void eliminarServicioEnProceso(int index)
+    {
+
+        new TableManager().removeRow(vistaPrincipal.getTablaEnProceso(), index);
+
+        serviciosEnProceso.remove(index);
+
+        saveServiciosEnProceso();
+
+        updateAllTables();
+
+    }
+
+    private void eliminarServicioTerminado(int index)
+    {
+
+        new TableManager().removeRow(vistaPrincipal.getTablaTerminado(), index);
+
+        serviciosTerminados.remove(index);
+
+        saveServiciosTerminados();
+
+        updateAllTables();
+
     }
 
     public void saveServiciosEnCola()
     {
-        new DAO(DAO.RUTA_SERVICIOSINICIALES).saveObjects(serviciosEnCola);
+        new DAO(DAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
     }
 
-    private ArrayList<ServicioInicial> getServiciosEnCola()
+    public void saveServiciosEnProceso()
     {
-        return (ArrayList<ServicioInicial>) new DAO(DAO.RUTA_SERVICIOSINICIALES).getObjects();
+        new DAO(DAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
+    }
+
+    public void saveServiciosTerminados()
+    {
+        new DAO(DAO.RUTA_SERVICIOSTERMINADOS).saveObjects(serviciosTerminados);
+    }
+
+    private ArrayList<ServicioInicial> getServicios(String ruta)
+    {
+        return (ArrayList<ServicioInicial>) new DAO(ruta).getObjects();
+    }
+
+    public void saveAllServices()
+    {
+
+        saveServiciosEnCola();
+        saveServiciosEnProceso();
+        saveServiciosTerminados();
+
     }
 
     public void updateAllTables()
@@ -316,7 +766,21 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         TableManager tableManager = new TableManager();
 
         tableManager.setTableItems(vistaPrincipal.getTablaEnCola(), getItemsEnCola());
+
+        tableManager.setTableItems(vistaPrincipal.getTablaEnProceso(), getItemsEnProceso());
+
+        tableManager.setTableItems(vistaPrincipal.getTablaTerminado(), getItemsTerminado());
+
+        revalidateAllTables();
+
+    }
+
+    private void revalidateAllTables()
+    {
+
         vistaPrincipal.getTablaEnCola().getParent().revalidate();
+        vistaPrincipal.getTablaEnProceso().getParent().revalidate();
+        vistaPrincipal.getTablaTerminado().getParent().revalidate();
 
     }
 
@@ -325,18 +789,82 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
         JOptionPane.showMessageDialog(vistaPrincipal, text, titulo, JOptionPane.ERROR_MESSAGE);
     }
 
+    private int mostrarConfirmacion(String titulo, String text)
+    {
+        return JOptionPane.showConfirmDialog(vistaPrincipal, text, titulo, JOptionPane.YES_NO_OPTION);
+    }
+
     @Override
     public void update(Observable o, Object item)
     {
 
         Cliente clienteNuevo = (Cliente) item;
 
-        for (int i = 0; i < serviciosEnCola.size(); i++)
-            if (clienteNuevo.getClaveCliente() == serviciosEnCola.get(i).getCliente().getClaveCliente())
-                serviciosEnCola.get(i).getCliente().setNombre(clienteNuevo.getNombre());
+        updateCliente(serviciosEnCola, clienteNuevo);
+        updateCliente(serviciosEnProceso, clienteNuevo);
+        updateCliente(serviciosTerminados, clienteNuevo);
+
+        saveAllServices();
 
         updateAllTables();
 
+    }
+
+    private void updateCliente(ArrayList<ServicioInicial> servicio, Cliente clienteNuevosDatos)
+    {
+
+        for (int i = 0; i < servicio.size(); i++)
+            if (clienteNuevosDatos.getClaveCliente() == servicio.get(i).getCliente().getClaveCliente())
+                servicio.get(i).getCliente().setNombre(clienteNuevosDatos.getNombre());
+
+    }
+
+    private ServicioInicial obtenerServicioSeleccionado()
+    {
+
+        switch (getSelectedTable())
+        {
+
+            case "En cola":
+
+                if (!serviciosEnCola.isEmpty() && vistaPrincipal.getTablaEnCola().getSelectedRow() >= 0)
+                    return serviciosEnCola.get(vistaPrincipal.getTablaEnCola().getSelectedRow());
+
+                break;
+
+            case "En proceso":
+
+                if (!serviciosEnProceso.isEmpty() && vistaPrincipal.getTablaEnProceso().getSelectedRow() >= 0)
+                    return serviciosEnProceso.get(vistaPrincipal.getTablaEnProceso().getSelectedRow());
+
+                break;
+
+            case "Terminado":
+
+                if (!serviciosTerminados.isEmpty() && vistaPrincipal.getTablaTerminado().getSelectedRow() >= 0)
+                    return serviciosTerminados.get(vistaPrincipal.getTablaTerminado().getSelectedRow());
+
+                break;
+
+        }
+
+        return null;
+
+    }
+
+    public String getSelectedTable()
+    {
+        return selectedTable;
+    }
+
+    public void setSelectedTable(String selectedTable)
+    {
+        this.selectedTable = selectedTable;
+    }
+
+    public VistaPrincipal getVistaPrincipal()
+    {
+        return vistaPrincipal;
     }
 
 }

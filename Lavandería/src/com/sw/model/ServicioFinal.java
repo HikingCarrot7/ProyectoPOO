@@ -19,14 +19,6 @@ public class ServicioFinal extends Servicio implements Serializable
         super(cliente, fecha);
     }
 
-    public ServicioFinal(Cliente cliente, Ticket ticket)
-    {
-        super(cliente);
-
-        this.ticket = ticket;
-
-    }
-
     public Ticket getTicket()
     {
         return ticket;
