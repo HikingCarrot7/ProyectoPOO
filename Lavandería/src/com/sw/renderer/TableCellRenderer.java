@@ -1,6 +1,6 @@
 package com.sw.renderer;
 
-import com.sw.controller.MouseMotionModel;
+import com.sw.others.MouseMotionModel;
 import com.sw.controller.TableManager;
 import com.sw.utilities.Utilities;
 import java.awt.Color;

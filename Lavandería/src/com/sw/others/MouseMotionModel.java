@@ -1,4 +1,4 @@
-package com.sw.controller;
+package com.sw.others;
 
 /**
  *

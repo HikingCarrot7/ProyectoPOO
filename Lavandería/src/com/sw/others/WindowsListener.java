@@ -1,4 +1,4 @@
-package com.sw.controller;
+package com.sw.others;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

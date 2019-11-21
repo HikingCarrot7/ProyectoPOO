@@ -1,6 +1,5 @@
 package com.sw.model;
 
-import com.sw.persistence.DAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,11 +16,6 @@ public class Cliente extends Persona implements Serializable
     private static int clave;
     private int claveCliente;
     private ArrayList<Historial> historiales;
-
-    static
-    {
-        clave = new DAO(DAO.RUTA_CLAVECLIENTES).getClaves();
-    }
 
     public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios, ArrayList<Historial> historiales)
     {
@@ -88,6 +82,11 @@ public class Cliente extends Persona implements Serializable
     public static int getClaves()
     {
         return clave;
+    }
+
+    public static void setClave(int clave)
+    {
+        Cliente.clave = clave;
     }
 
 }

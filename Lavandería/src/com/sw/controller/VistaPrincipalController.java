@@ -479,6 +479,7 @@ public class VistaPrincipalController extends MouseAdapter implements ActionList
                     if (servicioInicial != null)
                         EventQueue.invokeLater(() ->
                         {
+
                             NuevoServicio nuevoServicio = new NuevoServicio();
 
                             nuevoServicio.setVisible(true);

@@ -1,5 +1,7 @@
 package com.sw.controller;
 
+import com.sw.others.MouseMotionManager;
+import com.sw.others.TableCellManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
 import com.sw.utilities.Utilities;

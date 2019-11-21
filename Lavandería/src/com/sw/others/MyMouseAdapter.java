@@ -1,4 +1,4 @@
-package com.sw.controller;
+package com.sw.others;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
