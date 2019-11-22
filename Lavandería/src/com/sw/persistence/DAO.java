@@ -1,5 +1,7 @@
 package com.sw.persistence;
 
+import com.sw.controller.TicketGenerator;
+import com.sw.model.Ticket;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,17 +22,17 @@ import java.util.Scanner;
 public class DAO
 {
 
-    public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
-    public static final String RUTA_HISTORIALES = "res/Historiales.txt";
+    public static final String RUTA_CLIENTESREGISTRADOS = "res/com/sw/data/ClientesRegistrados.txt";
+    public static final String RUTA_HISTORIALES = "res/com/sw/data/Historiales.txt";
 
-    public static final String RUTA_CLAVECLIENTES = "res/ClaveCliente.txt";
-    public static final String RUTA_NUMTICKETS = "res/NumTickets.txt";
+    public static final String RUTA_CLAVECLIENTES = "res/com/sw/data/ClaveCliente.txt";
+    public static final String RUTA_NUMTICKETS = "res/com/sw/data/NumTickets.txt";
 
-    public static final String RUTA_SERVICIOSENCOLA = "res/ServiciosEnCola.txt";
-    public static final String RUTA_SERVICIOSENPROCESO = "res/ServiciosEnProceso.txt";
-    public static final String RUTA_SERVICIOSTERMINADOS = "res/ServiciosTerminados.txt";
+    public static final String RUTA_SERVICIOSENCOLA = "res/com/sw/data/ServiciosEnCola.txt";
+    public static final String RUTA_SERVICIOSENPROCESO = "res/com/sw/data/ServiciosEnProceso.txt";
+    public static final String RUTA_SERVICIOSTERMINADOS = "res/com/sw/data/ServiciosTerminados.txt";
 
-    private final File file;
+    private File file;
 
     public DAO(String ruta)
     {
@@ -52,6 +54,11 @@ public class DAO
             {
                 System.out.println(ex.getMessage());
             }
+
+    }
+
+    public DAO()
+    {
 
     }
 
@@ -117,6 +124,34 @@ public class DAO
         {
 
             out.format("%s", clave);
+
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
+    public void saveTicket(Ticket ticket)
+    {
+
+        File f = new File("res/com/src/tickets/Ticket " + ticket.getNumeroTicket() + ".txt");
+
+        if (!f.exists())
+            try
+            {
+
+                f.createNewFile();
+
+            } catch (IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+
+        try (Formatter out = new Formatter(new FileWriter(f, false)))
+        {
+
+            out.format("%s", new TicketGenerator(ticket).generarTicket());
 
         } catch (IOException ex)
         {

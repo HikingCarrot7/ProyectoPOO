@@ -17,15 +17,17 @@ public class Historial implements Serializable
     private Cliente cliente;
     private ArrayList<Prenda> prendas;
     private Calendar fecha;
+    private Ticket ticket;
     private double totalKg;
     private double precioTotal;
 
-    public Historial(Cliente cliente, ArrayList<Prenda> prendas, Calendar fecha, double totalKg, double precioTotal)
+    public Historial(Cliente cliente, ArrayList<Prenda> prendas, Calendar fecha, Ticket ticket, double totalKg, double precioTotal)
     {
 
         this.cliente = cliente;
         this.prendas = prendas;
         this.fecha = fecha;
+        this.ticket = ticket;
         this.totalKg = totalKg;
         this.precioTotal = precioTotal;
 
@@ -59,6 +61,16 @@ public class Historial implements Serializable
     public void setFecha(GregorianCalendar fecha)
     {
         this.fecha = fecha;
+    }
+
+    public Ticket getTicket()
+    {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket)
+    {
+        this.ticket = ticket;
     }
 
     public double getTotalKg()

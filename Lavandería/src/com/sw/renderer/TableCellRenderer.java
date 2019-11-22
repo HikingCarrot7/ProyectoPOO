@@ -1,7 +1,7 @@
 package com.sw.renderer;
 
-import com.sw.others.MouseMotionModel;
 import com.sw.controller.TableManager;
+import com.sw.others.MouseMotionModel;
 import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,10 +28,10 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 250
                 : table.getWidth() == 913 ? 280
                 : table.getColumnCount() == 2 ? 370
-                : table.getColumnCount() == 6 ? 450
+                : table.getColumnCount() == 6 ? 350
                 : table.getColumnCount() == 7 ? 350
                 : table.getColumnCount() == 8 ? 350 : 280);
 
@@ -57,7 +57,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                     switch (column)
                     {
 
-                        case 1:
+                        case 3:
 
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
                             break;

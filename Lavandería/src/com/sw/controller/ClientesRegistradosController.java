@@ -1,11 +1,13 @@
 package com.sw.controller;
 
-import com.sw.others.MyMouseAdapter;
 import com.sw.model.Cliente;
+import com.sw.model.Historial;
+import com.sw.others.MyMouseAdapter;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
+import com.sw.view.HistorialInterfaz;
 import com.sw.view.NuevoCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -219,14 +221,26 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         TableManager tableManager = new TableManager();
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
 
-        if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5) && !tableManager.isFirstRowEmpty(table))
-            if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
-                JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+        if (!tableManager.isFirstRowEmpty(table))
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+                if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
+                    JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+
+                else
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                        historialInterfaz.setVisible(true);
+                        historialInterfaz.setLocationRelativeTo(clientesRegistradosInterfaz);
+
+                        new HistorialController(historialInterfaz, getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())));
+
+                    });
 
             else
-            {
-                //Aquí habrá algo...
-            }
+                JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Aún no hay clientes registrados.", "No hay clientes", JOptionPane.ERROR_MESSAGE);
 
     }
 
@@ -239,7 +253,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         tableManager.addRow(clientesRegistradosInterfaz.getTablaClientesRegistrados(), new Object[]
         {
+
             cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion(), String.valueOf(cliente.getnServicios())
+
         });
 
         guardarClientes();
@@ -256,7 +272,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
-        notificarCambioClientes();
+        notificarCambioCliente();
 
         guardarClientes();
 
@@ -305,12 +321,25 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
-    private void notificarCambioClientes()
+    private void notificarCambioCliente()
     {
 
         setChanged();
         notifyObservers(getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
         clearChanged();
+
+    }
+
+    private ArrayList<Historial> getHistorialesCliente(Cliente cliente)
+    {
+        ArrayList<Historial> historiales = (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
+        ArrayList<Historial> historialesCliente = new ArrayList<>();
+
+        for (int i = 0; i < historiales.size(); i++)
+            if (historiales.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                historialesCliente.add(historiales.get(i));
+
+        return historialesCliente;
 
     }
 

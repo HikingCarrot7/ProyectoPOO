@@ -143,7 +143,7 @@ public class NuevoServicioController implements ActionListener
                         nuevoServicio.dispose();
 
                     } else
-                        JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
+                        mostrarMensaje("Cliente inválido.", "El cliente no es válido.", JOptionPane.ERROR_MESSAGE);
 
                 else
                 {
@@ -165,7 +165,7 @@ public class NuevoServicioController implements ActionListener
 
             case "verTicket":
 
-                if (prendas != null && !prendas.isEmpty() && getTotalKg() != 0)
+                if (prendas != null && !prendas.isEmpty() && getTotalKg() != 0 && !clientes.isEmpty())
                     EventQueue.invokeLater(() ->
                     {
 
@@ -187,10 +187,8 @@ public class NuevoServicioController implements ActionListener
                     });
 
                 else
-                    JOptionPane.showMessageDialog(nuevoServicio,
-                            "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0",
-                            "Datos inválidos",
-                            JOptionPane.ERROR_MESSAGE);
+                    mostrarMensaje(clientes.isEmpty() ? "Cliente inválido." : "Error.", clientes.isEmpty() ? "El cliente no es válido."
+                            : "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0.", JOptionPane.ERROR_MESSAGE);
 
                 break;
 
@@ -261,8 +259,13 @@ public class NuevoServicioController implements ActionListener
             if (servicioInicial.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
                 return i;
 
-        return -1;
+        return 0;
 
+    }
+
+    private void mostrarMensaje(String titulo, String text, int tipo)
+    {
+        JOptionPane.showMessageDialog(nuevoServicio, text, titulo, tipo);
     }
 
     public ArrayList<Cliente> getClientes()

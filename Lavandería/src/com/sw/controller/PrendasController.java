@@ -73,6 +73,22 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
+    public PrendasController(PrendasInterfaz prendasInterfaz, ArrayList<Prenda> prendas, double totalKg)
+    {
+
+        this.prendasInterfaz = prendasInterfaz;
+        this.prendas = prendas;
+
+        prendasInterfaz.getAddPrenda().setEnabled(false);
+        prendasInterfaz.getEditarPrenda().setEnabled(false);
+        prendasInterfaz.getTotalKg().setEnabled(false);
+
+        initCamposPrecio(totalKg);
+
+        initAllMyComponents();
+
+    }
+
     private void iniciarLista()
     {
 
@@ -92,6 +108,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     private void initCamposPrecio(double totalKg)
     {
+
         prendasInterfaz.getTotalKg().setText(String.valueOf(totalKg));
         prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * 9.5));
 
@@ -104,7 +121,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         renderPrendasInterfazTable();
 
-        TextFieldListener textFieldListener = new TextFieldListener("^[0-9]+(.?[0-9]+)?$", prendasInterfaz.getTotalKg(), prendasInterfaz.getTotalPrecio());
+        MyTextFieldListener textFieldListener = new MyTextFieldListener("^[0-9]+(.?[0-9]+)?$", prendasInterfaz.getTotalKg(), prendasInterfaz.getTotalPrecio());
 
         prendasInterfaz.getTotalKg().getDocument().addDocumentListener(textFieldListener);
         prendasInterfaz.getTotalKg().addFocusListener(textFieldListener);
@@ -146,6 +163,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         switch (e.getActionCommand())
         {
+
             case "addPrenda":
 
                 EventQueue.invokeLater(() ->
@@ -176,7 +194,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
                     });
 
                 else
-                    mostrarError();
+                    mostrarMensaje("Error.", "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
 
             default:
                 break;
@@ -193,11 +211,28 @@ public class PrendasController extends MouseAdapter implements ActionListener
         JTable table = prendasInterfaz.getPrendasTable();
 
         if (tableManager.encimaBoton(table, e.getX(), e.getY(), 3))
+        {
+
+            if (!prendasInterfaz.getAddPrenda().isEnabled())
+            {
+
+                mostrarMensaje("Error.", "No se pueden borrar prendas del historial.", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (prendas.size() == 1)
+            {
+                mostrarMensaje("Error.", "Al menos una prenda debe ser añadida por servicio", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             if (!tableManager.isFirstRowEmpty(table))
                 eliminarPrenda(tableManager.getClickedRow(table, e.getY()));
 
             else
-                mostrarError();
+                mostrarMensaje("Error.", "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
+
+        }
 
     }
 
@@ -310,12 +345,12 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    private void mostrarError()
+    private void mostrarMensaje(String titulo, String text, int tipo)
     {
-        JOptionPane.showMessageDialog(prendasInterfaz, "Aún no hay prendas", "No hay prendas", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(prendasInterfaz, text, titulo, tipo);
     }
 
-    private class TextFieldListener implements DocumentListener, FocusListener
+    private class MyTextFieldListener implements DocumentListener, FocusListener
     {
 
         private JTextField totalKg;
@@ -324,8 +359,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
         private double precioKg;
         private boolean campoValido;
 
-        public TextFieldListener(String regex, JTextField totalKg, JTextField precioTotal)
+        public MyTextFieldListener(String regex, JTextField totalKg, JTextField precioTotal)
         {
+
             this.regex = regex;
             this.totalKg = totalKg;
             this.precioTotal = precioTotal;

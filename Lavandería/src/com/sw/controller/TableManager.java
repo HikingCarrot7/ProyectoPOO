@@ -8,6 +8,7 @@ import com.sw.utilities.Utilities;
 import java.awt.Component;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -249,7 +250,7 @@ public class TableManager
 
         for (int i = 0; i < items.length; i++)
             if (table.getValueAt(table.getRowCount() - 1, i) instanceof JButton)
-                items[i] = new JButton(((JButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
+                items[i] = new JButton(((AbstractButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
 
         return items;
 

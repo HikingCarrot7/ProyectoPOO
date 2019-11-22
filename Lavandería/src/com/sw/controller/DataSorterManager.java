@@ -1,6 +1,7 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
+import com.sw.model.Historial;
 import com.sw.model.ServicioInicial;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,8 +19,7 @@ public class DataSorterManager
         servicio.sort((c1, c2) ->
         {
             return c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre());
-        }
-        );
+        });
 
     }
 
@@ -46,6 +46,26 @@ public class DataSorterManager
     public void ordenarPorNServiciosClientes(ArrayList<Cliente> clientes)
     {
         clientes.sort(Comparator.comparing(Cliente::getnServicios));
+    }
+
+    public void ordenarPorNombreHistorial(ArrayList<Historial> historial)
+    {
+
+        historial.sort((c1, c2) ->
+        {
+            return c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre());
+        });
+
+    }
+
+    public void ordenarPorFechaHistorial(ArrayList<Historial> historial)
+    {
+        historial.sort(Comparator.comparing(Historial::getFecha));
+    }
+
+    public void ordenarPorPrecioTotalHistorial(ArrayList<Historial> historial)
+    {
+        historial.sort(Comparator.comparing(Historial::getPrecioTotal));
     }
 
 }
