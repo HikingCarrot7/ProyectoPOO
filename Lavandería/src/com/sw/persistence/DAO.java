@@ -32,6 +32,8 @@ public class DAO
     public static final String RUTA_SERVICIOSENPROCESO = "res/com/sw/data/ServiciosEnProceso.txt";
     public static final String RUTA_SERVICIOSTERMINADOS = "res/com/sw/data/ServiciosTerminados.txt";
 
+    public static final String RUTA_COLORTABLAS = "res/com/sw/data/Color.txt";
+
     private File file;
 
     public DAO(String ruta)

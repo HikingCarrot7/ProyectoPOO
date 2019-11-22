@@ -222,6 +222,8 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
 
         if (!tableManager.isFirstRowEmpty(table))
+        {
+
             if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
                 if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
                     JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
@@ -239,8 +241,8 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                     });
 
-            else
-                JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Aún no hay clientes registrados.", "No hay clientes", JOptionPane.ERROR_MESSAGE);
+        } else
+            JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Aún no hay clientes registrados.", "No hay clientes", JOptionPane.ERROR_MESSAGE);
 
     }
 

@@ -9,6 +9,7 @@ import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
+import com.sw.view.ConfiguracionInterfaz;
 import com.sw.view.HistorialInterfaz;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
@@ -23,9 +24,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -86,6 +89,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         vistaPrincipal.getPanelPrincipal().addMouseListener(this);
 
         vistaPrincipal.getOrdenarPor().addActionListener(this);
+
+        vistaPrincipal.getConfigurar().addActionListener(this);
 
         vistaPrincipal.getWave().addActionListener(this);
 
@@ -484,20 +489,23 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     ServicioInicial servicioInicial = obtenerServicioSeleccionado();
 
                     if (servicioInicial != null)
-                        EventQueue.invokeLater(() ->
-                        {
+                        if (!selectedTable.equals("Terminado"))
+                            EventQueue.invokeLater(() ->
+                            {
 
-                            NuevoServicio nuevoServicio = new NuevoServicio();
+                                NuevoServicio nuevoServicio = new NuevoServicio();
 
-                            nuevoServicio.setVisible(true);
-                            nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+                                nuevoServicio.setVisible(true);
+                                nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
-                            nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
-                            nuevoServicio.getTitleLabel().setText("Editar servicio");
+                                nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
+                                nuevoServicio.getTitleLabel().setText("Editar servicio");
 
-                            new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicioInicial);
+                                new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicioInicial);
 
-                        });
+                            });
+                        else
+                            mostrarMensaje("Error.", "No puede editar servicios en este punto.", JOptionPane.ERROR_MESSAGE);
 
                     else
                         mostrarMensaje("Error", "No ha seleccionado ninguna fila o aún no hay servicios en esta tabla", JOptionPane.ERROR_MESSAGE);
@@ -527,6 +535,31 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         else if (e.getSource() instanceof JComboBox)
             ordernarPor(e);
+
+        else if (e.getSource() instanceof JMenuItem)
+            switch (((AbstractButton) e.getSource()).getActionCommand())
+            {
+
+                case "Config":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        ConfiguracionInterfaz configInterfaz = new ConfiguracionInterfaz();
+
+                        configInterfaz.setVisible(true);
+                        configInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        new ConfigController(configInterfaz, this);
+
+                    });
+
+                    break;
+
+                default:
+                    break;
+
+            }
 
     }
 
@@ -838,7 +871,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private void revalidateAllTables()
+    public void revalidateAllTables()
     {
 
         vistaPrincipal.getTablaEnCola().getParent().revalidate();

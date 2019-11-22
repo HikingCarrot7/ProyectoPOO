@@ -192,7 +192,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
                 });
 
             else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
-                switch (mostrarConfirmacion("Confirmar acción.", "Se eliminará toda la infoimación relacionada con este servicio. ¿Continuar?"))
+                switch (mostrarConfirmacion("Confirmar acción.", "Se eliminará toda la información relacionada con este servicio. ¿Continuar?"))
                 {
 
                     case 0: // Si se presiona Sí

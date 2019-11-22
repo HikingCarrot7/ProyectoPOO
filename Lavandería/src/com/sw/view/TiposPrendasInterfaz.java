@@ -1,6 +1,5 @@
 package com.sw.view;
 
-import com.sw.controller.TiposPrendaController;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,16 +14,44 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
     public TiposPrendasInterfaz()
     {
+
+        initWindow();
+
         initComponents();
 
         initMyComponents();
 
-        new TiposPrendaController(this);
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
 
     }
 
     private void initMyComponents()
     {
+
         eliminar = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
@@ -111,47 +138,6 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
     public JTable getTiposPrendasTable()
     {
         return tiposPrendas;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-            TiposPrendasInterfaz tiposPrendas = new TiposPrendasInterfaz();
-
-            tiposPrendas.setVisible(true);
-            tiposPrendas.setLocationRelativeTo(null);
-
-        });
-
     }
 
     private ArrayList<JButton> eliminar;

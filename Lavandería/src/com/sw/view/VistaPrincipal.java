@@ -99,6 +99,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         fondo = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
+        configurar = new javax.swing.JMenuItem();
         utilidades = new javax.swing.JMenu();
         juegos = new javax.swing.JMenu();
         wave = new javax.swing.JMenuItem();
@@ -107,7 +108,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         setTitle("Lavandería");
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
-        setMinimumSize(new java.awt.Dimension(1230, 800));
+        setMaximumSize(new java.awt.Dimension(1210, 780));
+        setMinimumSize(new java.awt.Dimension(1210, 780));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -242,6 +244,12 @@ public class VistaPrincipal extends javax.swing.JFrame
     getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
 
     config.setText("Configuración");
+    config.setActionCommand("Config");
+
+    configurar.setText("Configurar");
+    configurar.setActionCommand("Config");
+    config.add(configurar);
+
     menuBar.add(config);
 
     utilidades.setText("Utilidades");
@@ -357,6 +365,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return editar;
     }
 
+    public JMenuItem getConfigurar()
+    {
+        return configurar;
+    }
+
     public JMenuItem getWave()
     {
         return wave;
@@ -404,6 +417,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
     private javax.swing.JMenu config;
+    private javax.swing.JMenuItem configurar;
     private javax.swing.JButton editar;
     private javax.swing.JTable enCola;
     private javax.swing.JTable enProceso;

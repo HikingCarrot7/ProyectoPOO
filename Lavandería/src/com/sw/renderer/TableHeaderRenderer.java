@@ -1,9 +1,11 @@
 package com.sw.renderer;
 
+import com.sw.persistence.DAO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -78,10 +80,12 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
+        ArrayList<Color> colorTemp = (ArrayList<Color>) new DAO(DAO.RUTA_COLORTABLAS).getObjects();
+        Color color = colorTemp.isEmpty() ? new Color(65, 65, 65) : colorTemp.get(0);
+
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
-        jcomponent.setBackground(new Color(65, 65, 65));
-        jcomponent.setToolTipText("Header");
+        jcomponent.setBackground(color.darker());
         jcomponent.setForeground(Color.white);
 
         return jcomponent;
