@@ -72,6 +72,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         generarTicket = new ArrayList<>();
         eliminarTerminado = new ArrayList<>();
 
+        timersScreen = new ArrayList<>();
+
     }
 
     /**
@@ -285,7 +287,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         return enCola;
     }
 
-    public JTable getTablaEnProceso()
+    public static JTable getTablaEnProceso()
     {
         return enProceso;
     }
@@ -415,6 +417,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return display;
     }
 
+    public ArrayList<JLabel> getTimersScreen()
+    {
+        return timersScreen;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -429,6 +436,8 @@ public class VistaPrincipal extends javax.swing.JFrame
     private ArrayList<JButton> generarTicket;
     private ArrayList<JButton> eliminarTerminado;
 
+    private ArrayList<JLabel> timersScreen;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
     private javax.swing.JMenu config;
@@ -436,7 +445,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JLabel display;
     private javax.swing.JButton editar;
     private javax.swing.JTable enCola;
-    private javax.swing.JTable enProceso;
+    private static javax.swing.JTable enProceso;
     private javax.swing.JLabel fondo;
     private javax.swing.JMenu juegos;
     private javax.swing.JLabel logo;

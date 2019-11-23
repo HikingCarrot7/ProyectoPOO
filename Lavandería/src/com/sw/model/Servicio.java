@@ -1,6 +1,6 @@
 package com.sw.model;
 
-import com.sw.utilities.Temporizador;
+import com.sw.utilities.Timer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,13 +18,13 @@ public class Servicio implements Serializable
     private Cliente cliente;
     private Calendar fecha;
     private ArrayList<Prenda> prendas;
-    private Temporizador tiempoEstimado;
+    private Timer tiempoEstimado;
     private boolean ticketGenerado;
     private double totalKg;
     private double costoKg;
     private int numeroTicket;
 
-    public Servicio(Cliente cliente, Calendar fecha, Temporizador tiempoEstimado, ArrayList<Prenda> prendas, double totalKg, double costoKg)
+    public Servicio(Cliente cliente, Calendar fecha, Timer tiempoEstimado, ArrayList<Prenda> prendas, double totalKg, double costoKg)
     {
 
         this.cliente = cliente;
@@ -104,12 +104,12 @@ public class Servicio implements Serializable
         this.prendas = prendas;
     }
 
-    public Temporizador getTiempoEstimado()
+    public Timer getTiempoEstimado()
     {
         return tiempoEstimado;
     }
 
-    public void setTiempoEstimado(Temporizador tiempoEstimado)
+    public void setTiempoEstimado(Timer tiempoEstimado)
     {
         this.tiempoEstimado = tiempoEstimado;
     }

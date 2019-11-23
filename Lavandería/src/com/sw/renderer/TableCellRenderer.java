@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class TableCellRenderer extends DefaultTableCellRenderer implements MouseMotionModel
 {
 
+    private static final long serialVersionUID = -2422440758692459668L;
+
     private int x;
     private int y;
 
@@ -140,6 +142,27 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                     return (Component) value;
 
             }
+
+        else if (value instanceof JLabel)
+        {
+
+            ((JLabel) value).setHorizontalAlignment(SwingConstants.LEFT);
+            ((Component) value).setSize(30, ((Component) value).getWidth());
+            ((Component) value).setPreferredSize(new Dimension(6, ((Component) value).getWidth()));
+
+            Color color = new ConfigDAO().getColorTablas();
+
+            ((JComponent) value).setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
+            ((JComponent) value).setOpaque(true);
+            ((Component) value).setBackground(row % 2 == 0 ? color.brighter() : Color.white);
+            ((Component) value).setForeground(Color.black);
+
+            if (row == table.getSelectedRow())
+                ((Component) value).setBackground(color.darker());
+
+            return ((Component) value);
+
+        }
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);

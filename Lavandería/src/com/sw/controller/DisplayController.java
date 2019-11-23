@@ -65,7 +65,7 @@ public class DisplayController implements Runnable
     private void realizarAnimacionCompleta(String text, int delay)
     {
 
-        for (int i = 0; i < text.length() - DISPLAY_SIZE; i++)
+        for (int i = 0; i < text.length() - DISPLAY_SIZE + 1; i++)
             try
             {
 

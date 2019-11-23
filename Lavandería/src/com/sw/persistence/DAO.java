@@ -18,8 +18,9 @@ public class DAO
 {
 
     public static final String RUTA_CLIENTESREGISTRADOS = "res/com/sw/data/ClientesRegistrados.txt";
-    public static final String RUTA_HISTORIALES = "res/com/sw/data/Historiales.txt";
     public static final String RUTA_TIPOSPRENDAS = "res/com/sw/data/TiposPrendas.txt";
+    public static final String RUTA_HISTORIALES = "res/com/sw/data/Historiales.txt";
+    public static final String RUTA_TABLETIMERS = "res/com/sw/data/TableTimers.txt";
 
     public static final String RUTA_SERVICIOSENCOLA = "res/com/sw/data/ServiciosEnCola.txt";
     public static final String RUTA_SERVICIOSENPROCESO = "res/com/sw/data/ServiciosEnProceso.txt";

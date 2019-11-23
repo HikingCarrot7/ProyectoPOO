@@ -2,26 +2,21 @@ package com.sw.others;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
 
 /**
  *
  * @author Mohammed
  */
-public class WindowsListener extends WindowAdapter
+public class MyWindowListener extends WindowAdapter
 {
 
-    private JFrame boton;
-
-    public WindowsListener(JFrame otraFrame)
+    public MyWindowListener()
     {
-        this.boton = otraFrame;
     }
 
     @Override
     public void windowClosing(WindowEvent e)
     {
-        boton.setEnabled(true);
     }
 
 }

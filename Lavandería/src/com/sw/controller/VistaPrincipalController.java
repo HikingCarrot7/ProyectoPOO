@@ -8,6 +8,7 @@ import com.sw.others.MyMouseAdapter;
 import com.sw.persistence.DAO;
 import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
+import com.sw.utilities.TableTimer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
 import com.sw.view.ConfiguracionInterfaz;
@@ -21,6 +22,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
@@ -29,6 +32,7 @@ import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -47,6 +51,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     private ArrayList<Servicio> serviciosEnCola;
     private ArrayList<Servicio> serviciosEnProceso;
     private ArrayList<Servicio> serviciosTerminados;
+    private ArrayList<TableTimer> tableTimers;
 
     public VistaPrincipalController(VistaPrincipal vistaPrincipal)
     {
@@ -55,6 +60,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
         serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
         serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
+
+        tableTimers = getTableTimers();
 
         selectedTable = "En cola";
 
@@ -84,6 +91,16 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         for (int i = serviciosTerminados.isEmpty() ? -1 : 0; i < serviciosTerminados.size(); i++)
             loadBotonesTablaTerminado();
 
+        for (int i = tableTimers.isEmpty() ? -1 : 0; i < tableTimers.size(); i++)
+            vistaPrincipal.getTimersScreen().add(new JLabel());
+
+        for (int i = 0; i < tableTimers.size(); i++)
+        {
+            tableTimers.get(i).setLabel(vistaPrincipal.getTimersScreen().get(i));
+            tableTimers.get(i).iniciarTimer();
+
+        }
+
         vistaPrincipal.getNuevoServicio().addActionListener(this);
         vistaPrincipal.getEditar().addActionListener(this);
         vistaPrincipal.getVerClientes().addActionListener(this);
@@ -96,6 +113,17 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         vistaPrincipal.getConfigurar().addActionListener(this);
 
         vistaPrincipal.getWave().addActionListener(this);
+
+        vistaPrincipal.addWindowListener(new WindowAdapter()
+        {
+
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                saveTableTimers();
+            }
+
+        });
 
         vistaPrincipal.getScrollTablaEnCola().setName("En cola");
         vistaPrincipal.getScrollTablaEnProceso().setName("En proceso");
@@ -186,11 +214,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         Object[][] items = getItemsEnProceso();
 
-        vistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
+        VistaPrincipal.getTablaEnProceso().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
         {
-            2, 5, 6, 7
+            2, 4, 5, 6, 7
 
-        }, vistaPrincipal.getVerPrendasEnProceso(), vistaPrincipal.getSubirColaEnProceso(),
+        }, vistaPrincipal.getVerPrendasEnProceso(), vistaPrincipal.getTimersScreen(), vistaPrincipal.getSubirColaEnProceso(),
                 vistaPrincipal.getMoverTerminadoEnProceso(), vistaPrincipal.getEliminarEnProceso()), new String[]
         {
 
@@ -198,7 +226,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         }));
 
-        tableManager.renderTableModel(vistaPrincipal.getTablaEnProceso(), this, "En proceso");
+        tableManager.renderTableModel(VistaPrincipal.getTablaEnProceso(), this, "En proceso");
 
     }
 
@@ -325,7 +353,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         TableManager tableManager = new TableManager();
-        JTable table = vistaPrincipal.getTablaEnProceso();
+        JTable table = VistaPrincipal.getTablaEnProceso();
 
         if (!tableManager.isFirstRowEmpty(table))
         {
@@ -402,8 +430,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         Servicio servicio = serviciosTerminados.get(table.getSelectedRow());
 
-                        new PrendasController(prendas, servicio.getPrendas(),
-                                servicio.getTotalKg(), servicio.getPrecioTotal());
+                        new PrendasController(prendas, servicio.getPrendas(), servicio.getTotalKg(), servicio.getPrecioTotal());
+
                     }
 
                 });
@@ -623,6 +651,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         }
 
+        dataSorterManager.ordenarTimers(serviciosEnProceso, tableTimers);
+
         updateAllTables();
 
         saveAllServices();
@@ -665,7 +695,6 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
             items[i][0] = serviciosEnProceso.get(i).getCliente().getNombre();
             items[i][1] = String.valueOf(serviciosEnProceso.get(i).getNumeroTicket());
             items[i][3] = String.valueOf(serviciosEnProceso.get(i).getTotalKg());
-            items[i][4] = serviciosEnProceso.get(i).getTiempoEstimado().toString();
 
         }
 
@@ -718,12 +747,14 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         serviciosEnProceso.add(servicio);
 
-        new TableManager().addRow(vistaPrincipal.getTablaEnProceso(), new Object[]
+        new TableManager().addRow(VistaPrincipal.getTablaEnProceso(), new Object[]
         {
 
-            servicio.getCliente().getNombre(), "", null, "", "", null, null, null
+            servicio.getCliente().getNombre(), "", null, "", null, null, null, null
 
         });
+
+        anadirTableTimer();
 
         saveServiciosEnProceso();
 
@@ -776,6 +807,20 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
+    private void anadirTableTimer()
+    {
+
+        Servicio servicio = serviciosEnProceso.get(serviciosEnProceso.size() - 1);
+
+        tableTimers.add(new TableTimer((JLabel) VistaPrincipal.getTablaEnProceso().getValueAt(serviciosEnProceso.size() - 1, 4),
+                servicio.getTiempoEstimado().getTime(), servicio.getNumeroTicket()));
+
+        tableTimers.get(tableTimers.size() - 1).iniciarTimer();
+
+        saveTableTimers();
+
+    }
+
     private void eliminarServicioCola(int index)
     {
 
@@ -792,11 +837,17 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     private void eliminarServicioEnProceso(int index)
     {
 
-        new TableManager().removeRow(vistaPrincipal.getTablaEnProceso(), index);
+        tableTimers.get(index).getLabel().setText("");
+        tableTimers.get(index).setAlive(false);
 
+        new TableManager().removeRow(VistaPrincipal.getTablaEnProceso(), index);
+
+        tableTimers.remove(index);
         serviciosEnProceso.remove(index);
 
         saveServiciosEnProceso();
+
+        saveTableTimers();
 
         updateAllTables();
 
@@ -849,6 +900,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientesRegistrados);
     }
 
+    public void saveTableTimers()
+    {
+        new DAO(DAO.RUTA_TABLETIMERS).saveObjects(tableTimers);
+    }
+
     public void saveTicket(Ticket ticket)
     {
         new TicketDAO().saveTicket(ticket);
@@ -864,6 +920,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         return (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
     }
 
+    private ArrayList<TableTimer> getTableTimers()
+    {
+        return (ArrayList<TableTimer>) new DAO(DAO.RUTA_TABLETIMERS).getObjects();
+    }
+
     private ArrayList<Cliente> getClientesRegistrados()
     {
         return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
@@ -876,11 +937,23 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         tableManager.setTableItems(vistaPrincipal.getTablaEnCola(), getItemsEnCola());
 
-        tableManager.setTableItems(vistaPrincipal.getTablaEnProceso(), getItemsEnProceso());
+        tableManager.setTableItems(VistaPrincipal.getTablaEnProceso(), getItemsEnProceso());
 
         tableManager.setTableItems(vistaPrincipal.getTablaTerminado(), getItemsTerminado());
 
         revalidateAllTables();
+
+    }
+
+    public void updateTimer(Servicio servicio)
+    {
+
+        int index = serviciosEnProceso.indexOf(servicio);
+
+        if (index >= 0)
+            tableTimers.get(index).setTime(servicio.getTiempoEstimado().getTime());
+
+        saveTableTimers();
 
     }
 
@@ -903,7 +976,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         vistaPrincipal.getTablaEnCola().getParent().revalidate();
-        vistaPrincipal.getTablaEnProceso().getParent().revalidate();
+        VistaPrincipal.getTablaEnProceso().getParent().revalidate();
         vistaPrincipal.getTablaTerminado().getParent().revalidate();
 
     }
@@ -973,8 +1046,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
             case "En proceso":
 
-                if (!serviciosEnProceso.isEmpty() && vistaPrincipal.getTablaEnProceso().getSelectedRow() >= 0)
-                    return serviciosEnProceso.get(vistaPrincipal.getTablaEnProceso().getSelectedRow());
+                if (!serviciosEnProceso.isEmpty() && VistaPrincipal.getTablaEnProceso().getSelectedRow() >= 0)
+                    return serviciosEnProceso.get(VistaPrincipal.getTablaEnProceso().getSelectedRow());
 
                 break;
 

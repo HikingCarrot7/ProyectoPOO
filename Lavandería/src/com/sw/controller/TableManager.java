@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -228,6 +229,9 @@ public class TableManager
         for (int i = 0; i < items.length; i++)
             if (table.getValueAt(table.getRowCount() - 1, i) instanceof JButton)
                 items[i] = new JButton(((AbstractButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
+
+            else if (table.getValueAt(table.getRowCount() - 1, i) instanceof JLabel)
+                items[i] = new JLabel();
 
         return items;
 

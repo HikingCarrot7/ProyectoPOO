@@ -14,6 +14,7 @@ public class Time implements Serializable
     private int seconds;
     private int minutes;
     private int hours;
+    private boolean terminado;
 
     public Time(int hours, int minutes, int seconds)
     {
@@ -35,6 +36,7 @@ public class Time implements Serializable
 
     public void updateTime()
     {
+
         if (hours >= 0)
         {
 
@@ -42,19 +44,23 @@ public class Time implements Serializable
 
             if (seconds < 0)
             {
+
                 minutes--;
                 seconds = 59;
 
-            }
+                if (minutes < 0)
+                {
+                    hours--;
+                    minutes = 59;
 
-            if (minutes < 0)
-            {
-                hours--;
-                minutes = 59;
+                }
 
             }
 
         }
+
+        if (hours < 0)
+            setTerminado(true);
 
     }
 
@@ -88,10 +94,26 @@ public class Time implements Serializable
         this.hours = hours;
     }
 
+    public boolean isTerminado()
+    {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado)
+    {
+        this.terminado = terminado;
+    }
+
     @Override
     public String toString()
     {
-        return String.format("%02d:%02d:%02d horas", getHours(), getMinutes(), getSeconds());
+
+        if (isTerminado())
+            return "TERMINADO";
+
+        return String.format("%02d:%02d:%02d %s", getHours(), getMinutes(), getSeconds(),
+                getHours() >= 1 ? "horas" : getMinutes() >= 1 ? "minutos" : "segundos");
+
     }
 
 }

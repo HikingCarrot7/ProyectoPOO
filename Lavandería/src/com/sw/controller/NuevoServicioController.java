@@ -9,8 +9,8 @@ import com.sw.persistence.ConfigDAO;
 import com.sw.persistence.DAO;
 import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
-import com.sw.utilities.Temporizador;
 import com.sw.utilities.Time;
+import com.sw.utilities.Timer;
 import com.sw.utilities.Utilities;
 import com.sw.view.NuevoCliente;
 import com.sw.view.NuevoServicio;
@@ -56,6 +56,36 @@ public class NuevoServicioController implements ActionListener
         nuevoServicio.getVerTicket().addActionListener(this);
 
         nuevoServicio.getClientes().addActionListener(this);
+
+    }
+
+    public void establecerDatosDefecto(Servicio servicio)
+    {
+
+        setEditandoServicio(true);
+
+        this.servicio = servicio;
+        prendas = servicio.getPrendas();
+
+        nuevoServicio.getClientes().setSelectedIndex(getCurrentCliente());
+
+        nuevoServicio.getHoras().setValue(servicio.getTiempoEstimado().getTime().getHours());
+        nuevoServicio.getMinutos().setValue(servicio.getTiempoEstimado().getTime().getMinutes());
+        nuevoServicio.getSegundos().setValue(servicio.getTiempoEstimado().getTime().getSeconds());
+
+        setTotalKg(servicio.getTotalKg());
+        setNTotalPrendas(servicio.getTotalPrendas());
+
+    }
+
+    private int getCurrentCliente()
+    {
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+                return i;
+
+        return 0;
 
     }
 
@@ -149,6 +179,8 @@ public class NuevoServicioController implements ActionListener
                     servicio.setTiempoEstimado(getTiempoEstimado());
                     servicio.setTotalKg(getTotalKg());
 
+                    vistaPrincipalController.updateTimer(servicio);
+
                     vistaPrincipalController.updateAllTables();
 
                     vistaPrincipalController.saveAllServices();
@@ -229,36 +261,6 @@ public class NuevoServicioController implements ActionListener
 
     }
 
-    public void establecerDatosDefecto(Servicio servicio)
-    {
-
-        setEditandoServicio(true);
-
-        this.servicio = servicio;
-        prendas = servicio.getPrendas();
-
-        nuevoServicio.getClientes().setSelectedIndex(getCurrentCliente());
-
-        nuevoServicio.getHoras().setValue(servicio.getTiempoEstimado().getTime().getHours());
-        nuevoServicio.getMinutos().setValue(servicio.getTiempoEstimado().getTime().getMinutes());
-        nuevoServicio.getSegundos().setValue(servicio.getTiempoEstimado().getTime().getSeconds());
-
-        setTotalKg(servicio.getTotalKg());
-        setNTotalPrendas(servicio.getTotalPrendas());
-
-    }
-
-    private int getCurrentCliente()
-    {
-
-        for (int i = 0; i < clientes.size(); i++)
-            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
-                return i;
-
-        return 0;
-
-    }
-
     private void mostrarMensaje(String titulo, String text, int tipo)
     {
         JOptionPane.showMessageDialog(nuevoServicio, text, titulo, tipo);
@@ -284,10 +286,10 @@ public class NuevoServicioController implements ActionListener
         this.prendas = prendas;
     }
 
-    public Temporizador getTiempoEstimado()
+    public Timer getTiempoEstimado()
     {
 
-        return new Temporizador(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
+        return new Timer(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
                 Integer.parseInt(String.valueOf(getNuevoServicio().getMinutos().getValue())),
                 Integer.parseInt(String.valueOf(getNuevoServicio().getSegundos().getValue()))));
 
