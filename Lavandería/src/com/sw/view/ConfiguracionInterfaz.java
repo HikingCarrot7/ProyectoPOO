@@ -132,6 +132,7 @@ public class ConfiguracionInterfaz extends javax.swing.JFrame
         getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, -1, -1));
 
         ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
+        ok.setActionCommand("ok");
         ok.setMaximumSize(new java.awt.Dimension(90, 40));
         ok.setMinimumSize(new java.awt.Dimension(90, 40));
         ok.setPreferredSize(new java.awt.Dimension(90, 40));

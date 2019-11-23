@@ -3,9 +3,11 @@ package com.sw.controller;
 import com.sw.model.Cliente;
 import com.sw.model.Prenda;
 import com.sw.model.Servicio;
-import com.sw.model.ServicioInicial;
 import com.sw.model.Ticket;
-import com.sw.persistence.DAO;
+import com.sw.persistence.ClienteDAO;
+import com.sw.persistence.ConfigDAO;
+import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Temporizador;
 import com.sw.utilities.Time;
@@ -33,7 +35,7 @@ public class NuevoServicioController implements ActionListener
     private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientes;
     private ArrayList<Prenda> prendas;
-    private ServicioInicial servicioInicial;
+    private Servicio servicio;
     private boolean editandoServicio;
     private int nTotalPrendas;
     private double totalKg;
@@ -71,15 +73,8 @@ public class NuevoServicioController implements ActionListener
 
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
-        if (clientes.isEmpty())
-        {
-            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "No hay clientes"));
-            return dm;
-
-        }
-
-        for (int i = 0; i < clientes.size(); i++)
-            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.get(i).getNombre()));
+        for (int i = clientes.isEmpty() ? -1 : 0; i < clientes.size(); i++)
+            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.isEmpty() ? "No hay clientes" : clientes.get(i).getNombre()));
 
         return dm;
 
@@ -119,7 +114,7 @@ public class NuevoServicioController implements ActionListener
                     prendasInterfaz.setLocationRelativeTo(nuevoServicio);
 
                     //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg());
+                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getPrecioKg());
 
                 });
 
@@ -131,12 +126,13 @@ public class NuevoServicioController implements ActionListener
                     if (!clientes.isEmpty())
                     {
 
-                        vistaPrincipalController.anadirServicioCola(new ServicioInicial(
+                        vistaPrincipalController.anadirServicioCola(new Servicio(
                                 obtenerClientes().get(nuevoServicio.getClientes().getSelectedIndex()),
                                 Calendar.getInstance(),
                                 getTiempoEstimado(),
                                 getPrendas(),
-                                getTotalKg()));
+                                getTotalKg(),
+                                new ConfigDAO().getPrecioKg()));
 
                         saveClaveNumTickets();
 
@@ -148,10 +144,10 @@ public class NuevoServicioController implements ActionListener
                 else
                 {
 
-                    servicioInicial.setCliente(getClientes().get(nuevoServicio.getClientes().getSelectedIndex()));
-                    servicioInicial.setPrendas(getPrendas());
-                    servicioInicial.setTiempoEstimado(getTiempoEstimado());
-                    servicioInicial.setTotalKg(getTotalKg());
+                    servicio.setCliente(getClientes().get(nuevoServicio.getClientes().getSelectedIndex()));
+                    servicio.setPrendas(getPrendas());
+                    servicio.setTiempoEstimado(getTiempoEstimado());
+                    servicio.setTotalKg(getTotalKg());
 
                     vistaPrincipalController.updateAllTables();
 
@@ -177,11 +173,11 @@ public class NuevoServicioController implements ActionListener
                         new VerTicketController(ticketInterfaz,
                                 new Ticket(
                                         Servicio.getNumeroTickets() + 1,
-                                        isEditandoServicio() ? servicioInicial.getFecha() : Calendar.getInstance(),
+                                        isEditandoServicio() ? servicio.getFecha() : Calendar.getInstance(),
                                         getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
                                         prendas,
                                         getNTotalPrendas(),
-                                        getTotalKg() * 9.5,
+                                        getTotalKg() * new ConfigDAO().getPrecioKg(),
                                         getTotalKg())).mostrarTicket();
 
                     });
@@ -233,22 +229,22 @@ public class NuevoServicioController implements ActionListener
 
     }
 
-    public void establecerDatosDefecto(ServicioInicial servicioInicial)
+    public void establecerDatosDefecto(Servicio servicio)
     {
 
         setEditandoServicio(true);
 
-        this.servicioInicial = servicioInicial;
-        prendas = servicioInicial.getPrendas();
+        this.servicio = servicio;
+        prendas = servicio.getPrendas();
 
         nuevoServicio.getClientes().setSelectedIndex(getCurrentCliente());
 
-        nuevoServicio.getHoras().setValue(servicioInicial.getTiempoEstimado().getTime().getHours());
-        nuevoServicio.getMinutos().setValue(servicioInicial.getTiempoEstimado().getTime().getMinutes());
-        nuevoServicio.getSegundos().setValue(servicioInicial.getTiempoEstimado().getTime().getSeconds());
+        nuevoServicio.getHoras().setValue(servicio.getTiempoEstimado().getTime().getHours());
+        nuevoServicio.getMinutos().setValue(servicio.getTiempoEstimado().getTime().getMinutes());
+        nuevoServicio.getSegundos().setValue(servicio.getTiempoEstimado().getTime().getSeconds());
 
-        setTotalKg(servicioInicial.getTotalKg());
-        setNTotalPrendas(servicioInicial.getTotalPrendas());
+        setTotalKg(servicio.getTotalKg());
+        setNTotalPrendas(servicio.getTotalPrendas());
 
     }
 
@@ -256,7 +252,7 @@ public class NuevoServicioController implements ActionListener
     {
 
         for (int i = 0; i < clientes.size(); i++)
-            if (servicioInicial.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
                 return i;
 
         return 0;
@@ -320,20 +316,20 @@ public class NuevoServicioController implements ActionListener
     private void saveClientes()
     {
 
-        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
+        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
 
-        new DAO(DAO.RUTA_CLAVECLIENTES).saveClaves(Cliente.getClaves());
+        new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
     }
 
     private void saveClaveNumTickets()
     {
-        new DAO(DAO.RUTA_NUMTICKETS).saveClaves(Servicio.getNumeroTickets());
+        new TicketDAO().saveClaveTickets(Servicio.getNumeroTickets());
     }
 
     private ArrayList<Cliente> obtenerClientes()
     {
-        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        return (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
     public NuevoServicio getNuevoServicio()

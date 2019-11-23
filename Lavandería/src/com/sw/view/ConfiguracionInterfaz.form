@@ -205,6 +205,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/com/src/images/ok.png"/>
         </Property>
+        <Property name="actionCommand" type="java.lang.String" value="ok"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[90, 40]"/>
         </Property>

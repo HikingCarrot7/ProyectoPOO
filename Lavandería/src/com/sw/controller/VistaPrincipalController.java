@@ -2,10 +2,11 @@ package com.sw.controller;
 
 import com.sw.model.Cliente;
 import com.sw.model.Historial;
-import com.sw.model.ServicioInicial;
+import com.sw.model.Servicio;
 import com.sw.model.Ticket;
 import com.sw.others.MyMouseAdapter;
-import com.sw.persistence.DAO;
+import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
@@ -43,17 +44,17 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     private VistaPrincipal vistaPrincipal;
     private String selectedTable;
-    private ArrayList<ServicioInicial> serviciosEnCola;
-    private ArrayList<ServicioInicial> serviciosEnProceso;
-    private ArrayList<ServicioInicial> serviciosTerminados;
+    private ArrayList<Servicio> serviciosEnCola;
+    private ArrayList<Servicio> serviciosEnProceso;
+    private ArrayList<Servicio> serviciosTerminados;
 
     public VistaPrincipalController(VistaPrincipal vistaPrincipal)
     {
 
         this.vistaPrincipal = vistaPrincipal;
-        serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
-        serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
-        serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
+        serviciosEnCola = getServicios(ServicioDAO.RUTA_SERVICIOSENCOLA);
+        serviciosEnProceso = getServicios(ServicioDAO.RUTA_SERVICIOSENPROCESO);
+        serviciosTerminados = getServicios(ServicioDAO.RUTA_SERVICIOSTERMINADOS);
 
         selectedTable = "En cola";
 
@@ -284,7 +285,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
-                    new PrendasController(prendas, this, serviciosEnCola.get(table.getSelectedRow()));
+                    Servicio servicio = serviciosEnCola.get(table.getSelectedRow());
+
+                    new PrendasController(prendas, this, servicio);
 
                 });
 
@@ -389,7 +392,17 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
-                    new PrendasController(prendas, this, serviciosTerminados.get(table.getSelectedRow()));
+                    if (!serviciosTerminados.get(table.getSelectedRow()).isTicketGenerado())
+                        new PrendasController(prendas, this, serviciosTerminados.get(table.getSelectedRow()));
+
+                    else
+                    {
+
+                        Servicio servicio = serviciosTerminados.get(table.getSelectedRow());
+
+                        new PrendasController(prendas, servicio.getPrendas(),
+                                servicio.getTotalKg(), servicio.getPrecioTotal());
+                    }
 
                 });
 
@@ -406,7 +419,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
             else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 6))
             {
 
-                ServicioInicial servicioInicial = serviciosTerminados.get(table.getSelectedRow());
+                Servicio servicio = serviciosTerminados.get(table.getSelectedRow());
 
                 EventQueue.invokeLater(() ->
                 {
@@ -416,11 +429,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     ticketInterfaz.setVisible(true);
                     ticketInterfaz.setLocationRelativeTo(vistaPrincipal);
 
-                    new VerTicketController(ticketInterfaz, servicioInicial.getTicket()).mostrarTicket();
+                    new VerTicketController(ticketInterfaz, servicio.getTicket()).mostrarTicket();
 
                 });
 
-                anadirServicioAHistorial(servicioInicial);
+                anadirServicioAHistorial(servicio);
 
             } else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 7))
                 if (!serviciosTerminados.get(table.getSelectedRow()).isTicketGenerado())
@@ -486,9 +499,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                 case "Editar":
 
-                    ServicioInicial servicioInicial = obtenerServicioSeleccionado();
+                    Servicio servicio = obtenerServicioSeleccionado();
 
-                    if (servicioInicial != null)
+                    if (servicio != null)
                         if (!selectedTable.equals("Terminado"))
                             EventQueue.invokeLater(() ->
                             {
@@ -501,11 +514,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                                 nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
                                 nuevoServicio.getTitleLabel().setText("Editar servicio");
 
-                                new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicioInicial);
+                                new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicio);
 
                             });
                         else
-                            mostrarMensaje("Error.", "No puede editar servicios en este punto.", JOptionPane.ERROR_MESSAGE);
+                            mostrarMensaje("Error.", "No se pueden editar servicios en este punto.", JOptionPane.ERROR_MESSAGE);
 
                     else
                         mostrarMensaje("Error", "No ha seleccionado ninguna fila o aún no hay servicios en esta tabla", JOptionPane.ERROR_MESSAGE);
@@ -680,15 +693,15 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    public void anadirServicioCola(ServicioInicial servicioInicial)
+    public void anadirServicioCola(Servicio servicio)
     {
 
-        serviciosEnCola.add(servicioInicial);
+        serviciosEnCola.add(servicio);
 
         new TableManager().addRow(vistaPrincipal.getTablaEnCola(), new Object[]
         {
 
-            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null
+            servicio.getCliente().getNombre(), "", null, "", "", null, null
 
         });
 
@@ -698,15 +711,15 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private void anadirServicioAProceso(ServicioInicial servicioInicial)
+    private void anadirServicioAProceso(Servicio servicio)
     {
 
-        serviciosEnProceso.add(servicioInicial);
+        serviciosEnProceso.add(servicio);
 
         new TableManager().addRow(vistaPrincipal.getTablaEnProceso(), new Object[]
         {
 
-            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null, null
+            servicio.getCliente().getNombre(), "", null, "", "", null, null, null
 
         });
 
@@ -716,15 +729,15 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private void anadirServicioTerminado(ServicioInicial servicioInicial)
+    private void anadirServicioTerminado(Servicio servicio)
     {
 
-        serviciosTerminados.add(servicioInicial);
+        serviciosTerminados.add(servicio);
 
         new TableManager().addRow(vistaPrincipal.getTablaTerminado(), new Object[]
         {
 
-            servicioInicial.getCliente().getNombre(), "", null, "", "", null, null, null
+            servicio.getCliente().getNombre(), "", null, "", "", null, null, null
 
         });
 
@@ -734,29 +747,27 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private void anadirServicioAHistorial(ServicioInicial servicioInicial)
+    private void anadirServicioAHistorial(Servicio servicio)
     {
 
-        if (!servicioInicial.isTicketGenerado())
+        if (!servicio.isTicketGenerado())
         {
 
             HistorialInterfaz historialInterfaz = new HistorialInterfaz();
 
             Historial historial = new Historial(
-                    servicioInicial.getCliente(),
-                    servicioInicial.getPrendas(),
+                    servicio.getCliente(),
+                    servicio.getPrendas(),
                     Calendar.getInstance(),
-                    servicioInicial.getTicket(),
-                    servicioInicial.getTotalKg(),
-                    servicioInicial.getPrecioTotal());
+                    servicio.getTicket(),
+                    servicio.getTotalKg(),
+                    servicio.getPrecioTotal());
 
             new HistorialController(historialInterfaz).anadirHistorial(historial);
 
-            anadirHistorialAClienteRegistrado(historial, servicioInicial.getCliente().getClaveCliente());
-
             historialInterfaz.dispose();
-            saveTicket(servicioInicial.getTicket());
-            servicioInicial.setTicketGenerado(true);
+            saveTicket(servicio.getTicket());
+            servicio.setTicketGenerado(true);
             saveServiciosTerminados();
 
         }
@@ -813,47 +824,47 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     public void saveServiciosEnCola()
     {
-        new DAO(DAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
+        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
     }
 
     public void saveServiciosEnProceso()
     {
-        new DAO(DAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
+        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
     }
 
     public void saveServiciosTerminados()
     {
-        new DAO(DAO.RUTA_SERVICIOSTERMINADOS).saveObjects(serviciosTerminados);
+        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSTERMINADOS).saveObjects(serviciosTerminados);
     }
 
     public void saveHistoriales(ArrayList<Historial> historiales)
     {
-        new DAO(DAO.RUTA_HISTORIALES).saveObjects(historiales);
+        new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).saveObjects(historiales);
     }
 
     public void saveClientesRegistrados(ArrayList<Cliente> clientesRegistrados)
     {
-        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientesRegistrados);
+        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientesRegistrados);
     }
 
     public void saveTicket(Ticket ticket)
     {
-        new DAO().saveTicket(ticket);
+        new TicketDAO().saveTicket(ticket);
     }
 
-    private ArrayList<ServicioInicial> getServicios(String ruta)
+    private ArrayList<Servicio> getServicios(String ruta)
     {
-        return (ArrayList<ServicioInicial>) new DAO(ruta).getObjects();
+        return (ArrayList<Servicio>) new ServicioDAO(ruta).getObjects();
     }
 
     private ArrayList<Historial> getHistoriales()
     {
-        return (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
+        return (ArrayList<Historial>) new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).getObjects();
     }
 
     private ArrayList<Cliente> getClientesRegistrados()
     {
-        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        return (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
     public void updateAllTables()
@@ -868,6 +879,21 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         tableManager.setTableItems(vistaPrincipal.getTablaTerminado(), getItemsTerminado());
 
         revalidateAllTables();
+
+    }
+
+    public void updateCostoKg(double constoKg)
+    {
+
+        for (int i = 0; i < serviciosEnCola.size(); i++)
+            serviciosEnCola.get(i).setCostoKg(constoKg);
+
+        for (int i = 0; i < serviciosEnProceso.size(); i++)
+            serviciosEnProceso.get(i).setCostoKg(constoKg);
+
+        for (int i = 0; i < serviciosTerminados.size(); i++)
+            if (!serviciosTerminados.get(i).isTicketGenerado())
+                serviciosTerminados.get(i).setCostoKg(constoKg);
 
     }
 
@@ -908,7 +934,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private void updateCliente(ArrayList<ServicioInicial> servicio, Cliente clienteNuevosDatos)
+    private void updateCliente(ArrayList<Servicio> servicio, Cliente clienteNuevosDatos)
     {
 
         for (int i = 0; i < servicio.size(); i++)
@@ -930,7 +956,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    private ServicioInicial obtenerServicioSeleccionado()
+    private Servicio obtenerServicioSeleccionado()
     {
 
         switch (getSelectedTable())
@@ -960,22 +986,6 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         }
 
         return null;
-
-    }
-
-    private void anadirHistorialAClienteRegistrado(Historial historial, int clave)
-    {
-
-        ArrayList<Cliente> clientesRegistrados = getClientesRegistrados();
-
-        for (int i = 0; i < clientesRegistrados.size(); i++)
-            if (clientesRegistrados.get(i).getClaveCliente() == clave)
-            {
-                clientesRegistrados.get(i).addHistorial(historial);
-                break;
-            }
-
-        saveClientesRegistrados(clientesRegistrados);
 
     }
 

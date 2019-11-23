@@ -101,12 +101,6 @@ public class TableManager
 
     }
 
-    /**
-     * Cuidado, los items deben estar recortados.
-     *
-     * @param table
-     * @param items
-     */
     public void addRow(JTable table, Object[] items)
     {
 
@@ -183,15 +177,6 @@ public class TableManager
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Los items ya deben estar recortados (No deben tener componentes).
-     *
-     * @param table La tabla a manipular.
-     * @param items Los items a poner en la tabla.
-     *
-     */
     public void setTableItems(JTable table, Object[][] items)
     {
 
@@ -232,14 +217,6 @@ public class TableManager
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Revisar.
-     *
-     * @param table
-     * @return
-     */
     public Object[] getEmptyRowData(JTable table)
     {
 

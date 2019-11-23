@@ -51,7 +51,7 @@ public class TicketGenerator
 
         textoTicket += getSeparador();
 
-        textoTicket += String.format("%s%3$s%s%3$s", alinearDerechaLinea(12, "Precio por kg. :") + String.format("$%11.2f", 9.5),
+        textoTicket += String.format("%s%3$s%s%3$s", alinearDerechaLinea(12, "Precio por kg. :") + String.format("$%11.2f", ticket.getPrecioTotal()),
                 alinearDerechaLinea(12, "Precio total :") + String.format("$%11.2f", ticket.getPrecioTotal()), lineSeparator);
 
         textoTicket += getSeparador();

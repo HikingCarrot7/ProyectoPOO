@@ -3,7 +3,8 @@ package com.sw.controller;
 import com.sw.model.Cliente;
 import com.sw.model.Historial;
 import com.sw.others.MyMouseAdapter;
-import com.sw.persistence.DAO;
+import com.sw.persistence.ClienteDAO;
+import com.sw.persistence.ServicioDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
@@ -35,7 +36,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
-        clientesRegistrados = (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        clientesRegistrados = (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
 
         initMyComponents();
 
@@ -225,7 +226,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         {
 
             if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
-                if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
+                if (getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())).isEmpty())
                     JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
 
                 else
@@ -291,15 +292,6 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Revisar este método para las futuras implementaciones específicas.
-     *
-     * @param clientes Los clientes registrados.
-     *
-     * @return Los items de los clientes registrados en forma de matriz de objetos (este método debe ignorar aquellas columnas que tengan componentes).
-     */
     private Object[][] getItems(ArrayList<Cliente> clientes)
     {
 
@@ -334,7 +326,8 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     private ArrayList<Historial> getHistorialesCliente(Cliente cliente)
     {
-        ArrayList<Historial> historiales = (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
+
+        ArrayList<Historial> historiales = (ArrayList<Historial>) new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).getObjects();
         ArrayList<Historial> historialesCliente = new ArrayList<>();
 
         for (int i = 0; i < historiales.size(); i++)
@@ -348,9 +341,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     private void guardarClientes()
     {
 
-        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
+        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
 
-        new DAO(DAO.RUTA_CLAVECLIENTES).saveClaves(Cliente.getClaves());
+        new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
     }
 

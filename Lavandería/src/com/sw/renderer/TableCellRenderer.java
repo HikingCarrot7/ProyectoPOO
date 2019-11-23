@@ -2,12 +2,11 @@ package com.sw.renderer;
 
 import com.sw.controller.TableManager;
 import com.sw.others.MouseMotionModel;
-import com.sw.persistence.DAO;
+import com.sw.persistence.ConfigDAO;
 import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -147,8 +146,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
-        ArrayList<Color> colorTemp = (ArrayList<Color>) new DAO(DAO.RUTA_COLORTABLAS).getObjects();
-        Color color = colorTemp.isEmpty() ? new Color(180, 180, 180) : colorTemp.get(0);
+        Color color = new ConfigDAO().getColorTablas();
 
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);

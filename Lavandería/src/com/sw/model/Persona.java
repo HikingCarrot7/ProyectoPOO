@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author Mohammed
  */
-public class Persona implements Serializable
+public abstract class Persona implements Serializable
 {
 
     private static final long serialVersionUID = -4223528775054366634L;

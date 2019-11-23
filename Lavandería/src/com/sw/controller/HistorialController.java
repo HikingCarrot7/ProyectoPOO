@@ -2,7 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Historial;
 import com.sw.others.MyMouseAdapter;
-import com.sw.persistence.DAO;
+import com.sw.persistence.ServicioDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import com.sw.utilities.Utilities;
@@ -174,7 +174,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(historialInterfaz);
 
-                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historiales.get(table.getSelectedRow()).getTotalKg());
+                    Historial historial = historiales.get(table.getSelectedRow());
+
+                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal());
 
                 });
 
@@ -268,12 +270,12 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     private void saveHistoriales()
     {
-        new DAO(DAO.RUTA_HISTORIALES).saveObjects(historiales);
+        new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).saveObjects(historiales);
     }
 
     private ArrayList<Historial> getHistoriales()
     {
-        return (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
+        return (ArrayList<Historial>) new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).getObjects();
     }
 
     public HistorialInterfaz getHistorialInterfaz()
