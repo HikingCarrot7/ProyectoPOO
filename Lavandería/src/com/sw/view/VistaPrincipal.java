@@ -4,6 +4,7 @@ import com.sw.renderer.ComboRenderer.ComboItem;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -96,6 +97,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         verClientes = new javax.swing.JButton();
         ordenarPorLabel = new javax.swing.JLabel();
         ordenarPor = new javax.swing.JComboBox<>();
+        display = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
@@ -239,6 +241,14 @@ public class VistaPrincipal extends javax.swing.JFrame
     ordenarPor.setMinimumSize(new java.awt.Dimension(80, 30));
     ordenarPor.setPreferredSize(new java.awt.Dimension(80, 30));
     getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 120, -1));
+
+    display.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
+    display.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    display.setToolTipText("");
+    display.setMaximumSize(new java.awt.Dimension(230, 60));
+    display.setMinimumSize(new java.awt.Dimension(230, 60));
+    display.setPreferredSize(new java.awt.Dimension(230, 60));
+    getContentPane().add(display, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
     fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
     getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
@@ -400,6 +410,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return scrollTablaTerminado;
     }
 
+    public JLabel getDisplay()
+    {
+        return display;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -418,6 +433,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JTextField buscar;
     private javax.swing.JMenu config;
     private javax.swing.JMenuItem configurar;
+    private javax.swing.JLabel display;
     private javax.swing.JButton editar;
     private javax.swing.JTable enCola;
     private javax.swing.JTable enProceso;

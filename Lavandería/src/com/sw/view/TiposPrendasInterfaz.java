@@ -1,7 +1,6 @@
 package com.sw.view;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
@@ -51,12 +50,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
     private void initMyComponents()
     {
-
         eliminar = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
-
     }
 
     /**
@@ -74,7 +68,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
         tiposPrendas = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tipos prendas");
         setMaximumSize(new java.awt.Dimension(495, 675));
         setMinimumSize(new java.awt.Dimension(495, 675));
@@ -87,6 +81,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
         editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         editar.setToolTipText("Editar prenda");
+        editar.setActionCommand("editTipoPrenda");
         editar.setMaximumSize(new java.awt.Dimension(100, 45));
         editar.setMinimumSize(new java.awt.Dimension(100, 45));
         editar.setPreferredSize(new java.awt.Dimension(100, 45));
@@ -94,6 +89,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
         anadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         anadir.setToolTipText("Añadir nueva prenda");
+        anadir.setActionCommand("addTipoPrenda");
         anadir.setMaximumSize(new java.awt.Dimension(100, 45));
         anadir.setMinimumSize(new java.awt.Dimension(100, 45));
         anadir.setPreferredSize(new java.awt.Dimension(100, 45));

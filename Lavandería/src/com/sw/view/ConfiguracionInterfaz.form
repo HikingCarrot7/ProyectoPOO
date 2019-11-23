@@ -139,6 +139,7 @@
           <Image iconType="3" name="/com/src/images/tshirt.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="A&#xf1;adir tipos de prendas"/>
+        <Property name="actionCommand" type="java.lang.String" value="tipoPrendas"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[90, 40]"/>
         </Property>

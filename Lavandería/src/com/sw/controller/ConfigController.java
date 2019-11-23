@@ -3,7 +3,9 @@ package com.sw.controller;
 import com.sw.others.TextFieldListener;
 import com.sw.persistence.ConfigDAO;
 import com.sw.view.ConfiguracionInterfaz;
+import com.sw.view.TiposPrendasInterfaz;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JColorChooser;
@@ -34,6 +36,7 @@ public class ConfigController implements ActionListener
         configuracionInterfaz.getOrder().setSelectedIndex(new ConfigDAO().getOrden());
 
         configuracionInterfaz.getColorChooser().addActionListener(this);
+        configuracionInterfaz.getTiposPrendas().addActionListener(this);
         configuracionInterfaz.getOk().addActionListener(this);
 
     }
@@ -50,6 +53,22 @@ public class ConfigController implements ActionListener
                 new ConfigDAO().saveColorTablas(JColorChooser.showDialog(configuracionInterfaz, "Selecciona un color.", Color.yellow));
 
                 vistaPrincipalController.revalidateAllTables();
+
+                break;
+
+            case "tipoPrendas":
+
+                EventQueue.invokeLater(() ->
+                {
+
+                    TiposPrendasInterfaz tiposPrendasInterfaz = new TiposPrendasInterfaz();
+
+                    tiposPrendasInterfaz.setVisible(true);
+                    tiposPrendasInterfaz.setLocationRelativeTo(configuracionInterfaz);
+
+                    new TiposPrendasController(tiposPrendasInterfaz);
+
+                });
 
                 break;
 

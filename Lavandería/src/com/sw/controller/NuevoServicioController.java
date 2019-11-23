@@ -6,7 +6,7 @@ import com.sw.model.Servicio;
 import com.sw.model.Ticket;
 import com.sw.persistence.ClienteDAO;
 import com.sw.persistence.ConfigDAO;
-import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.DAO;
 import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Temporizador;
@@ -316,7 +316,7 @@ public class NuevoServicioController implements ActionListener
     private void saveClientes()
     {
 
-        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
+        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
 
         new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
@@ -329,7 +329,7 @@ public class NuevoServicioController implements ActionListener
 
     private ArrayList<Cliente> obtenerClientes()
     {
-        return (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
     public NuevoServicio getNuevoServicio()

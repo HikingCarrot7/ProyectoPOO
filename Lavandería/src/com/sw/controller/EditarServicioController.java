@@ -2,7 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Cliente;
 import com.sw.model.Servicio;
-import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.EditarServicio;
@@ -76,7 +76,7 @@ public class EditarServicioController implements ActionListener
 
     private ArrayList<Cliente> getClientes()
     {
-        return (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
     @Override

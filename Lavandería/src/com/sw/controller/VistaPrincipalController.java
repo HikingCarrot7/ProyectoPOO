@@ -5,7 +5,7 @@ import com.sw.model.Historial;
 import com.sw.model.Servicio;
 import com.sw.model.Ticket;
 import com.sw.others.MyMouseAdapter;
-import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.DAO;
 import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
@@ -52,9 +52,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         this.vistaPrincipal = vistaPrincipal;
-        serviciosEnCola = getServicios(ServicioDAO.RUTA_SERVICIOSENCOLA);
-        serviciosEnProceso = getServicios(ServicioDAO.RUTA_SERVICIOSENPROCESO);
-        serviciosTerminados = getServicios(ServicioDAO.RUTA_SERVICIOSTERMINADOS);
+        serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
+        serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
+        serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
 
         selectedTable = "En cola";
 
@@ -67,6 +67,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         renderTableTerminado();
 
         loadComboModel();
+
+        new DisplayController(vistaPrincipal.getDisplay()).iniciarAnimacion();
 
     }
 
@@ -824,27 +826,27 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     public void saveServiciosEnCola()
     {
-        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
+        new DAO(DAO.RUTA_SERVICIOSENCOLA).saveObjects(serviciosEnCola);
     }
 
     public void saveServiciosEnProceso()
     {
-        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
+        new DAO(DAO.RUTA_SERVICIOSENPROCESO).saveObjects(serviciosEnProceso);
     }
 
     public void saveServiciosTerminados()
     {
-        new ServicioDAO(ServicioDAO.RUTA_SERVICIOSTERMINADOS).saveObjects(serviciosTerminados);
+        new DAO(DAO.RUTA_SERVICIOSTERMINADOS).saveObjects(serviciosTerminados);
     }
 
     public void saveHistoriales(ArrayList<Historial> historiales)
     {
-        new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).saveObjects(historiales);
+        new DAO(DAO.RUTA_HISTORIALES).saveObjects(historiales);
     }
 
     public void saveClientesRegistrados(ArrayList<Cliente> clientesRegistrados)
     {
-        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientesRegistrados);
+        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientesRegistrados);
     }
 
     public void saveTicket(Ticket ticket)
@@ -854,17 +856,17 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     private ArrayList<Servicio> getServicios(String ruta)
     {
-        return (ArrayList<Servicio>) new ServicioDAO(ruta).getObjects();
+        return (ArrayList<Servicio>) new DAO(ruta).getObjects();
     }
 
     private ArrayList<Historial> getHistoriales()
     {
-        return (ArrayList<Historial>) new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).getObjects();
+        return (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
     }
 
     private ArrayList<Cliente> getClientesRegistrados()
     {
-        return (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
     public void updateAllTables()
@@ -882,18 +884,18 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
     }
 
-    public void updateCostoKg(double constoKg)
+    public void updateCostoKg(double costoKg)
     {
 
         for (int i = 0; i < serviciosEnCola.size(); i++)
-            serviciosEnCola.get(i).setCostoKg(constoKg);
+            serviciosEnCola.get(i).setCostoKg(costoKg);
 
         for (int i = 0; i < serviciosEnProceso.size(); i++)
-            serviciosEnProceso.get(i).setCostoKg(constoKg);
+            serviciosEnProceso.get(i).setCostoKg(costoKg);
 
         for (int i = 0; i < serviciosTerminados.size(); i++)
             if (!serviciosTerminados.get(i).isTicketGenerado())
-                serviciosTerminados.get(i).setCostoKg(constoKg);
+                serviciosTerminados.get(i).setCostoKg(costoKg);
 
     }
 

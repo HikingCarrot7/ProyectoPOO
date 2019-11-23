@@ -4,7 +4,7 @@ import com.sw.model.Cliente;
 import com.sw.model.Historial;
 import com.sw.others.MyMouseAdapter;
 import com.sw.persistence.ClienteDAO;
-import com.sw.persistence.ServicioDAO;
+import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
@@ -36,7 +36,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
-        clientesRegistrados = (ArrayList<Cliente>) new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).getObjects();
+        clientesRegistrados = (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
 
         initMyComponents();
 
@@ -327,7 +327,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     private ArrayList<Historial> getHistorialesCliente(Cliente cliente)
     {
 
-        ArrayList<Historial> historiales = (ArrayList<Historial>) new ServicioDAO(ServicioDAO.RUTA_HISTORIALES).getObjects();
+        ArrayList<Historial> historiales = (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
         ArrayList<Historial> historialesCliente = new ArrayList<>();
 
         for (int i = 0; i < historiales.size(); i++)
@@ -341,7 +341,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     private void guardarClientes()
     {
 
-        new ServicioDAO(ServicioDAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
+        new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
 
         new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 

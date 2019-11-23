@@ -111,6 +111,7 @@ public class ConfiguracionInterfaz extends javax.swing.JFrame
 
         tiposPrendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
         tiposPrendas.setToolTipText("Añadir tipos de prendas");
+        tiposPrendas.setActionCommand("tipoPrendas");
         tiposPrendas.setMaximumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setMinimumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setPreferredSize(new java.awt.Dimension(90, 40));

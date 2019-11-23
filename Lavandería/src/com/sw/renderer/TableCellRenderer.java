@@ -132,7 +132,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
                     return (Component) value;
 
-                case "Tipos prenda":
+                case "Tipos prendas":
                     updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
                     return (Component) value;
 
