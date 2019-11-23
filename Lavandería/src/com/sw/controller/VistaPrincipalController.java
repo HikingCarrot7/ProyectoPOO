@@ -57,6 +57,8 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         this.vistaPrincipal = vistaPrincipal;
+        vistaPrincipal.getScrollLista().setVisible(false);
+
         serviciosEnCola = getServicios(DAO.RUTA_SERVICIOSENCOLA);
         serviciosEnProceso = getServicios(DAO.RUTA_SERVICIOSENPROCESO);
         serviciosTerminados = getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
@@ -124,6 +126,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
             }
 
         });
+
+        BuscadorController buscadorController = new BuscadorController(vistaPrincipal.getScrollLista(), this, vistaPrincipal.getLista());
+
+        vistaPrincipal.getBuscar().getDocument().addDocumentListener(buscadorController);
+        vistaPrincipal.getBuscar().addFocusListener(buscadorController);
 
         vistaPrincipal.getScrollTablaEnCola().setName("En cola");
         vistaPrincipal.getScrollTablaEnProceso().setName("En proceso");
@@ -910,7 +917,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         new TicketDAO().saveTicket(ticket);
     }
 
-    private ArrayList<Servicio> getServicios(String ruta)
+    public ArrayList<Servicio> getServicios(String ruta)
     {
         return (ArrayList<Servicio>) new DAO(ruta).getObjects();
     }

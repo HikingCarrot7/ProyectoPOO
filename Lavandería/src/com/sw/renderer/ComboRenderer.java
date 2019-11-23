@@ -23,6 +23,7 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
+
         list.addMouseMotionListener(new MouseMotionManager(this));
 
         setIcon(((ComboItem) value).getIcon());

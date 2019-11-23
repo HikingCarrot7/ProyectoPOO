@@ -59,6 +59,7 @@ public class TextFieldListener implements DocumentListener, FocusListener
 
         } else
         {
+
             campo.setBackground(Color.white);
             label.setText("");
             setValido(false);

@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import java.awt.Font;
 import java.util.Calendar;
 import javax.swing.JLabel;
 
@@ -38,7 +39,7 @@ public class DisplayController implements Runnable
 
             Thread.sleep(1000);
 
-            while (true)
+            while (!false)
                 try
                 {
 
@@ -46,9 +47,7 @@ public class DisplayController implements Runnable
 
                     Thread.sleep(1000);
 
-                    realizarAnimacionCompleta(getFixedString(String.format("%1$tZ %1$tI:%1$tM:%1$tS %Tp", Calendar.getInstance())), 150);
-
-                    Thread.sleep(1000);
+                    mostrarHora(10);
 
                 } catch (InterruptedException ex)
                 {
@@ -59,6 +58,30 @@ public class DisplayController implements Runnable
         {
             System.out.println(ex.getMessage());
         }
+
+    }
+
+    private void mostrarHora(int seconds)
+    {
+
+        display.setFont(new Font("Tahoma", Font.PLAIN, 38));
+
+        for (int i = 0; i < seconds; i++)
+            try
+            {
+
+                display.setText(String.format("%tr", Calendar.getInstance()));
+
+                Thread.sleep(1000);
+
+            } catch (InterruptedException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+
+        display.setText("");
+
+        display.setFont(new Font("Tahoma", Font.PLAIN, 40));
 
     }
 

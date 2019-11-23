@@ -87,7 +87,7 @@ public class ConfigController implements ActionListener
                     configuracionInterfaz.dispose();
 
                 } else
-                    mostrarMensaje("Error.", "El precio por kg. que insertó no es válido y no se tomará en cuenta.", JOptionPane.ERROR_MESSAGE);
+                    mostrarMensaje("Error.", "El precio por kg. que insertó no es válido.", JOptionPane.ERROR_MESSAGE);
 
                 break;
 
