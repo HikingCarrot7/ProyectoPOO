@@ -6,15 +6,15 @@ import java.io.Serializable;
  *
  * @author Mohammed
  */
-public class Persona implements Serializable
+public abstract class Persona implements Serializable
 {
 
     private static final long serialVersionUID = -4223528775054366634L;
 
-    private String nombre;
-    private String correo;
-    private String telefono;
-    private String direccion;
+    protected String nombre;
+    protected String correo;
+    protected String telefono;
+    protected String direccion;
 
     public Persona(String nombre, String correo, String telefono, String direccion)
     {

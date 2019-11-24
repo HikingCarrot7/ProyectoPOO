@@ -1,7 +1,7 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
-import com.sw.model.ServicioInicial;
+import com.sw.model.Servicio;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
@@ -22,15 +22,15 @@ public class EditarServicioController implements ActionListener
 {
 
     private EditarServicio editarServicio;
-    private ServicioInicial servicioInicial;
+    private Servicio servicio;
     private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientes;
 
-    public EditarServicioController(EditarServicio editarServicio, ServicioInicial servicioInicial, VistaPrincipalController vistaPrincipalController)
+    public EditarServicioController(EditarServicio editarServicio, Servicio servicio, VistaPrincipalController vistaPrincipalController)
     {
 
         this.editarServicio = editarServicio;
-        this.servicioInicial = servicioInicial;
+        this.servicio = servicio;
         this.vistaPrincipalController = vistaPrincipalController;
 
         clientes = getClientes();
@@ -67,7 +67,7 @@ public class EditarServicioController implements ActionListener
     {
 
         for (int i = 0; i < clientes.size(); i++)
-            if (servicioInicial.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
                 return i;
 
         return -1;
@@ -88,7 +88,7 @@ public class EditarServicioController implements ActionListener
 
             case "ok":
 
-                servicioInicial.setCliente(getClientes().get(editarServicio.getClientes().getSelectedIndex()));
+                servicio.setCliente(getClientes().get(editarServicio.getClientes().getSelectedIndex()));
 
                 vistaPrincipalController.updateAllTables();
 
@@ -100,7 +100,7 @@ public class EditarServicioController implements ActionListener
 
             case "verTicket":
 
-                if (!servicioInicial.getPrendas().isEmpty() && servicioInicial.getTotalKg() != 0)
+                if (!servicio.getPrendas().isEmpty() && servicio.getTotalKg() != 0)
                     EventQueue.invokeLater(() ->
                     {
 
@@ -109,9 +109,9 @@ public class EditarServicioController implements ActionListener
                         ticketInterfaz.setVisible(true);
                         ticketInterfaz.setLocationRelativeTo(editarServicio);
 
-                        servicioInicial.setCliente(getClientes().get(editarServicio.getClientes().getSelectedIndex()));
+                        servicio.setCliente(getClientes().get(editarServicio.getClientes().getSelectedIndex()));
 
-                        new VerTicketController(ticketInterfaz, servicioInicial.getTicket()).mostrarTicket();
+                        new VerTicketController(ticketInterfaz, servicio.getTicket()).mostrarTicket();
 
                     });
 

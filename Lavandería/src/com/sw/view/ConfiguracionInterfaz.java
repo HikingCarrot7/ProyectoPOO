@@ -1,15 +1,51 @@
 package com.sw.view;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author Mohammed
  */
-public class Configuracion extends javax.swing.JFrame
+public class ConfiguracionInterfaz extends javax.swing.JFrame
 {
 
-    public Configuracion()
+    public ConfiguracionInterfaz()
     {
+
+        initWindow();
+
         initComponents();
+
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
+
     }
 
     /**
@@ -30,10 +66,10 @@ public class Configuracion extends javax.swing.JFrame
         colorChooser = new javax.swing.JButton();
         ok = new javax.swing.JButton();
         ordenarPor = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        order = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración");
         setMaximumSize(new java.awt.Dimension(500, 370));
         setMinimumSize(new java.awt.Dimension(500, 370));
@@ -75,6 +111,7 @@ public class Configuracion extends javax.swing.JFrame
 
         tiposPrendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/tshirt.png"))); // NOI18N
         tiposPrendas.setToolTipText("Añadir tipos de prendas");
+        tiposPrendas.setActionCommand("tipoPrendas");
         tiposPrendas.setMaximumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setMinimumSize(new java.awt.Dimension(90, 40));
         tiposPrendas.setPreferredSize(new java.awt.Dimension(90, 40));
@@ -89,12 +126,14 @@ public class Configuracion extends javax.swing.JFrame
         getContentPane().add(colorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 170, -1));
 
         colorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/color.png"))); // NOI18N
+        colorChooser.setActionCommand("Color");
         colorChooser.setMaximumSize(new java.awt.Dimension(90, 40));
         colorChooser.setMinimumSize(new java.awt.Dimension(90, 40));
         colorChooser.setPreferredSize(new java.awt.Dimension(90, 40));
         getContentPane().add(colorChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, -1, -1));
 
         ok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ok.png"))); // NOI18N
+        ok.setActionCommand("ok");
         ok.setMaximumSize(new java.awt.Dimension(90, 40));
         ok.setMinimumSize(new java.awt.Dimension(90, 40));
         ok.setPreferredSize(new java.awt.Dimension(90, 40));
@@ -108,11 +147,11 @@ public class Configuracion extends javax.swing.JFrame
         ordenarPor.setPreferredSize(new java.awt.Dimension(140, 30));
         getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setMaximumSize(new java.awt.Dimension(140, 30));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(140, 30));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(140, 30));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, -1, -1));
+        order.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascendente", "Desendente" }));
+        order.setMaximumSize(new java.awt.Dimension(140, 30));
+        order.setMinimumSize(new java.awt.Dimension(140, 30));
+        order.setPreferredSize(new java.awt.Dimension(140, 30));
+        getContentPane().add(order, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 370));
@@ -120,53 +159,43 @@ public class Configuracion extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
+    public JButton getColorChooser()
     {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
+        return colorChooser;
+    }
 
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    public JButton getOk()
+    {
+        return ok;
+    }
 
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        //</editor-fold>
+    public JComboBox<String> getOrder()
+    {
+        return order;
+    }
 
-        //</editor-fold>
+    public JTextField getPrecio()
+    {
+        return precio;
+    }
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-            Configuracion config = new Configuracion();
+    public JLabel getPrecioValido()
+    {
+        return precioValido;
+    }
 
-            config.setVisible(true);
-            config.setLocationRelativeTo(null);
-
-        });
-
+    public JButton getTiposPrendas()
+    {
+        return tiposPrendas;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton colorChooser;
     private javax.swing.JLabel colorLabel;
     private javax.swing.JLabel fondo;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JButton ok;
     private javax.swing.JLabel ordenarPor;
+    private javax.swing.JComboBox<String> order;
     private javax.swing.JTextField precio;
     private javax.swing.JLabel precioLabel;
     private javax.swing.JLabel precioValido;

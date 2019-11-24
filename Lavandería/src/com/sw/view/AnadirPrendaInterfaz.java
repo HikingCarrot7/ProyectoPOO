@@ -65,6 +65,7 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(400, 300));
         setMinimumSize(new java.awt.Dimension(400, 300));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         prendaTitle.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N

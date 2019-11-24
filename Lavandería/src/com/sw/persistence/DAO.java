@@ -2,16 +2,13 @@ package com.sw.persistence;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.Scanner;
 
 /**
  *
@@ -20,17 +17,16 @@ import java.util.Scanner;
 public class DAO
 {
 
-    public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
-    public static final String RUTA_HISTORIALES = "res/Historiales.txt";
+    public static final String RUTA_CLIENTESREGISTRADOS = "res/com/sw/data/ClientesRegistrados.txt";
+    public static final String RUTA_TIPOSPRENDAS = "res/com/sw/data/TiposPrendas.txt";
+    public static final String RUTA_HISTORIALES = "res/com/sw/data/Historiales.txt";
+    public static final String RUTA_TABLETIMERS = "res/com/sw/data/TableTimers.txt";
 
-    public static final String RUTA_CLAVECLIENTES = "res/ClaveCliente.txt";
-    public static final String RUTA_NUMTICKETS = "res/NumTickets.txt";
+    public static final String RUTA_SERVICIOSENCOLA = "res/com/sw/data/ServiciosEnCola.txt";
+    public static final String RUTA_SERVICIOSENPROCESO = "res/com/sw/data/ServiciosEnProceso.txt";
+    public static final String RUTA_SERVICIOSTERMINADOS = "res/com/sw/data/ServiciosTerminados.txt";
 
-    public static final String RUTA_SERVICIOSENCOLA = "res/ServiciosEnCola.txt";
-    public static final String RUTA_SERVICIOSENPROCESO = "res/ServiciosEnProceso.txt";
-    public static final String RUTA_SERVICIOSTERMINADOS = "res/ServiciosTerminados.txt";
-
-    private final File file;
+    private File file;
 
     public DAO(String ruta)
     {
@@ -85,38 +81,6 @@ public class DAO
             {
                 out.writeObject(objects);
             }
-
-        } catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-
-    }
-
-    public int getClaves()
-    {
-
-        try (Scanner in = new Scanner(new FileReader(file)))
-        {
-
-            return in.nextInt();
-
-        } catch (FileNotFoundException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-
-        return 0;
-
-    }
-
-    public void saveClaves(int clave)
-    {
-
-        try (Formatter out = new Formatter(new FileWriter(file, false)))
-        {
-
-            out.format("%s", clave);
 
         } catch (IOException ex)
         {

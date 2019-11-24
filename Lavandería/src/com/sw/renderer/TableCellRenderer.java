@@ -1,7 +1,8 @@
 package com.sw.renderer;
 
-import com.sw.controller.MouseMotionModel;
 import com.sw.controller.TableManager;
+import com.sw.others.MouseMotionModel;
+import com.sw.persistence.ConfigDAO;
 import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,6 +22,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class TableCellRenderer extends DefaultTableCellRenderer implements MouseMotionModel
 {
 
+    private static final long serialVersionUID = -2422440758692459668L;
+
     private int x;
     private int y;
 
@@ -28,10 +31,10 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 250
                 : table.getWidth() == 913 ? 280
                 : table.getColumnCount() == 2 ? 370
-                : table.getColumnCount() == 6 ? 450
+                : table.getColumnCount() == 6 ? 350
                 : table.getColumnCount() == 7 ? 350
                 : table.getColumnCount() == 8 ? 350 : 280);
 
@@ -57,7 +60,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
                     switch (column)
                     {
 
-                        case 1:
+                        case 3:
 
                             updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
                             break;
@@ -131,7 +134,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
                     return (Component) value;
 
-                case "Tipos prenda":
+                case "Tipos prendas":
                     updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
                     return (Component) value;
 
@@ -140,18 +143,41 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
             }
 
+        else if (value instanceof JLabel)
+        {
+
+            ((JLabel) value).setHorizontalAlignment(SwingConstants.LEFT);
+            ((Component) value).setSize(30, ((Component) value).getWidth());
+            ((Component) value).setPreferredSize(new Dimension(6, ((Component) value).getWidth()));
+
+            Color color = new ConfigDAO().getColorTablas();
+
+            ((JComponent) value).setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
+            ((JComponent) value).setOpaque(true);
+            ((Component) value).setBackground(row % 2 == 0 ? color.brighter() : Color.white);
+            ((Component) value).setForeground(Color.black);
+
+            if (row == table.getSelectedRow())
+                ((Component) value).setBackground(color.darker());
+
+            return ((Component) value);
+
+        }
+
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
+        Color color = new ConfigDAO().getColorTablas();
+
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
-        jcomponent.setBackground(row % 2 == 0 ? new Color(180, 180, 180) : Color.white);
+        jcomponent.setBackground(row % 2 == 0 ? color.brighter() : Color.white);
         jcomponent.setForeground(Color.black);
 
         if (row == table.getSelectedRow())
-            jcomponent.setBackground(Color.cyan);
+            jcomponent.setBackground(color.darker());
 
         return jcomponent;
 

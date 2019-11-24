@@ -1,5 +1,6 @@
 package com.sw.renderer;
 
+import com.sw.persistence.ConfigDAO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -24,14 +25,14 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325
+        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 250
                 : table.getWidth() == 913 ? 280
                 : table.getColumnCount() == 2 ? 370
                 : table.getColumnCount() == 6 ? 450
                 : table.getColumnCount() == 7 ? 350
                 : table.getColumnCount() == 8 ? 350 : 280);
 
-        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 115
+        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 220
                 : table.getWidth() == 913 ? 165
                 : table.getColumnCount() == 2 ? 115
                 : table.getColumnCount() == 6 ? 149
@@ -41,13 +42,13 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
         if (table.getColumnCount() >= 3)
         {
 
-            table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 115
+            table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 125
                     : table.getWidth() == 913 ? 165
                     : table.getColumnCount() == 6 ? 149
                     : table.getColumnCount() == 7 ? 143
                     : table.getColumnCount() == 8 ? 122 : 93);
 
-            table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 115
+            table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 103
                     : table.getWidth() == 913 ? 165
                     : table.getColumnCount() == 6 ? 149
                     : table.getColumnCount() == 7 ? 143
@@ -56,14 +57,14 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
         }
 
         if (table.getColumnCount() >= 5)
-            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 913 ? 70
-                    : table.getWidth() == 904 ? 115
+            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 904 ? 103
+                    : table.getWidth() == 913 ? 70
                     : table.getColumnCount() == 7 ? 143
                     : table.getColumnCount() == 8 ? 122 : 154);
 
         if (table.getColumnCount() >= 6)
-            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 913 ? 70
-                    : table.getWidth() == 904 ? 122
+            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 904 ? 104
+                    : table.getWidth() == 913 ? 70
                     : table.getColumnCount() == 7 ? 143
                     : table.getColumnCount() == 8 ? 122 : 154);
 
@@ -80,8 +81,7 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
 
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
-        jcomponent.setBackground(new Color(65, 65, 65));
-        jcomponent.setToolTipText("Header");
+        jcomponent.setBackground(new ConfigDAO().getColorTablas().darker());
         jcomponent.setForeground(Color.white);
 
         return jcomponent;

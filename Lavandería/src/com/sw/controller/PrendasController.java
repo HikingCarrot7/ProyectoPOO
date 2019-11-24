@@ -1,7 +1,7 @@
 package com.sw.controller;
 
 import com.sw.model.Prenda;
-import com.sw.model.ServicioInicial;
+import com.sw.model.Servicio;
 import com.sw.utilities.Utilities;
 import com.sw.view.AnadirPrendaInterfaz;
 import com.sw.view.PrendasInterfaz;
@@ -32,44 +32,50 @@ public class PrendasController extends MouseAdapter implements ActionListener
     private PrendasInterfaz prendasInterfaz;
     private NuevoServicioController nuevoServicioController;
     private VistaPrincipalController vistaPrincipalController;
-    private ServicioInicial servicioInicial;
+    private Servicio servicio;
     private ArrayList<Prenda> prendas;
 
-    public PrendasController(PrendasInterfaz prendasInterfaz, ArrayList<Prenda> prendas)
-    {
-
-        this.prendasInterfaz = prendasInterfaz;
-        this.prendas = prendas;
-
-        initAllMyComponents();
-
-    }
-
-    public PrendasController(PrendasInterfaz prendasInterfaz, VistaPrincipalController vistaPrincipalController, ServicioInicial servicioInicial)
+    public PrendasController(PrendasInterfaz prendasInterfaz, VistaPrincipalController vistaPrincipalController, Servicio servicio)
     {
 
         this.vistaPrincipalController = vistaPrincipalController;
         this.prendasInterfaz = prendasInterfaz;
-        this.servicioInicial = servicioInicial;
+        this.servicio = servicio;
 
-        prendas = servicioInicial.getPrendas();
+        prendas = servicio.getPrendas();
 
-        initCamposPrecio(servicioInicial.getTotalKg());
+        initCampos(servicio.getTotalKg(), servicio.getCostoKg());
 
-        initAllMyComponents();
+        initAllMyComponents(servicio.getCostoKg());
 
     }
 
-    public PrendasController(PrendasInterfaz prendasInterfaz, NuevoServicioController nuevoServicioController, ArrayList<Prenda> prendas, double totalKg)
+    public PrendasController(PrendasInterfaz prendasInterfaz, NuevoServicioController nuevoServicioController, ArrayList<Prenda> prendas, double totalKg, double costoKg)
     {
 
         this.prendasInterfaz = prendasInterfaz;
         this.nuevoServicioController = nuevoServicioController;
         this.prendas = prendas;
 
-        initCamposPrecio(totalKg);
+        initCampos(totalKg, costoKg);
 
-        initAllMyComponents();
+        initAllMyComponents(costoKg);
+
+    }
+
+    public PrendasController(PrendasInterfaz prendasInterfaz, ArrayList<Prenda> prendas, double totalKg, double costoKg)
+    {
+
+        this.prendasInterfaz = prendasInterfaz;
+        this.prendas = prendas;
+
+        prendasInterfaz.getAddPrenda().setEnabled(false);
+        prendasInterfaz.getEditarPrenda().setEnabled(false);
+        prendasInterfaz.getTotalKg().setEnabled(false);
+
+        initCampos(totalKg, costoKg);
+
+        initAllMyComponents(costoKg);
 
     }
 
@@ -90,21 +96,22 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    private void initCamposPrecio(double totalKg)
+    private void initCampos(double totalKg, double precioKg)
     {
+
         prendasInterfaz.getTotalKg().setText(String.valueOf(totalKg));
-        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * 9.5));
+        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * precioKg));
 
     }
 
-    private void initAllMyComponents()
+    private void initAllMyComponents(double costoKg)
     {
 
         iniciarLista();
 
         renderPrendasInterfazTable();
 
-        TextFieldListener textFieldListener = new TextFieldListener("^[0-9]+(.?[0-9]+)?$", prendasInterfaz.getTotalKg(), prendasInterfaz.getTotalPrecio());
+        MyTextFieldListener textFieldListener = new MyTextFieldListener("^[0-9]+(.?[0-9]+)?$", prendasInterfaz.getTotalKg(), prendasInterfaz.getTotalPrecio(), costoKg);
 
         prendasInterfaz.getTotalKg().getDocument().addDocumentListener(textFieldListener);
         prendasInterfaz.getTotalKg().addFocusListener(textFieldListener);
@@ -146,6 +153,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
         switch (e.getActionCommand())
         {
+
             case "addPrenda":
 
                 EventQueue.invokeLater(() ->
@@ -176,7 +184,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
                     });
 
                 else
-                    mostrarError();
+                    mostrarMensaje("Error.", "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
 
             default:
                 break;
@@ -193,11 +201,28 @@ public class PrendasController extends MouseAdapter implements ActionListener
         JTable table = prendasInterfaz.getPrendasTable();
 
         if (tableManager.encimaBoton(table, e.getX(), e.getY(), 3))
+        {
+
+            if (!prendasInterfaz.getAddPrenda().isEnabled())
+            {
+
+                mostrarMensaje("Error.", "No se pueden borrar prendas cuando el ticket ya ha sido generado.", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (prendas.size() == 1)
+            {
+                mostrarMensaje("Error.", "Al menos una prenda debe ser añadida por servicio", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             if (!tableManager.isFirstRowEmpty(table))
                 eliminarPrenda(tableManager.getClickedRow(table, e.getY()));
 
             else
-                mostrarError();
+                mostrarMensaje("Error.", "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
+
+        }
 
     }
 
@@ -276,7 +301,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
         else
         {
 
-            servicioInicial.setPrendas(getPrendas());
+            servicio.setPrendas(getPrendas());
             vistaPrincipalController.saveAllServices();
 
         }
@@ -310,27 +335,27 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    private void mostrarError()
+    private void mostrarMensaje(String titulo, String text, int tipo)
     {
-        JOptionPane.showMessageDialog(prendasInterfaz, "Aún no hay prendas", "No hay prendas", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(prendasInterfaz, text, titulo, tipo);
     }
 
-    private class TextFieldListener implements DocumentListener, FocusListener
+    private class MyTextFieldListener implements DocumentListener, FocusListener
     {
 
         private JTextField totalKg;
         private JTextField precioTotal;
         private String regex;
-        private double precioKg;
+        private double costoKg;
         private boolean campoValido;
 
-        public TextFieldListener(String regex, JTextField totalKg, JTextField precioTotal)
+        public MyTextFieldListener(String regex, JTextField totalKg, JTextField precioTotal, double costoKg)
         {
+
             this.regex = regex;
             this.totalKg = totalKg;
             this.precioTotal = precioTotal;
-
-            this.precioKg = 9.5;
+            this.costoKg = costoKg;
 
         }
 
@@ -358,11 +383,11 @@ public class PrendasController extends MouseAdapter implements ActionListener
             if (nuevoServicioController != null)
                 nuevoServicioController.setTotalKg(0);
             else
-                servicioInicial.setTotalKg(0);
+                servicio.setTotalKg(0);
 
             if (vistaPrincipalController != null)
             {
-                vistaPrincipalController.saveServiciosEnCola();
+                vistaPrincipalController.saveAllServices();
                 vistaPrincipalController.updateAllTables();
 
             }
@@ -384,18 +409,19 @@ public class PrendasController extends MouseAdapter implements ActionListener
                 boolean valido = totalKg.getText().matches(regex);
 
                 totalKg.setForeground(valido ? Color.green : Color.red);
-                precioTotal.setText(valido ? String.format("$%,.2f", Double.parseDouble(totalKg.getText()) * precioKg) : "");
+                precioTotal.setText(valido ? String.format("$%,.2f", Double.parseDouble(totalKg.getText()) * costoKg) : "");
                 setCampoValido(valido);
 
                 if (valido && nuevoServicioController != null)
                     nuevoServicioController.setTotalKg(Double.parseDouble(totalKg.getText()));
 
                 else if (valido)
-                    servicioInicial.setTotalKg(Double.parseDouble(totalKg.getText()));
+                    servicio.setTotalKg(Double.parseDouble(totalKg.getText()));
 
                 if (vistaPrincipalController != null)
                 {
-                    vistaPrincipalController.saveServiciosEnCola();
+
+                    vistaPrincipalController.saveAllServices();
                     vistaPrincipalController.updateAllTables();
 
                 }

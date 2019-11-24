@@ -1,4 +1,4 @@
-package com.sw.controller;
+package com.sw.others;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;
@@ -59,6 +59,7 @@ public class TextFieldListener implements DocumentListener, FocusListener
 
         } else
         {
+
             campo.setBackground(Color.white);
             label.setText("");
             setValido(false);

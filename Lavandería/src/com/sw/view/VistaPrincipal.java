@@ -1,9 +1,12 @@
 package com.sw.view;
 
 import com.sw.renderer.ComboRenderer.ComboItem;
+import com.sw.renderer.ListRenderer.ListItem;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -71,6 +74,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         generarTicket = new ArrayList<>();
         eliminarTerminado = new ArrayList<>();
 
+        timersScreen = new ArrayList<>();
+
     }
 
     /**
@@ -89,6 +94,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         enProceso = new javax.swing.JTable();
         scrollTablaTerminado = new javax.swing.JScrollPane();
         terminado = new javax.swing.JTable();
+        scrollLista = new javax.swing.JScrollPane();
+        lista = new javax.swing.JList<>();
         buscar = new javax.swing.JTextField();
         editar = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
@@ -96,9 +103,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         verClientes = new javax.swing.JButton();
         ordenarPorLabel = new javax.swing.JLabel();
         ordenarPor = new javax.swing.JComboBox<>();
+        display = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
+        configurar = new javax.swing.JMenuItem();
         utilidades = new javax.swing.JMenu();
         juegos = new javax.swing.JMenu();
         wave = new javax.swing.JMenuItem();
@@ -107,7 +116,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         setTitle("Lavandería");
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
-        setMinimumSize(new java.awt.Dimension(1230, 800));
+        setMaximumSize(new java.awt.Dimension(1210, 780));
+        setMinimumSize(new java.awt.Dimension(1210, 780));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -118,7 +128,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         nuevoServicio.setMaximumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setMinimumSize(new java.awt.Dimension(200, 75));
         nuevoServicio.setPreferredSize(new java.awt.Dimension(200, 100));
-        getContentPane().add(nuevoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 0, -1, 35));
+        getContentPane().add(nuevoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, -1, 35));
 
         panelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
         panelPrincipal.setMaximumSize(new java.awt.Dimension(1180, 700));
@@ -178,88 +188,115 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     panelPrincipal.addTab("Terminado", new javax.swing.ImageIcon(getClass().getResource("/com/src/images/terminado.png")), scrollTablaTerminado, "Conjunto de prendas listas para empaquetar."); // NOI18N
 
-    getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1210, 676));
+    getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 136, 1210, 640));
     panelPrincipal.getAccessibleContext().setAccessibleName("panelPrincipal");
 
-    buscar.setToolTipText("Buscar cliente");
-    buscar.setAlignmentX(0.0F);
-    buscar.setAlignmentY(0.0F);
-    buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar cliente"));
-    buscar.setMaximumSize(new java.awt.Dimension(550, 40));
-    buscar.setMinimumSize(new java.awt.Dimension(550, 40));
-    buscar.setPreferredSize(new java.awt.Dimension(550, 40));
-    getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 550, 60));
+    scrollLista.setMaximumSize(new java.awt.Dimension(546, 65));
+    scrollLista.setMinimumSize(new java.awt.Dimension(546, 65));
+    scrollLista.setPreferredSize(new java.awt.Dimension(546, 65));
 
-    editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
-    editar.setToolTipText("Editar servicio");
-    editar.setActionCommand("Editar");
-    editar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-    editar.setMaximumSize(new java.awt.Dimension(200, 75));
-    editar.setMinimumSize(new java.awt.Dimension(200, 75));
-    editar.setPreferredSize(new java.awt.Dimension(200, 100));
-    getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 40, -1, 35));
+    lista.setModel(new javax.swing.AbstractListModel<ListItem>()
+        {
+            ListItem[] strings = { null };
+            public int getSize() { return strings.length; }
+            public ListItem getElementAt(int i) { return strings[i]; }
+        });
+        scrollLista.setViewportView(lista);
 
-    logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
-    getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 0, 215, 95));
+        getContentPane().add(scrollLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(232, 58, -1, 90));
 
-    verHIstorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historial.png"))); // NOI18N
-    verHIstorial.setToolTipText("Ver historial");
-    verHIstorial.setActionCommand("Historial");
-    verHIstorial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-    verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
-    verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));
-    verHIstorial.setPreferredSize(new java.awt.Dimension(95, 35));
-    getContentPane().add(verHIstorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, -1, -1));
+        buscar.setToolTipText("Buscar servicio");
+        buscar.setAlignmentX(0.0F);
+        buscar.setAlignmentY(0.0F);
+        buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar servicio"));
+        buscar.setMaximumSize(new java.awt.Dimension(550, 40));
+        buscar.setMinimumSize(new java.awt.Dimension(550, 40));
+        buscar.setPreferredSize(new java.awt.Dimension(550, 40));
+        getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 550, 60));
 
-    verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
-    verClientes.setToolTipText("Ver clientes");
-    verClientes.setActionCommand("Ver clientes");
-    verClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
-    verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
-    verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
-    verClientes.setPreferredSize(new java.awt.Dimension(95, 35));
-    getContentPane().add(verClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1105, 80, -1, -1));
+        editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
+        editar.setToolTipText("Editar servicio");
+        editar.setActionCommand("Editar");
+        editar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        editar.setMaximumSize(new java.awt.Dimension(200, 75));
+        editar.setMinimumSize(new java.awt.Dimension(200, 75));
+        editar.setPreferredSize(new java.awt.Dimension(200, 100));
+        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 60, -1, 35));
 
-    ordenarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-    ordenarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    ordenarPorLabel.setText("Ordenar por:");
-    ordenarPorLabel.setToolTipText("");
-    ordenarPorLabel.setMaximumSize(new java.awt.Dimension(90, 30));
-    ordenarPorLabel.setMinimumSize(new java.awt.Dimension(90, 30));
-    ordenarPorLabel.setPreferredSize(new java.awt.Dimension(90, 30));
-    getContentPane().add(ordenarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
+        logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/logo.jpg"))); // NOI18N
+        getContentPane().add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, 215, 95));
 
-    ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] { null }));
-    ordenarPor.setToolTipText("Ordenar servicios por...");
-    ordenarPor.setLightWeightPopupEnabled(false);
-    ordenarPor.setMaximumSize(new java.awt.Dimension(80, 30));
-    ordenarPor.setMinimumSize(new java.awt.Dimension(80, 30));
-    ordenarPor.setPreferredSize(new java.awt.Dimension(80, 30));
-    getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 120, -1));
+        verHIstorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/historial.png"))); // NOI18N
+        verHIstorial.setToolTipText("Ver historial");
+        verHIstorial.setActionCommand("Historial");
+        verHIstorial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        verHIstorial.setMaximumSize(new java.awt.Dimension(200, 35));
+        verHIstorial.setMinimumSize(new java.awt.Dimension(200, 35));
+        verHIstorial.setPreferredSize(new java.awt.Dimension(95, 35));
+        getContentPane().add(verHIstorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 100, -1, -1));
 
-    fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-    getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
+        verClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clienteCombo.png"))); // NOI18N
+        verClientes.setToolTipText("Ver clientes");
+        verClientes.setActionCommand("Ver clientes");
+        verClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        verClientes.setMaximumSize(new java.awt.Dimension(200, 35));
+        verClientes.setMinimumSize(new java.awt.Dimension(200, 35));
+        verClientes.setPreferredSize(new java.awt.Dimension(95, 35));
+        getContentPane().add(verClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1105, 100, -1, -1));
 
-    config.setText("Configuración");
-    menuBar.add(config);
+        ordenarPorLabel.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        ordenarPorLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ordenarPorLabel.setText("Ordenar por:");
+        ordenarPorLabel.setMaximumSize(new java.awt.Dimension(90, 30));
+        ordenarPorLabel.setMinimumSize(new java.awt.Dimension(90, 30));
+        ordenarPorLabel.setPreferredSize(new java.awt.Dimension(90, 30));
+        getContentPane().add(ordenarPorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
-    utilidades.setText("Utilidades");
-    menuBar.add(utilidades);
+        ordenarPor.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] { null }));
+        ordenarPor.setToolTipText("Ordenar servicios por...");
+        ordenarPor.setLightWeightPopupEnabled(false);
+        ordenarPor.setMaximumSize(new java.awt.Dimension(80, 30));
+        ordenarPor.setMinimumSize(new java.awt.Dimension(80, 30));
+        ordenarPor.setPreferredSize(new java.awt.Dimension(80, 30));
+        getContentPane().add(ordenarPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 120, -1));
 
-    juegos.setText("Juegos");
+        display.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
+        display.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        display.setMaximumSize(new java.awt.Dimension(230, 60));
+        display.setMinimumSize(new java.awt.Dimension(230, 60));
+        display.setPreferredSize(new java.awt.Dimension(230, 60));
+        getContentPane().add(display, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
 
-    wave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/wave.png"))); // NOI18N
-    wave.setText("Wave");
-    wave.setToolTipText("Wave");
-    wave.setActionCommand("wave");
-    juegos.add(wave);
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
+        fondo.setToolTipText("");
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
 
-    menuBar.add(juegos);
+        config.setText("Configuración");
+        config.setActionCommand("Config");
 
-    setJMenuBar(menuBar);
+        configurar.setText("Configurar");
+        configurar.setActionCommand("Config");
+        config.add(configurar);
 
-    pack();
+        menuBar.add(config);
+
+        utilidades.setText("Utilidades");
+        menuBar.add(utilidades);
+
+        juegos.setText("Juegos");
+
+        wave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/wave.png"))); // NOI18N
+        wave.setText("Wave");
+        wave.setToolTipText("Wave");
+        wave.setActionCommand("wave");
+        juegos.add(wave);
+
+        menuBar.add(juegos);
+
+        setJMenuBar(menuBar);
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     public JTable getTablaEnCola()
@@ -267,7 +304,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         return enCola;
     }
 
-    public JTable getTablaEnProceso()
+    public static JTable getTablaEnProceso()
     {
         return enProceso;
     }
@@ -357,6 +394,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return editar;
     }
 
+    public JMenuItem getConfigurar()
+    {
+        return configurar;
+    }
+
     public JMenuItem getWave()
     {
         return wave;
@@ -387,6 +429,26 @@ public class VistaPrincipal extends javax.swing.JFrame
         return scrollTablaTerminado;
     }
 
+    public JLabel getDisplay()
+    {
+        return display;
+    }
+
+    public ArrayList<JLabel> getTimersScreen()
+    {
+        return timersScreen;
+    }
+
+    public JList<ListItem> getLista()
+    {
+        return lista;
+    }
+
+    public JScrollPane getScrollLista()
+    {
+        return scrollLista;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -401,20 +463,26 @@ public class VistaPrincipal extends javax.swing.JFrame
     private ArrayList<JButton> generarTicket;
     private ArrayList<JButton> eliminarTerminado;
 
+    private ArrayList<JLabel> timersScreen;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
     private javax.swing.JMenu config;
+    private javax.swing.JMenuItem configurar;
+    private javax.swing.JLabel display;
     private javax.swing.JButton editar;
     private javax.swing.JTable enCola;
-    private javax.swing.JTable enProceso;
+    private static javax.swing.JTable enProceso;
     private javax.swing.JLabel fondo;
     private javax.swing.JMenu juegos;
+    private javax.swing.JList<ListItem> lista;
     private javax.swing.JLabel logo;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton nuevoServicio;
     private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JLabel ordenarPorLabel;
     private javax.swing.JTabbedPane panelPrincipal;
+    private javax.swing.JScrollPane scrollLista;
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
     private javax.swing.JScrollPane scrollTablaTerminado;
