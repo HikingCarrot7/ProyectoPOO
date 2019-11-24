@@ -62,6 +62,7 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Añadir prenda");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(400, 300));
         setMinimumSize(new java.awt.Dimension(400, 300));
@@ -114,7 +115,7 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
         prenda.setPreferredSize(new java.awt.Dimension(190, 30));
         getContentPane().add(prenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
 
-        tiposPrenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tiposPrenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Playera", "Ropa interior", "Sábana" }));
         tiposPrenda.setMaximumSize(new java.awt.Dimension(190, 30));
         tiposPrenda.setMinimumSize(new java.awt.Dimension(190, 30));
         tiposPrenda.setPreferredSize(new java.awt.Dimension(190, 30));

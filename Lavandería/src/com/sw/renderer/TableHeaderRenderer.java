@@ -4,6 +4,7 @@ import com.sw.persistence.ConfigDAO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.Serializable;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -76,6 +77,7 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
+        jcomponent.setFont(new Font("Consolas", Font.PLAIN, 11));
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 

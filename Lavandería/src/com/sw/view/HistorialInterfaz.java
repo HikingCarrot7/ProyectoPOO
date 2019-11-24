@@ -72,6 +72,7 @@ public class HistorialInterfaz extends javax.swing.JFrame
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Historial");
         setMaximumSize(new java.awt.Dimension(915, 720));
         setMinimumSize(new java.awt.Dimension(915, 720));
         setPreferredSize(new java.awt.Dimension(915, 720));

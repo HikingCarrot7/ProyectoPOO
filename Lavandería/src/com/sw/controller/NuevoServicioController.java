@@ -204,7 +204,7 @@ public class NuevoServicioController implements ActionListener
 
                         new VerTicketController(ticketInterfaz,
                                 new Ticket(
-                                        Servicio.getNumeroTickets() + 1,
+                                        Servicio.getNumeroTickets() + (isEditandoServicio() ? 0 : 1),
                                         isEditandoServicio() ? servicio.getFecha() : Calendar.getInstance(),
                                         getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
                                         prendas,

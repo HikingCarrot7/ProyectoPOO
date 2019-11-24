@@ -110,7 +110,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
-        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
+        if (isHistorialGeneral())
+            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
+
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/fecha.png"), "Fecha"));
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/precio.png"), "Precio total"));
 
@@ -219,7 +221,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         {
 
             items[i][0] = historiales.get(i).getCliente().getNombre();
-            items[i][1] = String.format("%-30s%tr", String.format("%1$ta, %1$tb %1$te, %1$ty", historiales.get(i).getFecha()), historiales.get(i).getFecha());
+            items[i][1] = String.format("%-18s%tr", String.format("%1$ta, %1$tb %1$te, %1$ty", historiales.get(i).getFecha()), historiales.get(i).getFecha());
             items[i][2] = String.format("$%,.2f", historiales.get(i).getPrecioTotal());
 
         }

@@ -38,6 +38,14 @@
                 <Property name="actionCommand" type="java.lang.String" value="wave"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="satyrrun">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/src/images/LD27.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Satyr run!"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>

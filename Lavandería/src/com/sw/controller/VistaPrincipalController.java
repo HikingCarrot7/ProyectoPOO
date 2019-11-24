@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.game.src.main.Game;
 import com.sw.model.Cliente;
 import com.sw.model.Historial;
 import com.sw.model.Servicio;
@@ -115,6 +116,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         vistaPrincipal.getConfigurar().addActionListener(this);
 
         vistaPrincipal.getWave().addActionListener(this);
+        vistaPrincipal.getSatyrrun().addActionListener(this);
 
         vistaPrincipal.addWindowListener(new WindowAdapter()
         {
@@ -526,7 +528,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         clientesRegistradosInterfaz.setVisible(true);
                         clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
 
-                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz, this);
 
                         clientesRegistradosController.addObserver(this);
 
@@ -605,6 +607,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     });
 
                     break;
+
+                case "wave":
+                    Game.main(null);
 
                 default:
                     break;
@@ -806,6 +811,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
             new HistorialController(historialInterfaz).anadirHistorial(historial);
 
             historialInterfaz.dispose();
+            updateNServiciosCliente(servicio.getCliente().getClaveCliente());
             saveTicket(servicio.getTicket());
             servicio.setTicketGenerado(true);
             saveServiciosTerminados();
@@ -1035,6 +1041,19 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                 historiales.get(i).getCliente().setNombre(clienteNuevosDatos.getNombre());
 
         saveHistoriales(historiales);
+
+    }
+
+    private void updateNServiciosCliente(int claveClienteABuscar)
+    {
+
+        ArrayList<Cliente> clientes = getClientesRegistrados();
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (clientes.get(i).getClaveCliente() == claveClienteABuscar)
+                clientes.get(i).aumentarNServicios();
+
+        saveClientesRegistrados(clientes);
 
     }
 

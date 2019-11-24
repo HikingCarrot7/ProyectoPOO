@@ -7,6 +7,7 @@ import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -154,6 +155,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
             ((JComponent) value).setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
             ((JComponent) value).setOpaque(true);
+            ((Component) value).setFont(new Font("Consolas", Font.PLAIN, 12));
             ((Component) value).setBackground(row % 2 == 0 ? color.brighter() : Color.white);
             ((Component) value).setForeground(Color.black);
 
@@ -166,6 +168,7 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);
+        jcomponent.setFont(new Font("Consolas", Font.PLAIN, 12));
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 

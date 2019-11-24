@@ -111,6 +111,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         utilidades = new javax.swing.JMenu();
         juegos = new javax.swing.JMenu();
         wave = new javax.swing.JMenuItem();
+        satyrrun = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lavandería");
@@ -292,6 +293,10 @@ public class VistaPrincipal extends javax.swing.JFrame
         wave.setActionCommand("wave");
         juegos.add(wave);
 
+        satyrrun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/LD27.png"))); // NOI18N
+        satyrrun.setText("Satyr run!");
+        juegos.add(satyrrun);
+
         menuBar.add(juegos);
 
         setJMenuBar(menuBar);
@@ -404,6 +409,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return wave;
     }
 
+    public JMenuItem getSatyrrun()
+    {
+        return satyrrun;
+    }
+
     public JTabbedPane getPanelPrincipal()
     {
         return panelPrincipal;
@@ -482,6 +492,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JLabel ordenarPorLabel;
     private javax.swing.JTabbedPane panelPrincipal;
+    private javax.swing.JMenuItem satyrrun;
     private javax.swing.JScrollPane scrollLista;
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
