@@ -96,11 +96,11 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    private void initCampos(double totalKg, double precioKg)
+    private void initCampos(double totalKg, double costoKg)
     {
 
         prendasInterfaz.getTotalKg().setText(String.valueOf(totalKg));
-        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * precioKg));
+        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * costoKg));
 
     }
 
@@ -226,14 +226,6 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    /**
-     *
-     * @deprecated
-     *
-     * Revisar para futuras implementaciones.
-     *
-     * @return
-     */
     private Object[][] getItems()
     {
 
@@ -257,6 +249,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     public void anadirPrenda(Prenda prenda)
     {
+
         prendas.add(prenda);
 
         new TableManager().addRow(prendasInterfaz.getPrendasTable(), new Object[]

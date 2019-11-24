@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -24,11 +23,9 @@ public class BuscadorController implements FocusListener, DocumentListener
 {
 
     private JScrollPane scrollPane;
-    private JViewport viewport;
     private VistaPrincipalController vistaPrincipalController;
     private DefaultListModel<ListItem> modeloLista;
     private JList<ListItem> lista;
-    private int index = -1;
 
     public BuscadorController(JScrollPane scrollPane, VistaPrincipalController vistaPrincipalController, JList<ListItem> lista)
     {
@@ -57,7 +54,7 @@ public class BuscadorController implements FocusListener, DocumentListener
     @Override
     public void focusLost(FocusEvent e)
     {
-
+        scrollPane.setVisible(false);
     }
 
     @Override
@@ -101,7 +98,6 @@ public class BuscadorController implements FocusListener, DocumentListener
         buscarEnLista(serviciosTerminado, aBuscar, "TERMINADO");
 
         scrollPane.setVisible(!modeloLista.isEmpty());
-        index = -1;
 
     }
 

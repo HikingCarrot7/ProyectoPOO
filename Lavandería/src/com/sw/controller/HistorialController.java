@@ -176,7 +176,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                     Historial historial = historiales.get(table.getSelectedRow());
 
-                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal());
+                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal() / historial.getTotalKg());
 
                 });
 
@@ -261,11 +261,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     private void updateTableHistorial()
     {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.setTableItems(historialInterfaz.getTablaHistorial(), getItems());
-
+        new TableManager().setTableItems(historialInterfaz.getTablaHistorial(), getItems());
     }
 
     private void saveHistoriales()

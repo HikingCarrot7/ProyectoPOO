@@ -437,7 +437,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         Servicio servicio = serviciosTerminados.get(table.getSelectedRow());
 
-                        new PrendasController(prendas, servicio.getPrendas(), servicio.getTotalKg(), servicio.getPrecioTotal());
+                        new PrendasController(prendas, servicio.getPrendas(), servicio.getTotalKg(), servicio.getPrecioTotal() / servicio.getTotalKg());
 
                     }
 

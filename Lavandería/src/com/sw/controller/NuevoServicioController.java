@@ -144,7 +144,7 @@ public class NuevoServicioController implements ActionListener
                     prendasInterfaz.setLocationRelativeTo(nuevoServicio);
 
                     //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getPrecioKg());
+                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getCostoKg());
 
                 });
 
@@ -162,7 +162,7 @@ public class NuevoServicioController implements ActionListener
                                 getTiempoEstimado(),
                                 getPrendas(),
                                 getTotalKg(),
-                                new ConfigDAO().getPrecioKg()));
+                                new ConfigDAO().getCostoKg()));
 
                         saveClaveNumTickets();
 
@@ -209,7 +209,7 @@ public class NuevoServicioController implements ActionListener
                                         getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
                                         prendas,
                                         getNTotalPrendas(),
-                                        getTotalKg() * new ConfigDAO().getPrecioKg(),
+                                        getTotalKg() * new ConfigDAO().getCostoKg(),
                                         getTotalKg())).mostrarTicket();
 
                     });

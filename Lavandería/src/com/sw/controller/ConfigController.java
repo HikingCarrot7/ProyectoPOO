@@ -32,7 +32,7 @@ public class ConfigController implements ActionListener
 
         configuracionInterfaz.getPrecio().getDocument().addDocumentListener(textFieldListener);
 
-        configuracionInterfaz.getPrecio().setText(String.valueOf(new ConfigDAO().getPrecioKg()));
+        configuracionInterfaz.getPrecio().setText(String.valueOf(new ConfigDAO().getCostoKg()));
         configuracionInterfaz.getOrder().setSelectedIndex(new ConfigDAO().getOrden());
 
         configuracionInterfaz.getColorChooser().addActionListener(this);
@@ -83,6 +83,8 @@ public class ConfigController implements ActionListener
                     configDAO.saveOrden(configuracionInterfaz.getOrder().getSelectedIndex());
 
                     vistaPrincipalController.updateCostoKg(Double.parseDouble(configuracionInterfaz.getPrecio().getText()));
+
+                    vistaPrincipalController.updateAllTables();
 
                     configuracionInterfaz.dispose();
 
