@@ -32,11 +32,10 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 250
-                : table.getWidth() == 913 ? 280
-                : table.getColumnCount() == 2 ? 370
-                : table.getColumnCount() == 6 ? 350
-                : table.getColumnCount() == 7 ? 350
+        table.getColumnModel().getColumn(0).setWidth(table.getName().equals("Historial") ? 250
+                : table.getName().equals("Clientes") ? 280
+                : table.getName().equals("Tipos prendas") ? 370
+                : table.getName().equals("En cola") ? 350
                 : table.getColumnCount() == 8 ? 350 : 280);
 
         table.setRowHeight(30);

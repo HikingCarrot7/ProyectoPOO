@@ -82,9 +82,9 @@ public class PrendasInterfaz extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        scrollPrendas.setMaximumSize(new java.awt.Dimension(575, 550));
-        scrollPrendas.setMinimumSize(new java.awt.Dimension(575, 550));
-        scrollPrendas.setPreferredSize(new java.awt.Dimension(575, 550));
+        scrollPrendas.setMaximumSize(new java.awt.Dimension(575, 555));
+        scrollPrendas.setMinimumSize(new java.awt.Dimension(575, 555));
+        scrollPrendas.setPreferredSize(new java.awt.Dimension(575, 555));
 
         prendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -110,7 +110,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         });
         scrollPrendas.setViewportView(prendas);
 
-        getContentPane().add(scrollPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, -1, 550));
+        getContentPane().add(scrollPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, -1, -1));
 
         addPrenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         addPrenda.setToolTipText("Añadir nueva prenda");
@@ -168,7 +168,7 @@ public class PrendasInterfaz extends javax.swing.JFrame
         fondo.setMaximumSize(new java.awt.Dimension(600, 700));
         fondo.setMinimumSize(new java.awt.Dimension(600, 700));
         fondo.setPreferredSize(new java.awt.Dimension(600, 700));
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 700));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 690));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

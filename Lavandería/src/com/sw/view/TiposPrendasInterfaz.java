@@ -70,9 +70,9 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tipos prendas");
-        setMaximumSize(new java.awt.Dimension(495, 675));
-        setMinimumSize(new java.awt.Dimension(495, 675));
-        setPreferredSize(new java.awt.Dimension(495, 675));
+        setMaximumSize(new java.awt.Dimension(495, 650));
+        setMinimumSize(new java.awt.Dimension(495, 650));
+        setPreferredSize(new java.awt.Dimension(495, 650));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -95,6 +95,10 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
         anadir.setPreferredSize(new java.awt.Dimension(100, 45));
         getContentPane().add(anadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
+        scrollTipoPrendas.setMaximumSize(new java.awt.Dimension(490, 485));
+        scrollTipoPrendas.setMinimumSize(new java.awt.Dimension(490, 485));
+        scrollTipoPrendas.setPreferredSize(new java.awt.Dimension(490, 485));
+
         tiposPrendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
@@ -108,7 +112,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
         ));
         scrollTipoPrendas.setViewportView(tiposPrendas);
 
-        getContentPane().add(scrollTipoPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 490, 490));
+        getContentPane().add(scrollTipoPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 680));

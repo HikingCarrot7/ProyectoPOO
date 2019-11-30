@@ -7,6 +7,7 @@
         <Menu class="javax.swing.JMenu" name="config">
           <Properties>
             <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
+            <Property name="toolTipText" type="java.lang.String" value="Configuraci&#xf3;n"/>
             <Property name="actionCommand" type="java.lang.String" value="Config"/>
           </Properties>
           <SubComponents>
@@ -24,22 +25,27 @@
         <Menu class="javax.swing.JMenu" name="utilidades">
           <Properties>
             <Property name="text" type="java.lang.String" value="Utilidades"/>
+            <Property name="toolTipText" type="java.lang.String" value="Algunas utilidades"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="notepad">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/src/images/notepadIcon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Notepad"/>
+                <Property name="toolTipText" type="java.lang.String" value="Un bloc de notas b&#xe1;sico."/>
+                <Property name="actionCommand" type="java.lang.String" value="notepad"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="calculadora">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/com/src/images/calculadoraIcon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Calculadora"/>
+                <Property name="toolTipText" type="java.lang.String" value="Una calculadora b&#xe1;sica."/>
+                <Property name="actionCommand" type="java.lang.String" value="calculadora"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -57,10 +63,13 @@
       <Point value="[0, 0]"/>
     </Property>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1210, 780]"/>
+      <Dimension value="[1210, 700]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1210, 780]"/>
+      <Dimension value="[1210, 700]"/>
+    </Property>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[1210, 700]"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
@@ -79,7 +88,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,12,0,0,4,-70"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-68,0,0,4,-70"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -120,10 +129,13 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[1180, 700]"/>
+          <Dimension value="[1210, 515]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1210, 515]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[1180, 700]"/>
+          <Dimension value="[1210, 515]"/>
         </Property>
       </Properties>
       <AccessibilityProperties>
@@ -131,7 +143,7 @@
       </AccessibilityProperties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="136" width="1210" height="640"/>
+          <AbsoluteConstraints x="0" y="136" width="-1" height="-1"/>
         </Constraint>
       </Constraints>
 
@@ -141,6 +153,15 @@
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[452, 600]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[452, 600]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[452, 600]"/>
             </Property>
           </Properties>
           <AccessibilityProperties>

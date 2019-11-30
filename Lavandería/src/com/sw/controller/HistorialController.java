@@ -2,6 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Historial;
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
@@ -178,6 +179,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                     Historial historial = historiales.get(table.getSelectedRow());
 
+                    prendas.addWindowListener(new MyWindowListener(historialInterfaz));
+                    historialInterfaz.setVisible(false);
+
                     new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal() / historial.getTotalKg());
 
                 });
@@ -190,6 +194,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                     ticketInterfaz.setVisible(true);
                     ticketInterfaz.setLocationRelativeTo(null);
+
+                    ticketInterfaz.addWindowListener(new MyWindowListener(historialInterfaz));
+                    historialInterfaz.setVisible(false);
 
                     new VerTicketController(ticketInterfaz, historiales.get(table.getSelectedRow()).getTicket()).mostrarTicket();
 

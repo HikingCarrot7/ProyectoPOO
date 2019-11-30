@@ -4,6 +4,7 @@ import com.sw.model.Cliente;
 import com.sw.model.Historial;
 import com.sw.model.Servicio;
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.ClienteDAO;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
@@ -135,6 +136,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                         nuevoCliente.setLocationRelativeTo(clientesRegistradosInterfaz);
                         nuevoCliente.setVisible(true);
 
+                        nuevoCliente.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
+
                         new NuevoClienteController(nuevoCliente, this);
 
                     });
@@ -151,6 +155,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                             nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
                             nuevoClienteModificar.setVisible(true);
+
+                            nuevoClienteModificar.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                            clientesRegistradosInterfaz.setVisible(false);
 
                             new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
                                     getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
@@ -248,6 +255,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                         historialInterfaz.setVisible(true);
                         historialInterfaz.setLocationRelativeTo(clientesRegistradosInterfaz);
+
+                        historialInterfaz.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
 
                         new HistorialController(historialInterfaz, getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())));
 

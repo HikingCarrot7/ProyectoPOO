@@ -1,6 +1,7 @@
 package com.sw.controller;
 
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.DAO;
 import com.sw.view.AnadirTipoPrendaInterfaz;
 import com.sw.view.TiposPrendasInterfaz;
@@ -88,6 +89,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
                     anadirTipoPrendaInterfaz.setVisible(true);
                     anadirTipoPrendaInterfaz.setLocationRelativeTo(null);
 
+                    anadirTipoPrendaInterfaz.addWindowListener(new MyWindowListener(tiposPrendasInterfaz));
+                    tiposPrendasInterfaz.setVisible(false);
+
                     new AnadirTipoPrendaController(anadirTipoPrendaInterfaz, this);
 
                 });
@@ -104,6 +108,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
 
                         anadirTipoPrendaInterfaz.setVisible(true);
                         anadirTipoPrendaInterfaz.setLocationRelativeTo(null);
+
+                        anadirTipoPrendaInterfaz.addWindowListener(new MyWindowListener(tiposPrendasInterfaz));
+                        tiposPrendasInterfaz.setVisible(false);
 
                         new AnadirTipoPrendaController(anadirTipoPrendaInterfaz, this).establecerTipoPrendaDefecto(tiposPrendasInterfaz.getTiposPrendasTable().getSelectedRow());
 

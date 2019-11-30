@@ -30,6 +30,7 @@ public class TableManager
         table.setDefaultRenderer(Object.class, tableCellRenderer);
         JTableHeader jTableHeader = table.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
+        jTableHeader.setReorderingAllowed(false);
         table.setTableHeader(jTableHeader);
 
         table.getColumnModel().setColumnSelectionAllowed(false);

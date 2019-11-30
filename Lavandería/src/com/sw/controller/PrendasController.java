@@ -2,6 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Prenda;
 import com.sw.model.Servicio;
+import com.sw.others.MyWindowListener;
 import com.sw.utilities.Utilities;
 import com.sw.view.AnadirPrendaInterfaz;
 import com.sw.view.PrendasInterfaz;
@@ -163,6 +164,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
                     anadirPrendaInterfaz.setVisible(true);
                     anadirPrendaInterfaz.setLocationRelativeTo(prendasInterfaz);
 
+                    anadirPrendaInterfaz.addWindowListener(new MyWindowListener(prendasInterfaz));
+                    prendasInterfaz.setVisible(false);
+
                     new AnadirPrendaController(anadirPrendaInterfaz, this);
 
                 });
@@ -178,6 +182,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
                         anadirPrendaInterfaz.setVisible(true);
                         anadirPrendaInterfaz.setLocationRelativeTo(prendasInterfaz);
+
+                        anadirPrendaInterfaz.addWindowListener(new MyWindowListener(prendasInterfaz));
+                        prendasInterfaz.setVisible(false);
 
                         new AnadirPrendaController(anadirPrendaInterfaz, this).establecerPrendaDefecto(prendas.get(prendasInterfaz.getPrendasTable().getSelectedRow()));
 

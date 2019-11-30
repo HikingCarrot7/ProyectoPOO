@@ -2,6 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.*;
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.*;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.*;
@@ -86,10 +87,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         vistaPrincipal.getVerHIstorial().addActionListener(this);
 
         vistaPrincipal.getPanelPrincipal().addMouseListener(this);
-
         vistaPrincipal.getOrdenarPor().addActionListener(this);
-
         vistaPrincipal.getConfigurar().addActionListener(this);
+
+        vistaPrincipal.getNotepad().addActionListener(this);
+        vistaPrincipal.getCalculadora().addActionListener(this);
 
         vistaPrincipal.addWindowListener(new WindowAdapter()
         {
@@ -299,6 +301,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     Servicio servicio = serviciosEnCola.get(table.getSelectedRow());
 
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
+
                     new PrendasController(prendas, this, servicio);
 
                 });
@@ -348,6 +353,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
+
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
 
                     new PrendasController(prendas, this, serviciosEnProceso.get(table.getSelectedRow()));
 
@@ -404,6 +412,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
+
                     if (!serviciosTerminados.get(table.getSelectedRow()).isTicketGenerado())
                         new PrendasController(prendas, this, serviciosTerminados.get(table.getSelectedRow()));
 
@@ -440,6 +451,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     ticketInterfaz.setVisible(true);
                     ticketInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                    ticketInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
 
                     new VerTicketController(ticketInterfaz, servicio.getTicket()).mostrarTicket();
 
@@ -485,6 +499,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         nuevoServicio.setVisible(true);
                         nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
+                        nuevoServicio.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
                         new NuevoServicioController(nuevoServicio, this);
 
                     });
@@ -500,6 +517,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         clientesRegistradosInterfaz.setVisible(true);
                         clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        clientesRegistradosInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
 
                         ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz, this);
 
@@ -518,15 +538,18 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                             EventQueue.invokeLater(() ->
                             {
 
-                                NuevoServicio nuevoServicio = new NuevoServicio();
+                                NuevoServicio editarServicio = new NuevoServicio();
 
-                                nuevoServicio.setVisible(true);
-                                nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+                                editarServicio.setVisible(true);
+                                editarServicio.setLocationRelativeTo(vistaPrincipal);
 
-                                nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
-                                nuevoServicio.getTitleLabel().setText("Editar servicio");
+                                editarServicio.addWindowListener(new MyWindowListener(vistaPrincipal));
+                                vistaPrincipal.setVisible(false);
 
-                                new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicio);
+                                editarServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
+                                editarServicio.getTitleLabel().setText("Editar servicio");
+
+                                new NuevoServicioController(editarServicio, this).establecerDatosDefecto(servicio);
 
                             });
                         else
@@ -546,6 +569,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         historialInterfaz.setVisible(true);
                         historialInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        historialInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
 
                         HistorialController historialController = new HistorialController(historialInterfaz);
 
@@ -575,8 +601,29 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         configInterfaz.setVisible(true);
                         configInterfaz.setLocationRelativeTo(vistaPrincipal);
 
+                        configInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
                         new ConfigController(configInterfaz, this);
 
+                    });
+
+                    break;
+
+                case "notepad":
+
+                    EventQueue.invokeLater(() ->
+                    {
+                        new Notepad();
+                    });
+
+                    break;
+
+                case "calculadora":
+
+                    EventQueue.invokeLater(() ->
+                    {
+                        new Calculadora();
                     });
 
                     break;

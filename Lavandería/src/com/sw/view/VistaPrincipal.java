@@ -109,15 +109,16 @@ public class VistaPrincipal extends javax.swing.JFrame
         config = new javax.swing.JMenu();
         configurar = new javax.swing.JMenuItem();
         utilidades = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        notepad = new javax.swing.JMenuItem();
+        calculadora = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lavandería");
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1210, 780));
-        setMinimumSize(new java.awt.Dimension(1210, 780));
+        setMaximumSize(new java.awt.Dimension(1210, 700));
+        setMinimumSize(new java.awt.Dimension(1210, 700));
+        setPreferredSize(new java.awt.Dimension(1210, 700));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -131,10 +132,14 @@ public class VistaPrincipal extends javax.swing.JFrame
         getContentPane().add(nuevoServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, -1, 35));
 
         panelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
-        panelPrincipal.setMaximumSize(new java.awt.Dimension(1180, 700));
-        panelPrincipal.setPreferredSize(new java.awt.Dimension(1180, 700));
+        panelPrincipal.setMaximumSize(new java.awt.Dimension(1210, 515));
+        panelPrincipal.setMinimumSize(new java.awt.Dimension(1210, 515));
+        panelPrincipal.setPreferredSize(new java.awt.Dimension(1210, 515));
 
         scrollTablaEnCola.setBackground(new java.awt.Color(204, 204, 204));
+        scrollTablaEnCola.setMaximumSize(new java.awt.Dimension(452, 600));
+        scrollTablaEnCola.setMinimumSize(new java.awt.Dimension(452, 600));
+        scrollTablaEnCola.setPreferredSize(new java.awt.Dimension(452, 600));
 
         enCola.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -188,7 +193,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     panelPrincipal.addTab("Terminado", new javax.swing.ImageIcon(getClass().getResource("/com/src/images/terminado.png")), scrollTablaTerminado, "Conjunto de prendas listas para empaquetar."); // NOI18N
 
-    getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 136, 1210, 640));
+    getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 136, -1, -1));
     panelPrincipal.getAccessibleContext().setAccessibleName("panelPrincipal");
 
     scrollLista.setMaximumSize(new java.awt.Dimension(546, 65));
@@ -273,6 +278,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
 
         config.setText("Configuración");
+        config.setToolTipText("Configuración");
         config.setActionCommand("Config");
 
         configurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/configMenuItem.png"))); // NOI18N
@@ -283,14 +289,19 @@ public class VistaPrincipal extends javax.swing.JFrame
         menuBar.add(config);
 
         utilidades.setText("Utilidades");
+        utilidades.setToolTipText("Algunas utilidades");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/notepadIcon.png"))); // NOI18N
-        jMenuItem1.setText("Notepad");
-        utilidades.add(jMenuItem1);
+        notepad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/notepadIcon.png"))); // NOI18N
+        notepad.setText("Notepad");
+        notepad.setToolTipText("Un bloc de notas básico.");
+        notepad.setActionCommand("notepad");
+        utilidades.add(notepad);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/calculadoraIcon.png"))); // NOI18N
-        jMenuItem2.setText("Calculadora");
-        utilidades.add(jMenuItem2);
+        calculadora.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/calculadoraIcon.png"))); // NOI18N
+        calculadora.setText("Calculadora");
+        calculadora.setToolTipText("Una calculadora básica.");
+        calculadora.setActionCommand("calculadora");
+        utilidades.add(calculadora);
 
         menuBar.add(utilidades);
 
@@ -444,6 +455,16 @@ public class VistaPrincipal extends javax.swing.JFrame
         return scrollLista;
     }
 
+    public JMenuItem getCalculadora()
+    {
+        return calculadora;
+    }
+
+    public JMenuItem getNotepad()
+    {
+        return notepad;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -462,6 +483,7 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscar;
+    private javax.swing.JMenuItem calculadora;
     private javax.swing.JMenu config;
     private javax.swing.JMenuItem configurar;
     private javax.swing.JLabel display;
@@ -469,11 +491,10 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JTable enCola;
     private static javax.swing.JTable enProceso;
     private javax.swing.JLabel fondo;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JList<ListItem> lista;
     private javax.swing.JLabel logo;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem notepad;
     private javax.swing.JButton nuevoServicio;
     private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JLabel ordenarPorLabel;

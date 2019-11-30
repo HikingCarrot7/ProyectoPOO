@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.sw.others.MyWindowListener;
 import com.sw.others.TextFieldListener;
 import com.sw.persistence.ConfigDAO;
 import com.sw.view.ConfiguracionInterfaz;
@@ -65,6 +66,9 @@ public class ConfigController implements ActionListener
 
                     tiposPrendasInterfaz.setVisible(true);
                     tiposPrendasInterfaz.setLocationRelativeTo(configuracionInterfaz);
+
+                    tiposPrendasInterfaz.addWindowListener(new MyWindowListener(vistaPrincipalController.getVistaPrincipal()));
+                    vistaPrincipalController.getVistaPrincipal().setVisible(false);
 
                     new TiposPrendasController(tiposPrendasInterfaz);
 
