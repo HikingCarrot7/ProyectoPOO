@@ -60,21 +60,18 @@ public class BuscadorController implements FocusListener, DocumentListener
     @Override
     public void insertUpdate(DocumentEvent e)
     {
-
         updateLista(vistaPrincipalController.getVistaPrincipal().getBuscar().getText());
     }
 
     @Override
     public void removeUpdate(DocumentEvent e)
     {
-
         updateLista(vistaPrincipalController.getVistaPrincipal().getBuscar().getText());
     }
 
     @Override
     public void changedUpdate(DocumentEvent e)
     {
-
     }
 
     private void updateLista(String aBuscar)

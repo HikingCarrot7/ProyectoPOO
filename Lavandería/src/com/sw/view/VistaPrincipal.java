@@ -109,9 +109,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         config = new javax.swing.JMenu();
         configurar = new javax.swing.JMenuItem();
         utilidades = new javax.swing.JMenu();
-        juegos = new javax.swing.JMenu();
-        wave = new javax.swing.JMenuItem();
-        satyrrun = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lavandería");
@@ -276,6 +275,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         config.setText("Configuración");
         config.setActionCommand("Config");
 
+        configurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/configMenuItem.png"))); // NOI18N
         configurar.setText("Configurar");
         configurar.setActionCommand("Config");
         config.add(configurar);
@@ -283,21 +283,16 @@ public class VistaPrincipal extends javax.swing.JFrame
         menuBar.add(config);
 
         utilidades.setText("Utilidades");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/notepadIcon.png"))); // NOI18N
+        jMenuItem1.setText("Notepad");
+        utilidades.add(jMenuItem1);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/calculadoraIcon.png"))); // NOI18N
+        jMenuItem2.setText("Calculadora");
+        utilidades.add(jMenuItem2);
+
         menuBar.add(utilidades);
-
-        juegos.setText("Juegos");
-
-        wave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/wave.png"))); // NOI18N
-        wave.setText("Wave");
-        wave.setToolTipText("Wave");
-        wave.setActionCommand("wave");
-        juegos.add(wave);
-
-        satyrrun.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/LD27.png"))); // NOI18N
-        satyrrun.setText("Satyr run!");
-        juegos.add(satyrrun);
-
-        menuBar.add(juegos);
 
         setJMenuBar(menuBar);
 
@@ -404,16 +399,6 @@ public class VistaPrincipal extends javax.swing.JFrame
         return configurar;
     }
 
-    public JMenuItem getWave()
-    {
-        return wave;
-    }
-
-    public JMenuItem getSatyrrun()
-    {
-        return satyrrun;
-    }
-
     public JTabbedPane getPanelPrincipal()
     {
         return panelPrincipal;
@@ -484,7 +469,8 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JTable enCola;
     private static javax.swing.JTable enProceso;
     private javax.swing.JLabel fondo;
-    private javax.swing.JMenu juegos;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JList<ListItem> lista;
     private javax.swing.JLabel logo;
     private javax.swing.JMenuBar menuBar;
@@ -492,7 +478,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JComboBox<ComboItem> ordenarPor;
     private javax.swing.JLabel ordenarPorLabel;
     private javax.swing.JTabbedPane panelPrincipal;
-    private javax.swing.JMenuItem satyrrun;
     private javax.swing.JScrollPane scrollLista;
     private javax.swing.JScrollPane scrollTablaEnCola;
     private javax.swing.JScrollPane scrollTablaEnProceso;
@@ -501,7 +486,6 @@ public class VistaPrincipal extends javax.swing.JFrame
     private javax.swing.JMenu utilidades;
     private javax.swing.JButton verClientes;
     private javax.swing.JButton verHIstorial;
-    private javax.swing.JMenuItem wave;
     // End of variables declaration//GEN-END:variables
 
 }

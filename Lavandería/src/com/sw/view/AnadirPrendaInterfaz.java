@@ -1,5 +1,6 @@
 package com.sw.view;
 
+import com.sw.renderer.ComboRenderer.ComboItem;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -115,7 +116,8 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
         prenda.setPreferredSize(new java.awt.Dimension(190, 30));
         getContentPane().add(prenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
 
-        tiposPrenda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Playera", "Ropa interior", "Sábana" }));
+        tiposPrenda.setMaximumRowCount(4);
+        tiposPrenda.setModel(new javax.swing.DefaultComboBoxModel<>(new ComboItem[] { null }));
         tiposPrenda.setMaximumSize(new java.awt.Dimension(190, 30));
         tiposPrenda.setMinimumSize(new java.awt.Dimension(190, 30));
         tiposPrenda.setPreferredSize(new java.awt.Dimension(190, 30));
@@ -157,12 +159,12 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
         this.prenda = prenda;
     }
 
-    public JComboBox<String> getTiposPrenda()
+    public JComboBox<ComboItem> getTiposPrenda()
     {
         return tiposPrenda;
     }
 
-    public void setTiposPrenda(JComboBox<String> tiposPrenda)
+    public void setTiposPrenda(JComboBox<ComboItem> tiposPrenda)
     {
         this.tiposPrenda = tiposPrenda;
     }
@@ -176,6 +178,6 @@ public class AnadirPrendaInterfaz extends javax.swing.JFrame
     private javax.swing.JLabel prendaLabel;
     private javax.swing.JLabel prendaTitle;
     private javax.swing.JLabel tipoPrendaLabel;
-    private javax.swing.JComboBox<String> tiposPrenda;
+    private javax.swing.JComboBox<ComboItem> tiposPrenda;
     // End of variables declaration//GEN-END:variables
 }

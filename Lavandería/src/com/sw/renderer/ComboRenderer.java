@@ -52,23 +52,13 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Revisar.
-     *
-     * @param index
-     * @param tamanioLista
-     *
-     * @return
-     */
     private boolean encimaItem(int index, int tamanioLista)
     {
 
-        if ((getY() >= tamanioLista * 20 || getY() <= 7))
+        if ((getY() >= tamanioLista * 20 || getY() <= 0))
             return false;
 
-        return index == (getY() / 20);
+        return index == getY() / 20;
 
     }
 

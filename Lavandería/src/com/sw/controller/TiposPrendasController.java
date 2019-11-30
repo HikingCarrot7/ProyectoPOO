@@ -2,12 +2,16 @@ package com.sw.controller;
 
 import com.sw.others.MyMouseAdapter;
 import com.sw.persistence.DAO;
+import com.sw.view.AnadirTipoPrendaInterfaz;
 import com.sw.view.TiposPrendasInterfaz;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +34,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
         initMyComponents();
 
         loadTiposPrendaTable();
+
+        tiposPrendasInterfaz.getAnadir().addActionListener(this);
+        tiposPrendasInterfaz.getEditar().addActionListener(this);
 
     }
 
@@ -64,6 +71,66 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+
+        switch (e.getActionCommand())
+        {
+
+            case "addTipoPrenda":
+
+                EventQueue.invokeLater(() ->
+                {
+
+                    AnadirTipoPrendaInterfaz anadirTipoPrendaInterfaz = new AnadirTipoPrendaInterfaz();
+
+                    anadirTipoPrendaInterfaz.setVisible(true);
+                    anadirTipoPrendaInterfaz.setLocationRelativeTo(null);
+
+                    new AnadirTipoPrendaController(anadirTipoPrendaInterfaz, this);
+
+                });
+
+                break;
+
+            case "editTipoPrenda":
+
+                if (tiposPrendasInterfaz.getTiposPrendasTable().getSelectedRow() >= 0)
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        AnadirTipoPrendaInterfaz anadirTipoPrendaInterfaz = new AnadirTipoPrendaInterfaz();
+
+                        anadirTipoPrendaInterfaz.setVisible(true);
+                        anadirTipoPrendaInterfaz.setLocationRelativeTo(null);
+
+                        new AnadirTipoPrendaController(anadirTipoPrendaInterfaz, this).establecerTipoPrendaDefecto(tiposPrendasInterfaz.getTiposPrendasTable().getSelectedRow());
+
+                    });
+
+                break;
+
+            default:
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+
+        TableManager tableManager = new TableManager();
+        JTable table = tiposPrendasInterfaz.getTiposPrendasTable();
+
+        if (!tableManager.isFirstRowEmpty(table))
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 1))
+                eliminarTipoPrenda(table.getSelectedRow());
+
+    }
+
     private Object[][] getItems()
     {
 
@@ -79,37 +146,64 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
+    public void anadirTipoPrenda(String nuevoTipoPrenda)
     {
 
-        switch (e.getActionCommand())
+        tiposPrendas.add(nuevoTipoPrenda);
+
+        new TableManager().addRow(tiposPrendasInterfaz.getTiposPrendasTable(), new Object[]
         {
+            null, null
+        });
 
-            case "addTipoPrenda":
+        updateTable();
 
-                break;
-
-            case "editTipoPrenda":
-
-                break;
-
-            default:
-                break;
-
-        }
+        saveTiposPrendas(tiposPrendas);
 
     }
 
-    private void saveTiposPrendas()
+    public void modificarTipoPrenda(int index, String nuevoTipoPrenda)
+    {
+
+        tiposPrendas.set(index, nuevoTipoPrenda);
+
+        updateTable();
+        revalidateTable();
+        saveTiposPrendas(tiposPrendas);
+
+    }
+
+    public void eliminarTipoPrenda(int index)
+    {
+
+        new TableManager().removeRow(tiposPrendasInterfaz.getTiposPrendasTable(), index);
+
+        tiposPrendas.remove(index);
+
+        saveTiposPrendas(tiposPrendas);
+
+        updateTable();
+
+    }
+
+    public void updateTable()
+    {
+        new TableManager().setTableItems(tiposPrendasInterfaz.getTiposPrendasTable(), getItems());
+    }
+
+    public void revalidateTable()
+    {
+        tiposPrendasInterfaz.getTiposPrendasTable().getParent().revalidate();
+    }
+
+    public void saveTiposPrendas(ArrayList<String> tiposPrendas)
     {
         new DAO(DAO.RUTA_TIPOSPRENDAS).saveObjects(tiposPrendas);
     }
 
-    private ArrayList<String> getTiposPrendas()
+    public ArrayList<String> getTiposPrendas()
     {
         return (ArrayList<String>) new DAO(DAO.RUTA_TIPOSPRENDAS).getObjects();
-
     }
 
 }

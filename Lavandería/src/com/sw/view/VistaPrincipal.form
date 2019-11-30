@@ -12,6 +12,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="configurar">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/src/images/configMenuItem.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Configurar"/>
                 <Property name="actionCommand" type="java.lang.String" value="Config"/>
               </Properties>
@@ -22,28 +25,21 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Utilidades"/>
           </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="juegos">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Juegos"/>
-          </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="wave">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/src/images/wave.png"/>
+                  <Image iconType="3" name="/com/src/images/notepadIcon.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Wave"/>
-                <Property name="toolTipText" type="java.lang.String" value="Wave"/>
-                <Property name="actionCommand" type="java.lang.String" value="wave"/>
+                <Property name="text" type="java.lang.String" value="Notepad"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="satyrrun">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/src/images/LD27.png"/>
+                  <Image iconType="3" name="/com/src/images/calculadoraIcon.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Satyr run!"/>
+                <Property name="text" type="java.lang.String" value="Calculadora"/>
               </Properties>
             </MenuItem>
           </SubComponents>
