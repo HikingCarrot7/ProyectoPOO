@@ -2,7 +2,9 @@ package com.sw.controller;
 
 import com.sw.model.Cliente;
 import com.sw.model.Historial;
+import com.sw.model.Servicio;
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.ClienteDAO;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
@@ -30,12 +32,15 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 {
 
     private ClientesRegistradosInterfaz clientesRegistradosInterfaz;
+    private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientesRegistrados;
 
-    public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz)
+    public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz, VistaPrincipalController vistaPrincipalController)
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
+        this.vistaPrincipalController = vistaPrincipalController;
+
         clientesRegistrados = (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
 
         initMyComponents();
@@ -83,7 +88,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         }, clientesRegistradosInterfaz.getVerHistorial()), new String[]
         {
 
-            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
+            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Historial"
 
         }));
 
@@ -131,6 +136,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                         nuevoCliente.setLocationRelativeTo(clientesRegistradosInterfaz);
                         nuevoCliente.setVisible(true);
 
+                        nuevoCliente.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
+
                         new NuevoClienteController(nuevoCliente, this);
 
                     });
@@ -148,6 +156,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                             nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
                             nuevoClienteModificar.setVisible(true);
 
+                            nuevoClienteModificar.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                            clientesRegistradosInterfaz.setVisible(false);
+
                             new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
                                     getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
 
@@ -157,23 +168,30 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                 case "Delete":
                     if (!new TableManager().isFirstRowEmpty(clientesRegistradosInterfaz.getTablaClientesRegistrados()))
-                        switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
-                                "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
-                                "Confirmar acción", JOptionPane.YES_NO_OPTION))
-                        {
 
-                            case 0: // Si se presiona Sí
+                        if (!existeServicioEnCurso(clientesRegistrados.get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow())))
+                            switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
+                                    "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
+                                    "Confirmar acción", JOptionPane.YES_NO_OPTION))
+                            {
 
-                                eliminarClienteRegistrado(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
+                                case 0: // Si se presiona Sí
 
-                                break;
+                                    eliminarClienteRegistrado(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
 
-                        }
+                                    break;
+
+                            }
+
+                        else
+                            JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                                    "No se pueden eliminar a clientes que tengan servicios pendientes a los cuales aún no se les ha generado su ticket.",
+                                    "Error.", JOptionPane.ERROR_MESSAGE);
 
                     else
                         JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
-                                "No hay clientes registrados",
-                                "No hay clientes", JOptionPane.ERROR_MESSAGE);
+                                "No hay clientes registrados.",
+                                "No hay clientes.", JOptionPane.ERROR_MESSAGE);
 
                     break;
 
@@ -237,6 +255,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                         historialInterfaz.setVisible(true);
                         historialInterfaz.setLocationRelativeTo(clientesRegistradosInterfaz);
+
+                        historialInterfaz.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
 
                         new HistorialController(historialInterfaz, getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())));
 
@@ -335,6 +356,31 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                 historialesCliente.add(historiales.get(i));
 
         return historialesCliente;
+
+    }
+
+    private boolean existeServicioEnCurso(Cliente cliente)
+    {
+
+        ArrayList<Servicio> servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSENCOLA);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                return true;
+
+        servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSENPROCESO);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                return true;
+
+        servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente() && !servicios.get(i).isTicketGenerado())
+                return true;
+
+        return false;
 
     }
 

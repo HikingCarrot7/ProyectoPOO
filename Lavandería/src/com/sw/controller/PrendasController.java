@@ -2,6 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Prenda;
 import com.sw.model.Servicio;
+import com.sw.others.MyWindowListener;
 import com.sw.utilities.Utilities;
 import com.sw.view.AnadirPrendaInterfaz;
 import com.sw.view.PrendasInterfaz;
@@ -96,11 +97,11 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    private void initCampos(double totalKg, double precioKg)
+    private void initCampos(double totalKg, double costoKg)
     {
 
         prendasInterfaz.getTotalKg().setText(String.valueOf(totalKg));
-        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * precioKg));
+        prendasInterfaz.getTotalPrecio().setText(String.format("$%,.2f", totalKg * costoKg));
 
     }
 
@@ -163,6 +164,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
                     anadirPrendaInterfaz.setVisible(true);
                     anadirPrendaInterfaz.setLocationRelativeTo(prendasInterfaz);
 
+                    anadirPrendaInterfaz.addWindowListener(new MyWindowListener(prendasInterfaz));
+                    prendasInterfaz.setVisible(false);
+
                     new AnadirPrendaController(anadirPrendaInterfaz, this);
 
                 });
@@ -178,6 +182,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
                         anadirPrendaInterfaz.setVisible(true);
                         anadirPrendaInterfaz.setLocationRelativeTo(prendasInterfaz);
+
+                        anadirPrendaInterfaz.addWindowListener(new MyWindowListener(prendasInterfaz));
+                        prendasInterfaz.setVisible(false);
 
                         new AnadirPrendaController(anadirPrendaInterfaz, this).establecerPrendaDefecto(prendas.get(prendasInterfaz.getPrendasTable().getSelectedRow()));
 
@@ -226,14 +233,6 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     }
 
-    /**
-     *
-     * @deprecated
-     *
-     * Revisar para futuras implementaciones.
-     *
-     * @return
-     */
     private Object[][] getItems()
     {
 
@@ -257,6 +256,7 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
     public void anadirPrenda(Prenda prenda)
     {
+
         prendas.add(prenda);
 
         new TableManager().addRow(prendasInterfaz.getPrendasTable(), new Object[]

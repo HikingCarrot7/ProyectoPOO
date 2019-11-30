@@ -72,9 +72,10 @@ public class HistorialInterfaz extends javax.swing.JFrame
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(915, 720));
-        setMinimumSize(new java.awt.Dimension(915, 720));
-        setPreferredSize(new java.awt.Dimension(915, 720));
+        setTitle("Historial");
+        setMaximumSize(new java.awt.Dimension(915, 700));
+        setMinimumSize(new java.awt.Dimension(915, 700));
+        setPreferredSize(new java.awt.Dimension(915, 700));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -84,9 +85,10 @@ public class HistorialInterfaz extends javax.swing.JFrame
         titleLabel.setText("Historial de servicios");
         getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 300, 95));
 
-        panelHistorial.setMaximumSize(new java.awt.Dimension(910, 530));
-        panelHistorial.setMinimumSize(new java.awt.Dimension(910, 530));
-        panelHistorial.setPreferredSize(new java.awt.Dimension(910, 530));
+        panelHistorial.setMaximumSize(new java.awt.Dimension(915, 520));
+        panelHistorial.setMinimumSize(new java.awt.Dimension(915, 520));
+        panelHistorial.setName(""); // NOI18N
+        panelHistorial.setPreferredSize(new java.awt.Dimension(915, 520));
 
         historial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]

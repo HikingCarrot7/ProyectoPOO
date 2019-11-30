@@ -2,6 +2,7 @@ package com.sw.controller;
 
 import com.sw.model.Historial;
 import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.renderer.ComboRenderer.ComboItem;
@@ -110,7 +111,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
-        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
+        if (isHistorialGeneral())
+            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/name.png"), "Nombre"));
+
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/fecha.png"), "Fecha"));
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/precio.png"), "Precio total"));
 
@@ -176,7 +179,10 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                     Historial historial = historiales.get(table.getSelectedRow());
 
-                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal());
+                    prendas.addWindowListener(new MyWindowListener(historialInterfaz));
+                    historialInterfaz.setVisible(false);
+
+                    new PrendasController(prendas, historiales.get(table.getSelectedRow()).getPrendas(), historial.getTotalKg(), historial.getPrecioTotal() / historial.getTotalKg());
 
                 });
 
@@ -188,6 +194,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                     ticketInterfaz.setVisible(true);
                     ticketInterfaz.setLocationRelativeTo(null);
+
+                    ticketInterfaz.addWindowListener(new MyWindowListener(historialInterfaz));
+                    historialInterfaz.setVisible(false);
 
                     new VerTicketController(ticketInterfaz, historiales.get(table.getSelectedRow()).getTicket()).mostrarTicket();
 
@@ -219,7 +228,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         {
 
             items[i][0] = historiales.get(i).getCliente().getNombre();
-            items[i][1] = String.format("%-30s%tr", String.format("%1$ta, %1$tb %1$te, %1$ty", historiales.get(i).getFecha()), historiales.get(i).getFecha());
+            items[i][1] = String.format("%-18s%tr", String.format("%1$ta, %1$tb %1$te, %1$ty", historiales.get(i).getFecha()), historiales.get(i).getFecha());
             items[i][2] = String.format("$%,.2f", historiales.get(i).getPrecioTotal());
 
         }
@@ -261,11 +270,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     private void updateTableHistorial()
     {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.setTableItems(historialInterfaz.getTablaHistorial(), getItems());
-
+        new TableManager().setTableItems(historialInterfaz.getTablaHistorial(), getItems());
     }
 
     private void saveHistoriales()

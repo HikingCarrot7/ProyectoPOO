@@ -20,7 +20,7 @@ public class ConfigDAO
     public static final String RUTA_COLORTABLAS = "res/com/sw/data/ColorTablas.txt";
     public static final String RUTA_ORDEN = "res/com/sw/data/OrdenarPor.txt";
 
-    public double getPrecioKg()
+    public double getCostoKg()
     {
 
         File file = new File(RUTA_PRECIOKG);

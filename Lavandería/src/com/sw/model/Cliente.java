@@ -1,7 +1,6 @@
 package com.sw.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  *
@@ -12,11 +11,11 @@ public class Cliente extends Persona implements Serializable
 
     private static final long serialVersionUID = 275600884532878352L;
 
-    private int nServicios;
     private static int clave;
+    private int nServicios;
     private int claveCliente;
 
-    public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios, ArrayList<Historial> historiales)
+    public Cliente(String nombre, String correo, String telefono, String direccion, int nServicios)
     {
 
         super(nombre, correo, telefono, direccion);
@@ -29,12 +28,17 @@ public class Cliente extends Persona implements Serializable
 
     public Cliente(String nombre, String correo, String telefono, String direccion)
     {
-        this(nombre, correo, telefono, direccion, 0, new ArrayList<>());
+        this(nombre, correo, telefono, direccion, 0);
     }
 
     public Cliente(Persona cliente)
     {
         this(cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion());
+    }
+
+    public void aumentarNServicios()
+    {
+        nServicios++;
     }
 
     public int getnServicios()

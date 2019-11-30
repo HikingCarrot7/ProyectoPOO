@@ -1,5 +1,6 @@
 package com.sw.controller;
 
+import com.sw.others.MyWindowListener;
 import com.sw.others.TextFieldListener;
 import com.sw.persistence.ConfigDAO;
 import com.sw.view.ConfiguracionInterfaz;
@@ -32,7 +33,7 @@ public class ConfigController implements ActionListener
 
         configuracionInterfaz.getPrecio().getDocument().addDocumentListener(textFieldListener);
 
-        configuracionInterfaz.getPrecio().setText(String.valueOf(new ConfigDAO().getPrecioKg()));
+        configuracionInterfaz.getPrecio().setText(String.valueOf(new ConfigDAO().getCostoKg()));
         configuracionInterfaz.getOrder().setSelectedIndex(new ConfigDAO().getOrden());
 
         configuracionInterfaz.getColorChooser().addActionListener(this);
@@ -66,6 +67,9 @@ public class ConfigController implements ActionListener
                     tiposPrendasInterfaz.setVisible(true);
                     tiposPrendasInterfaz.setLocationRelativeTo(configuracionInterfaz);
 
+                    tiposPrendasInterfaz.addWindowListener(new MyWindowListener(vistaPrincipalController.getVistaPrincipal()));
+                    vistaPrincipalController.getVistaPrincipal().setVisible(false);
+
                     new TiposPrendasController(tiposPrendasInterfaz);
 
                 });
@@ -83,6 +87,8 @@ public class ConfigController implements ActionListener
                     configDAO.saveOrden(configuracionInterfaz.getOrder().getSelectedIndex());
 
                     vistaPrincipalController.updateCostoKg(Double.parseDouble(configuracionInterfaz.getPrecio().getText()));
+
+                    vistaPrincipalController.updateAllTables();
 
                     configuracionInterfaz.dispose();
 

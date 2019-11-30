@@ -4,6 +4,7 @@ import com.sw.persistence.ConfigDAO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.Serializable;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -25,57 +26,54 @@ public class TableHeaderRenderer implements TableCellRenderer, Serializable
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 250
-                : table.getWidth() == 913 ? 280
-                : table.getColumnCount() == 2 ? 370
-                : table.getColumnCount() == 6 ? 450
-                : table.getColumnCount() == 7 ? 350
+        table.getColumnModel().getColumn(0).setWidth(table.getName().equals("Historial") ? 250
+                : table.getName().equals("Clientes") ? 280
+                : table.getName().equals("Tipos prendas") ? 370
+                : table.getName().equals("En cola") ? 350
                 : table.getColumnCount() == 8 ? 350 : 280);
 
-        table.getColumnModel().getColumn(1).setWidth(table.getWidth() == 904 ? 220
-                : table.getWidth() == 913 ? 165
-                : table.getColumnCount() == 2 ? 115
-                : table.getColumnCount() == 6 ? 149
-                : table.getColumnCount() == 7 ? 143
+        table.getColumnModel().getColumn(1).setWidth(table.getName().equals("Historial") ? 220
+                : table.getName().equals("Clientes") ? 165
+                : table.getName().equals("Tipos prendas") ? 115
+                : table.getName().equals("En cola") ? 143
                 : table.getColumnCount() == 8 ? 122 : 105);
 
         if (table.getColumnCount() >= 3)
         {
 
-            table.getColumnModel().getColumn(2).setWidth(table.getWidth() == 904 ? 125
-                    : table.getWidth() == 913 ? 165
-                    : table.getColumnCount() == 6 ? 149
-                    : table.getColumnCount() == 7 ? 143
+            table.getColumnModel().getColumn(2).setWidth(table.getName().equals("Historial") ? 125
+                    : table.getName().equals("Clientes") ? 165
+                    : table.getName().equals("En cola") ? 143
                     : table.getColumnCount() == 8 ? 122 : 93);
 
-            table.getColumnModel().getColumn(3).setWidth(table.getWidth() == 904 ? 103
-                    : table.getWidth() == 913 ? 165
-                    : table.getColumnCount() == 6 ? 149
-                    : table.getColumnCount() == 7 ? 143
+            table.getColumnModel().getColumn(3).setWidth(table.getName().equals("Historial") ? 103
+                    : table.getName().equals("Clientes") ? 165
+                    : table.getName().equals("En cola") ? 143
                     : table.getColumnCount() == 8 ? 122 : 92);
 
         }
 
         if (table.getColumnCount() >= 5)
-            table.getColumnModel().getColumn(4).setWidth(table.getWidth() == 904 ? 103
-                    : table.getWidth() == 913 ? 70
-                    : table.getColumnCount() == 7 ? 143
+            table.getColumnModel().getColumn(4).setWidth(table.getName().equals("Historial") ? 103
+                    : table.getName().equals("Clientes") ? 70
+                    : table.getName().equals("En cola") ? 143
                     : table.getColumnCount() == 8 ? 122 : 154);
 
         if (table.getColumnCount() >= 6)
-            table.getColumnModel().getColumn(5).setWidth(table.getWidth() == 904 ? 104
-                    : table.getWidth() == 913 ? 70
-                    : table.getColumnCount() == 7 ? 143
+            table.getColumnModel().getColumn(5).setWidth(table.getName().equals("Historial") ? 104
+                    : table.getName().equals("Clientes") ? 70
+                    : table.getName().equals("En cola") ? 143
                     : table.getColumnCount() == 8 ? 122 : 154);
 
         if (table.getColumnCount() >= 7)
-            table.getColumnModel().getColumn(6).setWidth(table.getColumnCount() == 7 ? 140 : 122);
+            table.getColumnModel().getColumn(6).setWidth(table.getName().equals("En cola") ? 140 : 122);
 
         if (table.getColumnCount() >= 8)
             table.getColumnModel().getColumn(7).setWidth(123);
 
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.CENTER);
+        jcomponent.setFont(new Font("Consolas", Font.PLAIN, 11));
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 

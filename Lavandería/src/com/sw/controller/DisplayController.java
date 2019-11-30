@@ -85,14 +85,14 @@ public class DisplayController implements Runnable
 
     }
 
-    private void realizarAnimacionCompleta(String text, int delay)
+    private void realizarAnimacionCompleta(String text, int speed)
     {
 
         for (int i = 0; i < text.length() - DISPLAY_SIZE + 1; i++)
             try
             {
 
-                Thread.sleep(delay);
+                Thread.sleep(speed);
 
                 String temp = text.substring(i, i + 10);
 

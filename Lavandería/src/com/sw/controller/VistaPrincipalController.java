@@ -1,42 +1,20 @@
 package com.sw.controller;
 
-import com.sw.model.Cliente;
-import com.sw.model.Historial;
-import com.sw.model.Servicio;
-import com.sw.model.Ticket;
+import com.sw.model.*;
 import com.sw.others.MyMouseAdapter;
-import com.sw.persistence.DAO;
-import com.sw.persistence.TicketDAO;
+import com.sw.others.MyWindowListener;
+import com.sw.persistence.*;
 import com.sw.renderer.ComboRenderer;
-import com.sw.utilities.TableTimer;
-import com.sw.utilities.Utilities;
-import com.sw.view.ClientesRegistradosInterfaz;
-import com.sw.view.ConfiguracionInterfaz;
-import com.sw.view.HistorialInterfaz;
-import com.sw.view.NuevoServicio;
-import com.sw.view.PrendasInterfaz;
-import com.sw.view.TicketInterfaz;
-import com.sw.view.VistaPrincipal;
+import com.sw.utilities.*;
+import com.sw.view.*;
 import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.AbstractButton;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -109,12 +87,11 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         vistaPrincipal.getVerHIstorial().addActionListener(this);
 
         vistaPrincipal.getPanelPrincipal().addMouseListener(this);
-
         vistaPrincipal.getOrdenarPor().addActionListener(this);
-
         vistaPrincipal.getConfigurar().addActionListener(this);
 
-        vistaPrincipal.getWave().addActionListener(this);
+        vistaPrincipal.getNotepad().addActionListener(this);
+        vistaPrincipal.getCalculadora().addActionListener(this);
 
         vistaPrincipal.addWindowListener(new WindowAdapter()
         {
@@ -183,7 +160,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "Nombre"));
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/precio.png"), "Precio total"));
         dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/kilos.png"), "Kilogramos"));
-        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/tshirt.png"), "Total prendas"));
+        dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/tshirtCombo.png"), "Total prendas"));
 
         return dm;
 
@@ -324,6 +301,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     Servicio servicio = serviciosEnCola.get(table.getSelectedRow());
 
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
+
                     new PrendasController(prendas, this, servicio);
 
                 });
@@ -373,6 +353,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
+
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
 
                     new PrendasController(prendas, this, serviciosEnProceso.get(table.getSelectedRow()));
 
@@ -429,6 +412,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     prendas.setVisible(true);
                     prendas.setLocationRelativeTo(vistaPrincipal);
 
+                    prendas.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
+
                     if (!serviciosTerminados.get(table.getSelectedRow()).isTicketGenerado())
                         new PrendasController(prendas, this, serviciosTerminados.get(table.getSelectedRow()));
 
@@ -437,7 +423,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         Servicio servicio = serviciosTerminados.get(table.getSelectedRow());
 
-                        new PrendasController(prendas, servicio.getPrendas(), servicio.getTotalKg(), servicio.getPrecioTotal());
+                        new PrendasController(prendas, servicio.getPrendas(), servicio.getTotalKg(), servicio.getPrecioTotal() / servicio.getTotalKg());
 
                     }
 
@@ -465,6 +451,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     ticketInterfaz.setVisible(true);
                     ticketInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                    ticketInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                    vistaPrincipal.setVisible(false);
 
                     new VerTicketController(ticketInterfaz, servicio.getTicket()).mostrarTicket();
 
@@ -510,6 +499,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         nuevoServicio.setVisible(true);
                         nuevoServicio.setLocationRelativeTo(vistaPrincipal);
 
+                        nuevoServicio.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
                         new NuevoServicioController(nuevoServicio, this);
 
                     });
@@ -526,7 +518,10 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         clientesRegistradosInterfaz.setVisible(true);
                         clientesRegistradosInterfaz.setLocationRelativeTo(vistaPrincipal);
 
-                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz);
+                        clientesRegistradosInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
+                        ClientesRegistradosController clientesRegistradosController = new ClientesRegistradosController(clientesRegistradosInterfaz, this);
 
                         clientesRegistradosController.addObserver(this);
 
@@ -543,15 +538,18 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                             EventQueue.invokeLater(() ->
                             {
 
-                                NuevoServicio nuevoServicio = new NuevoServicio();
+                                NuevoServicio editarServicio = new NuevoServicio();
 
-                                nuevoServicio.setVisible(true);
-                                nuevoServicio.setLocationRelativeTo(vistaPrincipal);
+                                editarServicio.setVisible(true);
+                                editarServicio.setLocationRelativeTo(vistaPrincipal);
 
-                                nuevoServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
-                                nuevoServicio.getTitleLabel().setText("Editar servicio");
+                                editarServicio.addWindowListener(new MyWindowListener(vistaPrincipal));
+                                vistaPrincipal.setVisible(false);
 
-                                new NuevoServicioController(nuevoServicio, this).establecerDatosDefecto(servicio);
+                                editarServicio.getTitleLabel().setIcon(Utilities.getIcon("/com/src/images/editarTitle.png"));
+                                editarServicio.getTitleLabel().setText("Editar servicio");
+
+                                new NuevoServicioController(editarServicio, this).establecerDatosDefecto(servicio);
 
                             });
                         else
@@ -571,6 +569,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                         historialInterfaz.setVisible(true);
                         historialInterfaz.setLocationRelativeTo(vistaPrincipal);
+
+                        historialInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
 
                         HistorialController historialController = new HistorialController(historialInterfaz);
 
@@ -600,8 +601,29 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         configInterfaz.setVisible(true);
                         configInterfaz.setLocationRelativeTo(vistaPrincipal);
 
+                        configInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
                         new ConfigController(configInterfaz, this);
 
+                    });
+
+                    break;
+
+                case "notepad":
+
+                    EventQueue.invokeLater(() ->
+                    {
+                        new Notepad();
+                    });
+
+                    break;
+
+                case "calculadora":
+
+                    EventQueue.invokeLater(() ->
+                    {
+                        new Calculadora();
                     });
 
                     break;
@@ -806,6 +828,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
             new HistorialController(historialInterfaz).anadirHistorial(historial);
 
             historialInterfaz.dispose();
+            updateNServiciosCliente(servicio.getCliente().getClaveCliente());
             saveTicket(servicio.getTicket());
             servicio.setTicketGenerado(true);
             saveServiciosTerminados();
@@ -917,7 +940,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         new TicketDAO().saveTicket(ticket);
     }
 
-    public ArrayList<Servicio> getServicios(String ruta)
+    public final ArrayList<Servicio> getServicios(String ruta)
     {
         return (ArrayList<Servicio>) new DAO(ruta).getObjects();
     }
@@ -1035,6 +1058,19 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                 historiales.get(i).getCliente().setNombre(clienteNuevosDatos.getNombre());
 
         saveHistoriales(historiales);
+
+    }
+
+    private void updateNServiciosCliente(int claveClienteABuscar)
+    {
+
+        ArrayList<Cliente> clientes = getClientesRegistrados();
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (clientes.get(i).getClaveCliente() == claveClienteABuscar)
+                clientes.get(i).aumentarNServicios();
+
+        saveClientesRegistrados(clientes);
 
     }
 

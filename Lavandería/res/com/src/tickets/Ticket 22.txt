@@ -1,0 +1,24 @@
+                        Lavandería.
+                   Las burbujas mágicas.
+
+                     Cliente : CARLOS
+                   Teléfono : 9992676253
+                 Avenida constitución, 25
+            02520 - Chinchilla de Monte Aragón
+
+sábado, noviembre 23, 2019
+12:12:30 PM
+Ticket N° 022
+----------------------------------------------------------
+PRENDAS                                           CANTIDAD
+----------------------------------------------------------
+C                                                       50
+----------------------------------------------------------
+                         Cantidad de prendas :          50
+                                 Total de kg :       90.00
+----------------------------------------------------------
+                              Precio por kg. :$    1170.00
+                                Precio total :$    1170.00
+----------------------------------------------------------
+              Atendió : Nicolás Canul Ibarra
+                GRACIAS POR SU PREFERENCIA

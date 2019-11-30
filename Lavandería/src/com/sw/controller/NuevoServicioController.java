@@ -4,6 +4,7 @@ import com.sw.model.Cliente;
 import com.sw.model.Prenda;
 import com.sw.model.Servicio;
 import com.sw.model.Ticket;
+import com.sw.others.MyWindowListener;
 import com.sw.persistence.ClienteDAO;
 import com.sw.persistence.ConfigDAO;
 import com.sw.persistence.DAO;
@@ -127,6 +128,9 @@ public class NuevoServicioController implements ActionListener
                     nuevoCliente.setLocationRelativeTo(nuevoServicio);
                     nuevoCliente.setVisible(true);
 
+                    nuevoCliente.addWindowListener(new MyWindowListener(nuevoServicio));
+                    nuevoServicio.setVisible(false);
+
                     new NuevoClienteController(nuevoCliente, this);
 
                 });
@@ -143,8 +147,10 @@ public class NuevoServicioController implements ActionListener
                     prendasInterfaz.setVisible(true);
                     prendasInterfaz.setLocationRelativeTo(nuevoServicio);
 
-                    //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getPrecioKg());
+                    prendasInterfaz.addWindowListener(new MyWindowListener(nuevoServicio));
+                    nuevoServicio.setVisible(false);
+
+                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getCostoKg());
 
                 });
 
@@ -162,9 +168,11 @@ public class NuevoServicioController implements ActionListener
                                 getTiempoEstimado(),
                                 getPrendas(),
                                 getTotalKg(),
-                                new ConfigDAO().getPrecioKg()));
+                                new ConfigDAO().getCostoKg()));
 
                         saveClaveNumTickets();
+
+                        vistaPrincipalController.getVistaPrincipal().setVisible(true);
 
                         nuevoServicio.dispose();
 
@@ -185,6 +193,8 @@ public class NuevoServicioController implements ActionListener
 
                     vistaPrincipalController.saveAllServices();
 
+                    vistaPrincipalController.getVistaPrincipal().setVisible(true);
+
                     nuevoServicio.dispose();
 
                 }
@@ -202,14 +212,17 @@ public class NuevoServicioController implements ActionListener
                         ticketInterfaz.setVisible(true);
                         ticketInterfaz.setLocationRelativeTo(null);
 
+                        ticketInterfaz.addWindowListener(new MyWindowListener(nuevoServicio));
+                        nuevoServicio.setVisible(false);
+
                         new VerTicketController(ticketInterfaz,
                                 new Ticket(
-                                        Servicio.getNumeroTickets() + 1,
+                                        Servicio.getNumeroTickets() + (isEditandoServicio() ? 0 : 1),
                                         isEditandoServicio() ? servicio.getFecha() : Calendar.getInstance(),
                                         getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
                                         prendas,
                                         getNTotalPrendas(),
-                                        getTotalKg() * new ConfigDAO().getPrecioKg(),
+                                        getTotalKg() * new ConfigDAO().getCostoKg(),
                                         getTotalKg())).mostrarTicket();
 
                     });
