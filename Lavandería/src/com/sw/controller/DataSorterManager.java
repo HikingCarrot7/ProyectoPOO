@@ -69,6 +69,17 @@ public class DataSorterManager
 
     }
 
+    public void ordenarPorNumTicket(ArrayList<Servicio> servicio)
+    {
+
+        if (orden == 0)
+            servicio.sort(Comparator.comparing(Servicio::getNumeroTicket));
+
+        else
+            servicio.sort(Comparator.comparing(Servicio::getNumeroTicket).reversed());
+
+    }
+
     public void ordenarPorNombreClientes(ArrayList<Cliente> clientes)
     {
 

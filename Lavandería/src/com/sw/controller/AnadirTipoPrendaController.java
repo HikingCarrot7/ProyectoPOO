@@ -29,6 +29,11 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Si se está editando una prenda, establecemos su valores en los campos.
+     *
+     * @param indexTipoPrendaEditando El index del cual vamos a tomar los datos del tipo de prenda.
+     */
     public void establecerTipoPrendaDefecto(int indexTipoPrendaEditando)
     {
 
@@ -41,6 +46,10 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     *
+     * Iniciamos los componentes para esta ventana.
+     */
     private void initMyComponents()
     {
 
@@ -53,6 +62,11 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Gestiona los eventos que ocurren cuando se presiona un botón.
+     *
+     * @param e El objeto de tipo ActionEvent que se crea cuando se presiona un botón en esta interfaz.
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -60,7 +74,7 @@ public class AnadirTipoPrendaController implements ActionListener
         switch (e.getActionCommand())
         {
 
-            case "add":
+            case "add": // Cuando se prensiona "Añadir".
 
                 if (textFieldListener.isValido())
                 {

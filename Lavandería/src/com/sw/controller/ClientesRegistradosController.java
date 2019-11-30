@@ -57,6 +57,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Iniciamos los componentes para esta ventana.
+     */
     private void initMyComponents()
     {
 
@@ -73,6 +76,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Cargamos los valores de la tabla.
+     */
     private void loadClientesRegistradosTable()
     {
 
@@ -98,6 +104,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Establece el renderer y los ítems para este JComboBox.
+     */
     private void loadComboModel()
     {
         clientesRegistradosInterfaz.getOrdenarPor().setRenderer(new ComboRenderer());
@@ -105,6 +114,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Carga los ítems que muestra este JComoBox.
+     *
+     * @return El DefaultComboBoxModel con los elementos cargados.
+     */
     private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
     {
 
@@ -268,6 +282,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Añadimos el cliente a la tabla.
+     *
+     * @param cliente El cliente a añadir.
+     *
+     */
     public void addClienteRegistrado(Cliente cliente)
     {
 
@@ -286,6 +306,13 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Modificamos los valores de un cliente registrado.
+     *
+     * @param clienteAModificar El cliente a modificar.
+     * @param clienteNuevosDatos El objeto cliente con los nuevos datos.
+     *
+     */
     public void modificarClienteRegistrado(Cliente clienteAModificar, Cliente clienteNuevosDatos)
     {
 
@@ -302,6 +329,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Elimanos a un cliente en esta tabla.
+     *
+     * @param index El índice del cliente a eliminar.
+     */
     public void eliminarClienteRegistrado(int index)
     {
 
@@ -313,6 +345,13 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Obtenemos los ítems para la tabla.
+     *
+     * @param clientes Los datos de los clientes a rellenar para esta tabla.
+     *
+     * @return La matriz de los objetos a cargar en la tabla.
+     */
     private Object[][] getItems(ArrayList<Cliente> clientes)
     {
 
@@ -336,6 +375,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Actualizamos los datos de un cliente.
+     */
     private void notificarCambioCliente()
     {
 
@@ -345,6 +387,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Obtemos los historiales para un cliente.
+     *
+     * @param cliente El cliente al que necesitamos sus historiales.
+     * @return Los historiales.
+     */
     private ArrayList<Historial> getHistorialesCliente(Cliente cliente)
     {
 
@@ -359,6 +407,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Buscamos si existe algún servicio en curso para un cliente en particular.
+     *
+     * @param cliente El cliente a buscar si existe algún servicio.
+     * @return <code>Verdadero</code> si existe algún servicio, <code>falso</code> en caso contrario.
+     */
     private boolean existeServicioEnCurso(Cliente cliente)
     {
 
@@ -384,6 +438,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Guardamos los clientes en el archivo de texto.
+     */
     private void guardarClientes()
     {
 
