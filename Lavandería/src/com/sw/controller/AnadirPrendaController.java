@@ -103,14 +103,20 @@ public class AnadirPrendaController implements ActionListener
         if (!todosLosCampoValidos()) // Si alguno de los campo es inválido, se muestra la siguiente error.
             JOptionPane.showMessageDialog(anadirPrendaInterfaz, "Alguno de los campos no es válido", "Campo no válido", JOptionPane.ERROR_MESSAGE);
 
-        else if (!isModificandoPrenda()) // Si no se está modificando una prenda la añadimos a la tabla, en caso contrario, la modificamos.
-            prendasController.anadirPrenda(getPrenda());
-
         else
-            prendasController.modificarPrenda(prendaAModificar, getPrenda());
+        {
 
-        if (todosLosCampoValidos()) // Si todos los campo están válidos, la ventana se cierra.
+            if (!isModificandoPrenda()) // Si no se está modificando una prenda la añadimos a la tabla, en caso contrario, la modificamos.
+                prendasController.anadirPrenda(getPrenda());
+
+            else
+                prendasController.modificarPrenda(prendaAModificar, getPrenda());
+
+            prendasController.getPrendasInterfaz().setVisible(true);
+
             anadirPrendaInterfaz.dispose();
+
+        }
 
     }
 

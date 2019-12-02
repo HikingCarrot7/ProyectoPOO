@@ -85,6 +85,8 @@ public class AnadirTipoPrendaController implements ActionListener
                     else
                         tiposPrendaController.modificarTipoPrenda(indexTipoPrendaEditando, anadirTipoPrendaInterfaz.getEntradaTipoPrenda().getText());
 
+                    tiposPrendaController.getTiposPrendasInterfaz().setVisible(true);
+
                     anadirTipoPrendaInterfaz.dispose();
 
                 } else

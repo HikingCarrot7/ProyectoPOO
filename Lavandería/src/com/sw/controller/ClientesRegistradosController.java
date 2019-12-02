@@ -161,6 +161,17 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                 case "Modificar":
 
+                    if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() == -1)
+                    {
+
+                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                                "No ha selecionado a ningún cliente.",
+                                "No seleccionó a un cliente.", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+
+                    }
+
                     if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() >= 0)
                         EventQueue.invokeLater(() ->
                         {
@@ -181,8 +192,19 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                     break;
 
                 case "Delete":
-                    if (!new TableManager().isFirstRowEmpty(clientesRegistradosInterfaz.getTablaClientesRegistrados()))
 
+                    if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() == -1)
+                    {
+
+                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                                "No ha selecionado a ningún cliente.",
+                                "No seleccionó a un cliente.", JOptionPane.ERROR_MESSAGE);
+
+                        return;
+
+                    }
+
+                    if (!new TableManager().isFirstRowEmpty(clientesRegistradosInterfaz.getTablaClientesRegistrados()))
                         if (!existeServicioEnCurso(clientesRegistrados.get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow())))
                             switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
                                     "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
@@ -453,6 +475,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     public ArrayList<Cliente> getClientes()
     {
         return clientesRegistrados;
+    }
+
+    public ClientesRegistradosInterfaz getClientesRegistradosInterfaz()
+    {
+        return clientesRegistradosInterfaz;
     }
 
 }

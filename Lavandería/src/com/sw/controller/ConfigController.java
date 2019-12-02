@@ -67,8 +67,8 @@ public class ConfigController implements ActionListener
                     tiposPrendasInterfaz.setVisible(true);
                     tiposPrendasInterfaz.setLocationRelativeTo(configuracionInterfaz);
 
-                    tiposPrendasInterfaz.addWindowListener(new MyWindowListener(vistaPrincipalController.getVistaPrincipal()));
-                    vistaPrincipalController.getVistaPrincipal().setVisible(false);
+                    tiposPrendasInterfaz.addWindowListener(new MyWindowListener(configuracionInterfaz));
+                    configuracionInterfaz.setVisible(false);
 
                     new TiposPrendasController(tiposPrendasInterfaz);
 
@@ -91,6 +91,8 @@ public class ConfigController implements ActionListener
                     vistaPrincipalController.updateAllTables();
 
                     configuracionInterfaz.dispose();
+
+                    vistaPrincipalController.getVistaPrincipal().setVisible(true);
 
                 } else
                     mostrarMensaje("Error.", "El precio por kg. que insertó no es válido.", JOptionPane.ERROR_MESSAGE);

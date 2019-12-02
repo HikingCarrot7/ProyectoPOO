@@ -98,14 +98,23 @@ public class NuevoClienteController implements ActionListener
         nuevoCliente.dispose();
 
         if (clientesRegistradosController != null)
+        {
+
             if (!isModificandoCliente())
                 clientesRegistradosController.addClienteRegistrado(cliente);
 
             else
                 clientesRegistradosController.modificarClienteRegistrado(clienteModificando, cliente);
 
-        else
+            clientesRegistradosController.getClientesRegistradosInterfaz().setVisible(true);
+
+        } else
+        {
+
             nuevoServicioController.addCliente(cliente);
+            nuevoServicioController.getNuevoServicio().setVisible(true);
+
+        }
 
     }
 
