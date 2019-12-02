@@ -614,7 +614,10 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     EventQueue.invokeLater(() ->
                     {
-                        new Notepad();
+
+                        new Notepad().addWindowListener(new MyWindowListener(vistaPrincipal));
+                        vistaPrincipal.setVisible(false);
+
                     });
 
                     break;
