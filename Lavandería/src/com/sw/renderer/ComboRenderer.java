@@ -1,7 +1,7 @@
 package com.sw.renderer;
 
-import com.sw.controller.MouseMotionManager;
-import com.sw.controller.MouseMotionModel;
+import com.sw.others.MouseMotionManager;
+import com.sw.others.MouseMotionModel;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Icon;
@@ -23,6 +23,7 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
+
         list.addMouseMotionListener(new MouseMotionManager(this));
 
         setIcon(((ComboItem) value).getIcon());
@@ -51,23 +52,13 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Revisar.
-     *
-     * @param index
-     * @param tamanioLista
-     *
-     * @return
-     */
     private boolean encimaItem(int index, int tamanioLista)
     {
 
-        if ((getY() >= tamanioLista * 20 || getY() <= 7))
+        if ((getY() >= tamanioLista * 20 || getY() <= 0))
             return false;
 
-        return index == (getY() / 20);
+        return index == getY() / 20;
 
     }
 

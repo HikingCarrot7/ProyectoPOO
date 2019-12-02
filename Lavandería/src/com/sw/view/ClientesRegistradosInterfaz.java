@@ -75,14 +75,15 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes registrados");
-        setMinimumSize(new java.awt.Dimension(925, 710));
+        setMaximumSize(new java.awt.Dimension(920, 700));
+        setMinimumSize(new java.awt.Dimension(920, 700));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelClientes.setToolTipText("");
-        panelClientes.setMaximumSize(new java.awt.Dimension(905, 550));
-        panelClientes.setMinimumSize(new java.awt.Dimension(905, 550));
-        panelClientes.setPreferredSize(new java.awt.Dimension(905, 550));
+        panelClientes.setMaximumSize(new java.awt.Dimension(920, 560));
+        panelClientes.setMinimumSize(new java.awt.Dimension(920, 560));
+        panelClientes.setPreferredSize(new java.awt.Dimension(920, 560));
 
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -99,7 +100,7 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
     );
     panelClientes.setViewportView(tablaClientes);
 
-    getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 919, 530));
+    getContentPane().add(panelClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, -1, -1));
 
     titleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
     titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -145,10 +146,10 @@ public class ClientesRegistradosInterfaz extends javax.swing.JFrame
     getContentPane().add(logoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 230, 95));
 
     fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
-    fondo.setMaximumSize(new java.awt.Dimension(925, 710));
-    fondo.setMinimumSize(new java.awt.Dimension(925, 710));
-    fondo.setPreferredSize(new java.awt.Dimension(925, 710));
-    getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 920, 710));
+    fondo.setMaximumSize(new java.awt.Dimension(920, 700));
+    fondo.setMinimumSize(new java.awt.Dimension(920, 700));
+    fondo.setPreferredSize(new java.awt.Dimension(920, 700));
+    getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
     pack();
     }// </editor-fold>//GEN-END:initComponents

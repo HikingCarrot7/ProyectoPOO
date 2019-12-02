@@ -2,23 +2,26 @@ package com.sw.controller;
 
 import com.sw.model.Cliente;
 import com.sw.model.Prenda;
-import com.sw.model.ServicioInicial;
+import com.sw.model.Servicio;
+import com.sw.model.Ticket;
+import com.sw.others.MyWindowListener;
+import com.sw.persistence.ClienteDAO;
+import com.sw.persistence.ConfigDAO;
 import com.sw.persistence.DAO;
+import com.sw.persistence.TicketDAO;
 import com.sw.renderer.ComboRenderer;
-import com.sw.utilities.Temporizador;
 import com.sw.utilities.Time;
+import com.sw.utilities.Timer;
 import com.sw.utilities.Utilities;
 import com.sw.view.NuevoCliente;
 import com.sw.view.NuevoServicio;
 import com.sw.view.PrendasInterfaz;
+import com.sw.view.TicketInterfaz;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formatter;
+import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -33,6 +36,9 @@ public class NuevoServicioController implements ActionListener
     private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientes;
     private ArrayList<Prenda> prendas;
+    private Servicio servicio;
+    private boolean editandoServicio;
+    private int nTotalPrendas;
     private double totalKg;
 
     public NuevoServicioController(NuevoServicio nuevoServicio, VistaPrincipalController vistaPrincipalController)
@@ -48,8 +54,39 @@ public class NuevoServicioController implements ActionListener
         nuevoServicio.getAddCliente().addActionListener(this);
         nuevoServicio.getAnadirPrendas().addActionListener(this);
         nuevoServicio.getOk().addActionListener(this);
+        nuevoServicio.getVerTicket().addActionListener(this);
 
         nuevoServicio.getClientes().addActionListener(this);
+
+    }
+
+    public void establecerDatosDefecto(Servicio servicio)
+    {
+
+        setEditandoServicio(true);
+
+        this.servicio = servicio;
+        prendas = servicio.getPrendas();
+
+        nuevoServicio.getClientes().setSelectedIndex(getCurrentCliente());
+
+        nuevoServicio.getHoras().setValue(servicio.getTiempoEstimado().getTime().getHours());
+        nuevoServicio.getMinutos().setValue(servicio.getTiempoEstimado().getTime().getMinutes());
+        nuevoServicio.getSegundos().setValue(servicio.getTiempoEstimado().getTime().getSeconds());
+
+        setTotalKg(servicio.getTotalKg());
+        setNTotalPrendas(servicio.getTotalPrendas());
+
+    }
+
+    private int getCurrentCliente()
+    {
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+                return i;
+
+        return 0;
 
     }
 
@@ -67,15 +104,8 @@ public class NuevoServicioController implements ActionListener
 
         DefaultComboBoxModel<ComboRenderer.ComboItem> dm = new DefaultComboBoxModel<>();
 
-        if (clientes.isEmpty())
-        {
-            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), "No hay clientes"));
-            return dm;
-
-        }
-
-        for (int i = 0; i < clientes.size(); i++)
-            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.get(i).getNombre()));
+        for (int i = clientes.isEmpty() ? -1 : 0; i < clientes.size(); i++)
+            dm.addElement(new ComboRenderer.ComboItem(Utilities.getIcon("/com/src/images/clienteCombo.png"), clientes.isEmpty() ? "No hay clientes" : clientes.get(i).getNombre()));
 
         return dm;
 
@@ -98,6 +128,9 @@ public class NuevoServicioController implements ActionListener
                     nuevoCliente.setLocationRelativeTo(nuevoServicio);
                     nuevoCliente.setVisible(true);
 
+                    nuevoCliente.addWindowListener(new MyWindowListener(nuevoServicio));
+                    nuevoServicio.setVisible(false);
+
                     new NuevoClienteController(nuevoCliente, this);
 
                 });
@@ -114,8 +147,10 @@ public class NuevoServicioController implements ActionListener
                     prendasInterfaz.setVisible(true);
                     prendasInterfaz.setLocationRelativeTo(nuevoServicio);
 
-                    //prendasInterfaz.addWindowListener(new WindowsListener(nuevoServicio));
-                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg());
+                    prendasInterfaz.addWindowListener(new MyWindowListener(nuevoServicio));
+                    nuevoServicio.setVisible(false);
+
+                    new PrendasController(prendasInterfaz, this, prendas != null ? prendas : new ArrayList<>(), getTotalKg(), new ConfigDAO().getCostoKg());
 
                 });
 
@@ -123,18 +158,78 @@ public class NuevoServicioController implements ActionListener
 
             case "ok":
 
-                if (!clientes.isEmpty())
+                if (!isEditandoServicio())
+                    if (!clientes.isEmpty())
+                    {
+
+                        vistaPrincipalController.anadirServicioCola(new Servicio(
+                                obtenerClientes().get(nuevoServicio.getClientes().getSelectedIndex()),
+                                Calendar.getInstance(),
+                                getTiempoEstimado(),
+                                getPrendas(),
+                                getTotalKg(),
+                                new ConfigDAO().getCostoKg()));
+
+                        saveClaveNumTickets();
+
+                        vistaPrincipalController.getVistaPrincipal().setVisible(true);
+
+                        nuevoServicio.dispose();
+
+                    } else
+                        mostrarMensaje("Cliente inválido.", "El cliente no es válido.", JOptionPane.ERROR_MESSAGE);
+
+                else
                 {
 
-                    vistaPrincipalController.anadirServicioCola(new ServicioInicial(clientes.get(nuevoServicio.getClientes().getSelectedIndex()),
-                            getTiempoEstimado(),
-                            getPrendas(),
-                            getTotalKg()));
+                    servicio.setCliente(getClientes().get(nuevoServicio.getClientes().getSelectedIndex()));
+                    servicio.setPrendas(getPrendas());
+                    servicio.setTiempoEstimado(getTiempoEstimado());
+                    servicio.setTotalKg(getTotalKg());
+
+                    vistaPrincipalController.updateTimer(servicio);
+
+                    vistaPrincipalController.updateAllTables();
+
+                    vistaPrincipalController.saveAllServices();
+
+                    vistaPrincipalController.getVistaPrincipal().setVisible(true);
 
                     nuevoServicio.dispose();
 
-                } else
-                    JOptionPane.showMessageDialog(nuevoServicio, "El cliente no es válido", "Cliente inválido", JOptionPane.ERROR_MESSAGE);
+                }
+
+                break;
+
+            case "verTicket":
+
+                if (prendas != null && !prendas.isEmpty() && getTotalKg() != 0 && !clientes.isEmpty())
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        TicketInterfaz ticketInterfaz = new TicketInterfaz();
+
+                        ticketInterfaz.setVisible(true);
+                        ticketInterfaz.setLocationRelativeTo(null);
+
+                        ticketInterfaz.addWindowListener(new MyWindowListener(nuevoServicio));
+                        nuevoServicio.setVisible(false);
+
+                        new VerTicketController(ticketInterfaz,
+                                new Ticket(
+                                        Servicio.getNumeroTickets() + (isEditandoServicio() ? 0 : 1),
+                                        isEditandoServicio() ? servicio.getFecha() : Calendar.getInstance(),
+                                        getClientes().get(nuevoServicio.getClientes().getSelectedIndex()).getNombre(),
+                                        prendas,
+                                        getNTotalPrendas(),
+                                        getTotalKg() * new ConfigDAO().getCostoKg(),
+                                        getTotalKg())).mostrarTicket();
+
+                    });
+
+                else
+                    mostrarMensaje(clientes.isEmpty() ? "Cliente inválido." : "Error.", clientes.isEmpty() ? "El cliente no es válido."
+                            : "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0.", JOptionPane.ERROR_MESSAGE);
 
                 break;
 
@@ -179,6 +274,11 @@ public class NuevoServicioController implements ActionListener
 
     }
 
+    private void mostrarMensaje(String titulo, String text, int tipo)
+    {
+        JOptionPane.showMessageDialog(nuevoServicio, text, titulo, tipo);
+    }
+
     public ArrayList<Cliente> getClientes()
     {
         return clientes;
@@ -199,10 +299,10 @@ public class NuevoServicioController implements ActionListener
         this.prendas = prendas;
     }
 
-    public Temporizador getTiempoEstimado()
+    public Timer getTiempoEstimado()
     {
 
-        return new Temporizador(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
+        return new Timer(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
                 Integer.parseInt(String.valueOf(getNuevoServicio().getMinutos().getValue())),
                 Integer.parseInt(String.valueOf(getNuevoServicio().getSegundos().getValue()))));
 
@@ -218,20 +318,28 @@ public class NuevoServicioController implements ActionListener
         this.totalKg = totalKg;
     }
 
+    public void setNTotalPrendas(int nTotalPrendas)
+    {
+        this.nTotalPrendas = nTotalPrendas;
+    }
+
+    private int getNTotalPrendas()
+    {
+        return nTotalPrendas;
+    }
+
     private void saveClientes()
     {
+
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(clientes);
 
-        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
-        {
+        new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
-            out.format("%s", Cliente.getClave());
+    }
 
-        } catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-
+    private void saveClaveNumTickets()
+    {
+        new TicketDAO().saveClaveTickets(Servicio.getNumeroTickets());
     }
 
     private ArrayList<Cliente> obtenerClientes()
@@ -242,6 +350,16 @@ public class NuevoServicioController implements ActionListener
     public NuevoServicio getNuevoServicio()
     {
         return nuevoServicio;
+    }
+
+    public boolean isEditandoServicio()
+    {
+        return editandoServicio;
+    }
+
+    public void setEditandoServicio(boolean editandoServicio)
+    {
+        this.editandoServicio = editandoServicio;
     }
 
 }

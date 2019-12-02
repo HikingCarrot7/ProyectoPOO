@@ -1,11 +1,13 @@
 package com.sw.renderer;
 
-import com.sw.controller.MouseMotionModel;
 import com.sw.controller.TableManager;
+import com.sw.others.MouseMotionModel;
+import com.sw.persistence.ConfigDAO;
 import com.sw.utilities.Utilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -21,6 +23,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class TableCellRenderer extends DefaultTableCellRenderer implements MouseMotionModel
 {
 
+    private static final long serialVersionUID = -2422440758692459668L;
+
     private int x;
     private int y;
 
@@ -28,7 +32,12 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
 
-        table.getColumnModel().getColumn(0).setWidth(table.getWidth() == 904 ? 325 : table.getWidth() == 913 ? 310 : table.getColumnCount() >= 6 ? 450 : table.getColumnCount() == 2 ? 370 : 255);
+        table.getColumnModel().getColumn(0).setWidth(table.getName().equals("Historial") ? 250
+                : table.getName().equals("Clientes") ? 280
+                : table.getName().equals("Tipos prendas") ? 370
+                : table.getName().equals("En cola") ? 350
+                : table.getColumnCount() == 8 ? 350 : 280);
+
         table.setRowHeight(30);
 
         if (value instanceof JButton)
@@ -36,64 +45,96 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
             {
 
                 case "Clientes":
+
                     updateIcon(((JButton) value), table, 5, "/com/src/images/historialSelected.png", "/com/src/images/historial.png");
                     return (Component) value;
 
                 case "Prendas":
+
+                    updateIcon(((JButton) value), table, 3, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    return (Component) value;
+
                 case "Historial":
 
-                    updateIcon(((JButton) value), table, column == 1 ? 1 : table.getName().equals("Historial") ? 5 : 3,
-                            column == 1 ? "/com/src/images/tshirtSelected.png" : "/com/src/images/deleteSelected.png",
-                            column == 1 ? "/com/src/images/tshirt.png" : "/com/src/images/delete.png");
+                    switch (column)
+                    {
+
+                        case 3:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
+
+                        case 4:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
+                            break;
+
+                        case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
+
+                    }
 
                     return (Component) value;
 
                 case "En cola":
                     switch (column)
                     {
-                        case 1:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (Component) value;
 
-                        case 4:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
-                            return (Component) value;
+                        case 2:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
 
                         case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
+                            break;
+
+                        case 6:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (Component) value;
+                            break;
 
                     }
+
+                    return (Component) value;
 
                 case "Terminado":
                 case "En proceso":
                     switch (column)
                     {
 
-                        case 1:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
-                            return (Component) value;
+                        case 2:
 
-                        case 4:
-                            updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
-                            return (Component) value;
+                            updateIcon(((JButton) value), table, column, "/com/src/images/tshirtSelected.png", "/com/src/images/tshirt.png");
+                            break;
 
                         case 5:
+
+                            updateIcon(((JButton) value), table, column, "/com/src/images/upSelected.png", "/com/src/images/up.png");
+                            break;
+
+                        case 6:
+
                             if (!table.getName().equals("Terminado"))
                                 updateIcon(((JButton) value), table, column, "/com/src/images/downSelected.png", "/com/src/images/down.png");
 
                             else
                                 updateIcon(((JButton) value), table, column, "/com/src/images/ticketSelected.png", "/com/src/images/ticket.png");
 
-                            return (Component) value;
+                            break;
 
-                        case 6:
+                        case 7:
+
                             updateIcon(((JButton) value), table, column, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
-                            return (Component) value;
 
                     }
 
-                case "Tipos prenda":
+                    return (Component) value;
+
+                case "Tipos prendas":
                     updateIcon(((JButton) value), table, 1, "/com/src/images/deleteSelected.png", "/com/src/images/delete.png");
                     return (Component) value;
 
@@ -102,18 +143,43 @@ public class TableCellRenderer extends DefaultTableCellRenderer implements Mouse
 
             }
 
+        else if (value instanceof JLabel)
+        {
+
+            ((JLabel) value).setHorizontalAlignment(SwingConstants.LEFT);
+            ((Component) value).setSize(30, ((Component) value).getWidth());
+            ((Component) value).setPreferredSize(new Dimension(6, ((Component) value).getWidth()));
+
+            Color color = new ConfigDAO().getColorTablas();
+
+            ((JComponent) value).setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
+            ((JComponent) value).setOpaque(true);
+            ((Component) value).setFont(new Font("Consolas", Font.PLAIN, 12));
+            ((Component) value).setBackground(row % 2 == 0 ? color.brighter() : Color.white);
+            ((Component) value).setForeground(Color.black);
+
+            if (row == table.getSelectedRow())
+                ((Component) value).setBackground(color.darker());
+
+            return ((Component) value);
+
+        }
+
         JComponent jcomponent = new JLabel((String) value);
         ((JLabel) jcomponent).setHorizontalAlignment(SwingConstants.LEFT);
+        jcomponent.setFont(new Font("Consolas", Font.PLAIN, 12));
         jcomponent.setSize(30, jcomponent.getWidth());
         jcomponent.setPreferredSize(new Dimension(6, jcomponent.getWidth()));
 
+        Color color = new ConfigDAO().getColorTablas();
+
         jcomponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 255, 255)));
         jcomponent.setOpaque(true);
-        jcomponent.setBackground(row % 2 == 0 ? new Color(180, 180, 180) : Color.white);
+        jcomponent.setBackground(row % 2 == 0 ? color.brighter() : Color.white);
         jcomponent.setForeground(Color.black);
 
         if (row == table.getSelectedRow())
-            jcomponent.setBackground(Color.cyan);
+            jcomponent.setBackground(color.darker());
 
         return jcomponent;
 

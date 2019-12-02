@@ -1,6 +1,8 @@
 package com.sw.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -12,48 +14,46 @@ public class Historial implements Serializable
 
     private static final long serialVersionUID = -8147791639672414830L;
 
-    private Persona cliente;
-    private Prenda[] prendas;
-    private GregorianCalendar fecha;
+    private Cliente cliente;
+    private ArrayList<Prenda> prendas;
+    private Calendar fecha;
+    private Ticket ticket;
     private double totalKg;
     private double precioTotal;
 
-    public Historial(Persona cliente, Prenda[] prendas, GregorianCalendar fecha, double totalKg, double precioTotal)
+    public Historial(Cliente cliente, ArrayList<Prenda> prendas, Calendar fecha, Ticket ticket, double totalKg, double precioTotal)
     {
+
         this.cliente = cliente;
         this.prendas = prendas;
         this.fecha = fecha;
+        this.ticket = ticket;
         this.totalKg = totalKg;
         this.precioTotal = precioTotal;
 
     }
 
-    public Historial()
-    {
-        this(null, null, null, 0, 0);
-    }
-
-    public Persona getCliente()
+    public Cliente getCliente()
     {
         return cliente;
     }
 
-    public void setCliente(Persona cliente)
+    public void setCliente(Cliente cliente)
     {
         this.cliente = cliente;
     }
 
-    public Prenda[] getPrendas()
+    public ArrayList<Prenda> getPrendas()
     {
         return prendas;
     }
 
-    public void setPrendas(Prenda[] prendas)
+    public void setPrendas(ArrayList<Prenda> prendas)
     {
         this.prendas = prendas;
     }
 
-    public GregorianCalendar getFecha()
+    public Calendar getFecha()
     {
         return fecha;
     }
@@ -61,6 +61,16 @@ public class Historial implements Serializable
     public void setFecha(GregorianCalendar fecha)
     {
         this.fecha = fecha;
+    }
+
+    public Ticket getTicket()
+    {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket)
+    {
+        this.ticket = ticket;
     }
 
     public double getTotalKg()

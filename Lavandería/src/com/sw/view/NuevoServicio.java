@@ -3,6 +3,7 @@ package com.sw.view;
 import com.sw.renderer.ComboRenderer.ComboItem;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 
 /**
@@ -68,6 +69,7 @@ public class NuevoServicio extends javax.swing.JFrame
         segundos = new javax.swing.JSpinner();
         segundosLabel = new javax.swing.JLabel();
         ok = new javax.swing.JButton();
+        verTicket = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -83,7 +85,7 @@ public class NuevoServicio extends javax.swing.JFrame
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/servicioTitle.png"))); // NOI18N
         titleLabel.setText("Nuevo servicio");
-        titleLabel.setToolTipText("Nuevo servicio");
+        titleLabel.setToolTipText("");
         getContentPane().add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 250, -1));
 
         clienteLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -116,7 +118,7 @@ public class NuevoServicio extends javax.swing.JFrame
         tiempoEstimadoLabel.setText("Tiempo estimado:");
         getContentPane().add(tiempoEstimadoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, -1));
 
-        horas.setModel(new javax.swing.SpinnerNumberModel(1, 0, 23, 1));
+        horas.setModel(new javax.swing.SpinnerNumberModel(1, 0, 96, 1));
         horas.setToolTipText("Horas");
         horas.setMaximumSize(new java.awt.Dimension(35, 20));
         horas.setMinimumSize(new java.awt.Dimension(35, 20));
@@ -152,7 +154,15 @@ public class NuevoServicio extends javax.swing.JFrame
         ok.setMaximumSize(new java.awt.Dimension(80, 40));
         ok.setMinimumSize(new java.awt.Dimension(80, 40));
         ok.setPreferredSize(new java.awt.Dimension(80, 40));
-        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, -1, -1));
+        getContentPane().add(ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, -1, -1));
+
+        verTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/ticketBoton.png"))); // NOI18N
+        verTicket.setToolTipText("Ver ticket");
+        verTicket.setActionCommand("verTicket");
+        verTicket.setMaximumSize(new java.awt.Dimension(80, 40));
+        verTicket.setMinimumSize(new java.awt.Dimension(80, 40));
+        verTicket.setPreferredSize(new java.awt.Dimension(80, 40));
+        getContentPane().add(verTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 390, 350));
@@ -170,6 +180,16 @@ public class NuevoServicio extends javax.swing.JFrame
         return anadirPrendas;
     }
 
+    public JButton getOk()
+    {
+        return ok;
+    }
+
+    public JButton getVerTicket()
+    {
+        return verTicket;
+    }
+
     public JComboBox<ComboItem> getClientes()
     {
         return clientes;
@@ -185,14 +205,14 @@ public class NuevoServicio extends javax.swing.JFrame
         return minutos;
     }
 
-    public JButton getOk()
-    {
-        return ok;
-    }
-
     public JSpinner getSegundos()
     {
         return segundos;
+    }
+
+    public JLabel getTitleLabel()
+    {
+        return titleLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -211,5 +231,6 @@ public class NuevoServicio extends javax.swing.JFrame
     private javax.swing.JLabel segundosLabel;
     private javax.swing.JLabel tiempoEstimadoLabel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JButton verTicket;
     // End of variables declaration//GEN-END:variables
 }

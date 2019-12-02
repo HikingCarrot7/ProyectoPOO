@@ -1,8 +1,6 @@
 package com.sw.view;
 
-import com.sw.controller.TiposPrendaController;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
@@ -15,21 +13,44 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
     public TiposPrendasInterfaz()
     {
+
+        initWindow();
+
         initComponents();
 
         initMyComponents();
 
-        new TiposPrendaController(this);
+    }
+
+    private void initWindow()
+    {
+
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try
+        {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
+                {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        //</editor-fold>
 
     }
 
     private void initMyComponents()
     {
         eliminar = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-            eliminar.add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
-
     }
 
     /**
@@ -47,11 +68,11 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
         tiposPrendas = new javax.swing.JTable();
         fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tipos prendas");
-        setMaximumSize(new java.awt.Dimension(495, 675));
-        setMinimumSize(new java.awt.Dimension(495, 675));
-        setPreferredSize(new java.awt.Dimension(495, 675));
+        setMaximumSize(new java.awt.Dimension(495, 650));
+        setMinimumSize(new java.awt.Dimension(495, 650));
+        setPreferredSize(new java.awt.Dimension(495, 650));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -60,6 +81,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
         editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/edit.png"))); // NOI18N
         editar.setToolTipText("Editar prenda");
+        editar.setActionCommand("editTipoPrenda");
         editar.setMaximumSize(new java.awt.Dimension(100, 45));
         editar.setMinimumSize(new java.awt.Dimension(100, 45));
         editar.setPreferredSize(new java.awt.Dimension(100, 45));
@@ -67,10 +89,15 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
 
         anadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/add.png"))); // NOI18N
         anadir.setToolTipText("Añadir nueva prenda");
+        anadir.setActionCommand("addTipoPrenda");
         anadir.setMaximumSize(new java.awt.Dimension(100, 45));
         anadir.setMinimumSize(new java.awt.Dimension(100, 45));
         anadir.setPreferredSize(new java.awt.Dimension(100, 45));
         getContentPane().add(anadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+
+        scrollTipoPrendas.setMaximumSize(new java.awt.Dimension(490, 485));
+        scrollTipoPrendas.setMinimumSize(new java.awt.Dimension(490, 485));
+        scrollTipoPrendas.setPreferredSize(new java.awt.Dimension(490, 485));
 
         tiposPrendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -85,7 +112,7 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
         ));
         scrollTipoPrendas.setViewportView(tiposPrendas);
 
-        getContentPane().add(scrollTipoPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 490, 490));
+        getContentPane().add(scrollTipoPrendas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/fondo.jpg"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 680));
@@ -111,47 +138,6 @@ public class TiposPrendasInterfaz extends javax.swing.JFrame
     public JTable getTiposPrendasTable()
     {
         return tiposPrendas;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() ->
-        {
-            TiposPrendasInterfaz tiposPrendas = new TiposPrendasInterfaz();
-
-            tiposPrendas.setVisible(true);
-            tiposPrendas.setLocationRelativeTo(null);
-
-        });
-
     }
 
     private ArrayList<JButton> eliminar;

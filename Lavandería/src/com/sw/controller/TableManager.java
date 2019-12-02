@@ -1,12 +1,16 @@
 package com.sw.controller;
 
+import com.sw.others.MouseMotionManager;
+import com.sw.others.TableCellManager;
 import com.sw.renderer.TableCellRenderer;
 import com.sw.renderer.TableHeaderRenderer;
 import com.sw.utilities.Utilities;
 import java.awt.Component;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -26,6 +30,7 @@ public class TableManager
         table.setDefaultRenderer(Object.class, tableCellRenderer);
         JTableHeader jTableHeader = table.getTableHeader();
         jTableHeader.setDefaultRenderer(new TableHeaderRenderer());
+        jTableHeader.setReorderingAllowed(false);
         table.setTableHeader(jTableHeader);
 
         table.getColumnModel().setColumnSelectionAllowed(false);
@@ -98,12 +103,6 @@ public class TableManager
 
     }
 
-    /**
-     * Cuidado, los items deben estar recortados.
-     *
-     * @param table
-     * @param items
-     */
     public void addRow(JTable table, Object[] items)
     {
 
@@ -180,15 +179,6 @@ public class TableManager
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Los items ya deben estar recortados (No deben tener componentes).
-     *
-     * @param table La tabla a manipular.
-     * @param items Los items a poner en la tabla.
-     *
-     */
     public void setTableItems(JTable table, Object[][] items)
     {
 
@@ -229,14 +219,6 @@ public class TableManager
 
     }
 
-    /**
-     * @deprecated
-     *
-     * Revisar.
-     *
-     * @param table
-     * @return
-     */
     public Object[] getEmptyRowData(JTable table)
     {
 
@@ -247,7 +229,10 @@ public class TableManager
 
         for (int i = 0; i < items.length; i++)
             if (table.getValueAt(table.getRowCount() - 1, i) instanceof JButton)
-                items[i] = new JButton(((JButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
+                items[i] = new JButton(((AbstractButton) table.getValueAt(table.getRowCount() - 1, i)).getIcon());
+
+            else if (table.getValueAt(table.getRowCount() - 1, i) instanceof JLabel)
+                items[i] = new JLabel();
 
         return items;
 

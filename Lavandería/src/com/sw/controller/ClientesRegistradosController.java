@@ -1,20 +1,22 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
+import com.sw.model.Historial;
+import com.sw.model.Servicio;
+import com.sw.others.MyMouseAdapter;
+import com.sw.others.MyWindowListener;
+import com.sw.persistence.ClienteDAO;
 import com.sw.persistence.DAO;
 import com.sw.renderer.ComboRenderer;
 import com.sw.utilities.Utilities;
 import com.sw.view.ClientesRegistradosInterfaz;
+import com.sw.view.HistorialInterfaz;
 import com.sw.view.NuevoCliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formatter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,12 +32,15 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 {
 
     private ClientesRegistradosInterfaz clientesRegistradosInterfaz;
+    private VistaPrincipalController vistaPrincipalController;
     private ArrayList<Cliente> clientesRegistrados;
 
-    public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz)
+    public ClientesRegistradosController(ClientesRegistradosInterfaz clientesRegistradosInterfaz, VistaPrincipalController vistaPrincipalController)
     {
 
         this.clientesRegistradosInterfaz = clientesRegistradosInterfaz;
+        this.vistaPrincipalController = vistaPrincipalController;
+
         clientesRegistrados = (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
 
         initMyComponents();
@@ -52,6 +57,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Iniciamos los componentes para esta ventana.
+     */
     private void initMyComponents()
     {
 
@@ -68,6 +76,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Cargamos los valores de la tabla.
+     */
     private void loadClientesRegistradosTable()
     {
 
@@ -83,7 +94,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         }, clientesRegistradosInterfaz.getVerHistorial()), new String[]
         {
 
-            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Ver historial"
+            "Nombre", "Correo", "Teléfono", "Dirección", "N° servicios", "Historial"
 
         }));
 
@@ -93,6 +104,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Establece el renderer y los ítems para este JComboBox.
+     */
     private void loadComboModel()
     {
         clientesRegistradosInterfaz.getOrdenarPor().setRenderer(new ComboRenderer());
@@ -100,6 +114,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Carga los ítems que muestra este JComoBox.
+     *
+     * @return El DefaultComboBoxModel con los elementos cargados.
+     */
     private DefaultComboBoxModel<ComboRenderer.ComboItem> loadComboItems()
     {
 
@@ -131,6 +150,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                         nuevoCliente.setLocationRelativeTo(clientesRegistradosInterfaz);
                         nuevoCliente.setVisible(true);
 
+                        nuevoCliente.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
+
                         new NuevoClienteController(nuevoCliente, this);
 
                     });
@@ -148,6 +170,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                             nuevoClienteModificar.setLocationRelativeTo(clientesRegistradosInterfaz);
                             nuevoClienteModificar.setVisible(true);
 
+                            nuevoClienteModificar.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                            clientesRegistradosInterfaz.setVisible(false);
+
                             new NuevoClienteController(nuevoClienteModificar, this).establecerDatosDefecto(
                                     getClientes().get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow()));
 
@@ -157,23 +182,30 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                 case "Delete":
                     if (!new TableManager().isFirstRowEmpty(clientesRegistradosInterfaz.getTablaClientesRegistrados()))
-                        switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
-                                "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
-                                "Confirmar acción", JOptionPane.YES_NO_OPTION))
-                        {
 
-                            case 0: // Si se presiona Sí
+                        if (!existeServicioEnCurso(clientesRegistrados.get(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow())))
+                            switch (JOptionPane.showConfirmDialog(clientesRegistradosInterfaz,
+                                    "Se borrará toda la información relacionado con este cliente. ¿Continuar?",
+                                    "Confirmar acción", JOptionPane.YES_NO_OPTION))
+                            {
 
-                                eliminarClienteRegistrado(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
+                                case 0: // Si se presiona Sí
 
-                                break;
+                                    eliminarClienteRegistrado(clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow());
 
-                        }
+                                    break;
+
+                            }
+
+                        else
+                            JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                                    "No se pueden eliminar a clientes que tengan servicios pendientes a los cuales aún no se les ha generado su ticket.",
+                                    "Error.", JOptionPane.ERROR_MESSAGE);
 
                     else
                         JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
-                                "No hay clientes registrados",
-                                "No hay clientes", JOptionPane.ERROR_MESSAGE);
+                                "No hay clientes registrados.",
+                                "No hay clientes.", JOptionPane.ERROR_MESSAGE);
 
                     break;
 
@@ -222,17 +254,40 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         TableManager tableManager = new TableManager();
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
 
-        if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5) && !tableManager.isFirstRowEmpty(table))
-            if (getClientes().get(tableManager.getClickedRow(table, e.getY())).getHistoriales().isEmpty())
-                JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+        if (!tableManager.isFirstRowEmpty(table))
+        {
 
-            else
-            {
-                //Aquí habrá algo...
-            }
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+                if (getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())).isEmpty())
+                    JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+
+                else
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        HistorialInterfaz historialInterfaz = new HistorialInterfaz();
+
+                        historialInterfaz.setVisible(true);
+                        historialInterfaz.setLocationRelativeTo(clientesRegistradosInterfaz);
+
+                        historialInterfaz.addWindowListener(new MyWindowListener(clientesRegistradosInterfaz));
+                        clientesRegistradosInterfaz.setVisible(false);
+
+                        new HistorialController(historialInterfaz, getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())));
+
+                    });
+
+        } else
+            JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Aún no hay clientes registrados.", "No hay clientes", JOptionPane.ERROR_MESSAGE);
 
     }
 
+    /**
+     * Añadimos el cliente a la tabla.
+     *
+     * @param cliente El cliente a añadir.
+     *
+     */
     public void addClienteRegistrado(Cliente cliente)
     {
 
@@ -242,13 +297,22 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         tableManager.addRow(clientesRegistradosInterfaz.getTablaClientesRegistrados(), new Object[]
         {
+
             cliente.getNombre(), cliente.getCorreo(), cliente.getTelefono(), cliente.getDireccion(), String.valueOf(cliente.getnServicios())
+
         });
 
         guardarClientes();
 
     }
 
+    /**
+     * Modificamos los valores de un cliente registrado.
+     *
+     * @param clienteAModificar El cliente a modificar.
+     * @param clienteNuevosDatos El objeto cliente con los nuevos datos.
+     *
+     */
     public void modificarClienteRegistrado(Cliente clienteAModificar, Cliente clienteNuevosDatos)
     {
 
@@ -259,12 +323,17 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         new TableManager().setTableItems(clientesRegistradosInterfaz.getTablaClientesRegistrados(), getItems(getClientes()));
 
-        notificarCambioClientes();
+        notificarCambioCliente();
 
         guardarClientes();
 
     }
 
+    /**
+     * Elimanos a un cliente en esta tabla.
+     *
+     * @param index El índice del cliente a eliminar.
+     */
     public void eliminarClienteRegistrado(int index)
     {
 
@@ -277,13 +346,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     }
 
     /**
-     * @deprecated
+     * Obtenemos los ítems para la tabla.
      *
-     * Revisar este método para las futuras implementaciones específicas.
+     * @param clientes Los datos de los clientes a rellenar para esta tabla.
      *
-     * @param clientes Los clientes registrados.
-     *
-     * @return Los items de los clientes registrados en forma de matriz de objetos (este método debe ignorar aquellas columnas que tengan componentes).
+     * @return La matriz de los objetos a cargar en la tabla.
      */
     private Object[][] getItems(ArrayList<Cliente> clientes)
     {
@@ -308,7 +375,10 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
-    private void notificarCambioClientes()
+    /**
+     * Actualizamos los datos de un cliente.
+     */
+    private void notificarCambioCliente()
     {
 
         setChanged();
@@ -317,19 +387,66 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
     }
 
+    /**
+     * Obtemos los historiales para un cliente.
+     *
+     * @param cliente El cliente al que necesitamos sus historiales.
+     * @return Los historiales.
+     */
+    private ArrayList<Historial> getHistorialesCliente(Cliente cliente)
+    {
+
+        ArrayList<Historial> historiales = (ArrayList<Historial>) new DAO(DAO.RUTA_HISTORIALES).getObjects();
+        ArrayList<Historial> historialesCliente = new ArrayList<>();
+
+        for (int i = 0; i < historiales.size(); i++)
+            if (historiales.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                historialesCliente.add(historiales.get(i));
+
+        return historialesCliente;
+
+    }
+
+    /**
+     * Buscamos si existe algún servicio en curso para un cliente en particular.
+     *
+     * @param cliente El cliente a buscar si existe algún servicio.
+     * @return <code>Verdadero</code> si existe algún servicio, <code>falso</code> en caso contrario.
+     */
+    private boolean existeServicioEnCurso(Cliente cliente)
+    {
+
+        ArrayList<Servicio> servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSENCOLA);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                return true;
+
+        servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSENPROCESO);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente())
+                return true;
+
+        servicios = vistaPrincipalController.getServicios(DAO.RUTA_SERVICIOSTERMINADOS);
+
+        for (int i = 0; i < servicios.size(); i++)
+            if (servicios.get(i).getCliente().getClaveCliente() == cliente.getClaveCliente() && !servicios.get(i).isTicketGenerado())
+                return true;
+
+        return false;
+
+    }
+
+    /**
+     * Guardamos los clientes en el archivo de texto.
+     */
     private void guardarClientes()
     {
+
         new DAO(DAO.RUTA_CLIENTESREGISTRADOS).saveObjects(getClientes());
 
-        try (Formatter out = new Formatter(new FileWriter(new File(DAO.RUTA_CLAVECLIENTES), false)))
-        {
-
-            out.format("%s", Cliente.getClave());
-
-        } catch (IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
     }
 

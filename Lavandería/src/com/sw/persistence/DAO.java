@@ -3,10 +3,12 @@ package com.sw.persistence;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 /**
  *
@@ -15,28 +17,32 @@ import java.util.ArrayList;
 public class DAO
 {
 
-    public static final String RUTA_CLIENTESREGISTRADOS = "res/ClientesRegistrados.txt";
-    public static final String RUTA_CLAVECLIENTES = "res/ClaveCliente.txt";
+    public static final String RUTA_CLIENTESREGISTRADOS = "res/com/sw/data/ClientesRegistrados.txt";
+    public static final String RUTA_TIPOSPRENDAS = "res/com/sw/data/TiposPrendas.txt";
+    public static final String RUTA_HISTORIALES = "res/com/sw/data/Historiales.txt";
+    public static final String RUTA_TABLETIMERS = "res/com/sw/data/TableTimers.txt";
 
-    public static final String RUTA_SERVICIOSENCOLA = "res/ServiciosEnCola.txt";
-    public static final String RUTA_SERVICIOSENPROCESO = "res/ServiciosEnProceso.txt";
-    public static final String RUTA_SERVICIOSTERMINADOS = "res/ServiciosTerminados.txt";
+    public static final String RUTA_SERVICIOSENCOLA = "res/com/sw/data/ServiciosEnCola.txt";
+    public static final String RUTA_SERVICIOSENPROCESO = "res/com/sw/data/ServiciosEnProceso.txt";
+    public static final String RUTA_SERVICIOSTERMINADOS = "res/com/sw/data/ServiciosTerminados.txt";
 
-    private final File file;
-    private ArrayList<?> objects;
+    private File file;
 
     public DAO(String ruta)
     {
 
         file = new File(ruta);
 
-        if (file.exists())
-            loadObjects();
-
-        else
+        if (!file.exists())
             try
             {
+
                 file.createNewFile();
+
+                try (Formatter out = new Formatter(new FileWriter(file, false)))
+                {
+                    out.format("%s", "0");
+                }
 
             } catch (IOException ex)
             {
@@ -45,7 +51,7 @@ public class DAO
 
     }
 
-    private void loadObjects()
+    public ArrayList<?> getObjects()
     {
 
         try
@@ -53,13 +59,15 @@ public class DAO
 
             try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file)))
             {
-                objects = (ArrayList<?>) in.readObject();
+                return (ArrayList<?>) in.readObject();
             }
 
         } catch (IOException | ClassNotFoundException ex)
         {
             System.out.println(ex.getMessage());
         }
+
+        return new ArrayList<>();
 
     }
 
@@ -79,11 +87,6 @@ public class DAO
             System.out.println(ex.getMessage());
         }
 
-    }
-
-    public ArrayList<?> getObjects()
-    {
-        return objects != null ? objects : new ArrayList<>();
     }
 
 }

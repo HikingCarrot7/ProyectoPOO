@@ -1,7 +1,7 @@
 package com.sw.controller;
 
 import com.sw.model.Cliente;
-import com.sw.model.Persona;
+import com.sw.others.TextFieldListener;
 import com.sw.view.NuevoCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +46,7 @@ public class NuevoClienteController implements ActionListener
 
         textFieldListeners = new TextFieldListener[4];
 
-        textFieldListeners[0] = new TextFieldListener("^[a-zA-Zá-ú ]{5,}+$", nuevoCliente.getNombreValidoLabel(), nuevoCliente.getNombre());
+        textFieldListeners[0] = new TextFieldListener("^[a-zA-ZÁ-Úá-ú ]{5,}+$", nuevoCliente.getNombreValidoLabel(), nuevoCliente.getNombre());
         textFieldListeners[1] = new TextFieldListener("([a-zA-zá-ú0-9_]{4,}.?)+@([a-zA-Z]{3,}.?)+.([a-zA-Z]+){2,}", nuevoCliente.getCorreoValidoLabel(), nuevoCliente.getCorreo());
         textFieldListeners[2] = new TextFieldListener("^[0-9]{5,10}+$", nuevoCliente.getTelefonoValidoLabel(), nuevoCliente.getTelefono());
         textFieldListeners[3] = new TextFieldListener("^[a-zA-Zá-ú0-9@ ._-]+$", nuevoCliente.getDireccionValidaLabel(), nuevoCliente.getDireccion());
@@ -69,7 +69,7 @@ public class NuevoClienteController implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-        Persona persona;
+        Cliente cliente;
 
         if (!textFieldListeners[0].isValido())
         {
@@ -83,7 +83,7 @@ public class NuevoClienteController implements ActionListener
 
                 case 0: // Si se presiona Sí
 
-                    persona = obtenerDatosPersona();
+                    cliente = obtenerDatosCliente();
 
                     break;
 
@@ -93,26 +93,26 @@ public class NuevoClienteController implements ActionListener
             }
 
         else
-            persona = obtenerDatosPersona();
+            cliente = obtenerDatosCliente();
 
         nuevoCliente.dispose();
 
         if (clientesRegistradosController != null)
-            if (!getModificandoCliente())
-                clientesRegistradosController.addClienteRegistrado(new Cliente(persona));
+            if (!isModificandoCliente())
+                clientesRegistradosController.addClienteRegistrado(cliente);
 
             else
-                clientesRegistradosController.modificarClienteRegistrado(clienteModificando, new Cliente(persona));
+                clientesRegistradosController.modificarClienteRegistrado(clienteModificando, cliente);
 
         else
-            nuevoServicioController.addCliente(new Cliente(persona));
+            nuevoServicioController.addCliente(cliente);
 
     }
 
-    private Persona obtenerDatosPersona()
+    private Cliente obtenerDatosCliente()
     {
 
-        return new Persona(nuevoCliente.getNombre().getText(),
+        return new Cliente(nuevoCliente.getNombre().getText(),
                 textFieldListeners[1].isValido() ? nuevoCliente.getCorreo().getText() : "",
                 textFieldListeners[2].isValido() ? nuevoCliente.getTelefono().getText() : "",
                 textFieldListeners[3].isValido() ? nuevoCliente.getDireccion().getText() : "");
@@ -144,7 +144,7 @@ public class NuevoClienteController implements ActionListener
 
     }
 
-    private boolean getModificandoCliente()
+    private boolean isModificandoCliente()
     {
         return modificandoCliente;
     }
