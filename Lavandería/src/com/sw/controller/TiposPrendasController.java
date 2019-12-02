@@ -213,4 +213,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
         return (ArrayList<String>) new DAO(DAO.RUTA_TIPOSPRENDAS).getObjects();
     }
 
+    public TiposPrendasInterfaz getTiposPrendasInterfaz()
+    {
+        return tiposPrendasInterfaz;
+    }
+
 }

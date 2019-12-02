@@ -340,6 +340,11 @@ public class PrendasController extends MouseAdapter implements ActionListener
         JOptionPane.showMessageDialog(prendasInterfaz, text, titulo, tipo);
     }
 
+    public PrendasInterfaz getPrendasInterfaz()
+    {
+        return prendasInterfaz;
+    }
+
     private class MyTextFieldListener implements DocumentListener, FocusListener
     {
 
