@@ -88,6 +88,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         vistaPrincipal.getNotepad().addActionListener(this);
         vistaPrincipal.getCalculadora().addActionListener(this);
+        vistaPrincipal.getAcercaDe().addActionListener(this);
 
         vistaPrincipal.addWindowListener(new WindowAdapter()
         {
@@ -610,10 +611,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
                     EventQueue.invokeLater(() ->
                     {
-
-                        new Notepad().addWindowListener(new MyWindowListener(vistaPrincipal));
-                        vistaPrincipal.setVisible(false);
-
+                        new Notepad();
                     });
 
                     break;
@@ -623,6 +621,20 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                     EventQueue.invokeLater(() ->
                     {
                         new Calculadora();
+                    });
+
+                    break;
+
+                case "acercaDe":
+
+                    EventQueue.invokeLater(() ->
+                    {
+
+                        AcercaDe acercaDe = new AcercaDe();
+
+                        acercaDe.setVisible(true);
+                        acercaDe.setLocationRelativeTo(vistaPrincipal);
+
                     });
 
                     break;

@@ -108,6 +108,7 @@ public class VistaPrincipal extends javax.swing.JFrame
         menuBar = new javax.swing.JMenuBar();
         config = new javax.swing.JMenu();
         configurar = new javax.swing.JMenuItem();
+        acercaDe = new javax.swing.JMenuItem();
         utilidades = new javax.swing.JMenu();
         notepad = new javax.swing.JMenuItem();
         calculadora = new javax.swing.JMenuItem();
@@ -277,7 +278,8 @@ public class VistaPrincipal extends javax.swing.JFrame
         fondo.setToolTipText("");
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 780));
 
-        config.setText("Configuración");
+        config.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/opciones.png"))); // NOI18N
+        config.setText("Opciones");
         config.setToolTipText("Configuración");
         config.setActionCommand("Config");
 
@@ -286,8 +288,15 @@ public class VistaPrincipal extends javax.swing.JFrame
         configurar.setActionCommand("Config");
         config.add(configurar);
 
+        acercaDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/acercaDe.png"))); // NOI18N
+        acercaDe.setText("Acerca de...");
+        acercaDe.setToolTipText("Acerca de...");
+        acercaDe.setActionCommand("acercaDe");
+        config.add(acercaDe);
+
         menuBar.add(config);
 
+        utilidades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/src/images/clip.png"))); // NOI18N
         utilidades.setText("Utilidades");
         utilidades.setToolTipText("Algunas utilidades");
 
@@ -465,6 +474,11 @@ public class VistaPrincipal extends javax.swing.JFrame
         return notepad;
     }
 
+    public JMenuItem getAcercaDe()
+    {
+        return acercaDe;
+    }
+
     private ArrayList<JButton> verPrendasEnCola;
     private ArrayList<JButton> moverLavadoEnCola;
     private ArrayList<JButton> eliminarEnCola;
@@ -482,6 +496,7 @@ public class VistaPrincipal extends javax.swing.JFrame
     private ArrayList<JLabel> timersScreen;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem acercaDe;
     private javax.swing.JTextField buscar;
     private javax.swing.JMenuItem calculadora;
     private javax.swing.JMenu config;
