@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Prenda implements Serializable
 {

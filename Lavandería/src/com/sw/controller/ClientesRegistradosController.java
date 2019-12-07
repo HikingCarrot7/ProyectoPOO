@@ -26,7 +26,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
+ *
  */
 public class ClientesRegistradosController extends MyMouseAdapter implements ActionListener
 {
@@ -49,12 +51,6 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         loadComboModel();
 
-        clientesRegistradosInterfaz.getAnadirCliente().addActionListener(this);
-        clientesRegistradosInterfaz.getModificarCliente().addActionListener(this);
-        clientesRegistradosInterfaz.getEliminarCliente().addActionListener(this);
-
-        clientesRegistradosInterfaz.getOrdenarPor().addActionListener(this);
-
     }
 
     /**
@@ -73,6 +69,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         {
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
         });
+
+        clientesRegistradosInterfaz.getAnadirCliente().addActionListener(this);
+        clientesRegistradosInterfaz.getModificarCliente().addActionListener(this);
+        clientesRegistradosInterfaz.getEliminarCliente().addActionListener(this);
+
+        clientesRegistradosInterfaz.getOrdenarPor().addActionListener(this);
 
     }
 
@@ -163,11 +165,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                     if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() == -1)
                     {
-
-                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
-                                "No ha selecionado a ningún cliente.",
-                                "No seleccionó a un cliente.", JOptionPane.ERROR_MESSAGE);
-
+                        mostrarMensaje("No seleccionó a un cliente.", "No ha selecionado a ningún cliente.", JOptionPane.ERROR_MESSAGE);
                         return;
 
                     }
@@ -195,11 +193,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
                     if (clientesRegistradosInterfaz.getTablaClientesRegistrados().getSelectedRow() == -1)
                     {
-
-                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
-                                "No ha selecionado a ningún cliente.",
-                                "No seleccionó a un cliente.", JOptionPane.ERROR_MESSAGE);
-
+                        mostrarMensaje("No seleccionó a un cliente.", "No ha selecionado a ningún cliente.", JOptionPane.ERROR_MESSAGE);
                         return;
 
                     }
@@ -220,14 +214,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                             }
 
                         else
-                            JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
+                            mostrarMensaje("Error.",
                                     "No se pueden eliminar a clientes que tengan servicios pendientes a los cuales aún no se les ha generado su ticket.",
-                                    "Error.", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.ERROR_MESSAGE);
 
                     else
-                        JOptionPane.showMessageDialog(clientesRegistradosInterfaz,
-                                "No hay clientes registrados.",
-                                "No hay clientes.", JOptionPane.ERROR_MESSAGE);
+                        mostrarMensaje("No hay clientes.", "No hay clientes registrados.", JOptionPane.ERROR_MESSAGE);
 
                     break;
 
@@ -241,7 +233,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
             DataSorterManager dataSorterManager = new DataSorterManager();
 
-            switch (((JComboBox) e.getSource()).getSelectedIndex())
+            switch (((JComboBox) e.getSource()).getSelectedIndex()) // Ordenamos los ítems de las tablas.
             {
 
                 case 0:
@@ -276,12 +268,12 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         TableManager tableManager = new TableManager();
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();
 
-        if (!tableManager.isFirstRowEmpty(table))
+        if (!tableManager.isFirstRowEmpty(table)) // Si no está vacía la tabla.
         {
 
-            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5))
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 5)) // Si presionamos el botón "ver historial".
                 if (getHistorialesCliente(clientesRegistrados.get(table.getSelectedRow())).isEmpty())
-                    JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Este cliente aún no tiene historiales", "Historial vacío", JOptionPane.ERROR_MESSAGE);
+                    mostrarMensaje("Historial vacío.", "Este cliente aún no tiene historiales.", JOptionPane.ERROR_MESSAGE);
 
                 else
                     EventQueue.invokeLater(() ->
@@ -300,7 +292,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
                     });
 
         } else
-            JOptionPane.showMessageDialog(clientesRegistradosInterfaz, "Aún no hay clientes registrados.", "No hay clientes", JOptionPane.ERROR_MESSAGE);
+            mostrarMensaje("No hay clientes.", "Aún no hay clientes registrados.", JOptionPane.ERROR_MESSAGE);
 
     }
 
@@ -470,6 +462,11 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
 
         new ClienteDAO().saveClaveClientes(Cliente.getClaves());
 
+    }
+
+    private void mostrarMensaje(String titulo, String text, int tipo)
+    {
+        JOptionPane.showMessageDialog(clientesRegistradosInterfaz, text, titulo, tipo);
     }
 
     public ArrayList<Cliente> getClientes()

@@ -5,7 +5,7 @@ import com.sw.view.TicketInterfaz;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class VerTicketController
 {

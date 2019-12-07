@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class PrendasController extends MouseAdapter implements ActionListener
 {
@@ -345,6 +345,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
         return prendasInterfaz;
     }
 
+    /**
+     * @author Me
+     */
     private class MyTextFieldListener implements DocumentListener, FocusListener
     {
 

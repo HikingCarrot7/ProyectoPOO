@@ -8,7 +8,7 @@ import javax.swing.JSpinner;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class NuevoServicio extends javax.swing.JFrame
 {

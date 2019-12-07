@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Historial implements Serializable
 {

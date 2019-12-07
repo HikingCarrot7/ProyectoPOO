@@ -2,7 +2,7 @@ package com.sw.others;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public interface MouseMotionModel
 {

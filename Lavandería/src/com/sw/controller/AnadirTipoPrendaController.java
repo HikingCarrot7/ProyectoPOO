@@ -8,7 +8,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
  */
 public class AnadirTipoPrendaController implements ActionListener
 {
@@ -101,6 +102,14 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Mostramos un mensaje.
+     *
+     * @param titulo El título.
+     * @param text El texto a mostrar.
+     * @param tipo El tipo de mensaje.
+     *
+     */
     private void mostrarMensaje(String titulo, String text, int tipo)
     {
         JOptionPane.showMessageDialog(anadirTipoPrendaInterfaz, text, titulo, tipo);

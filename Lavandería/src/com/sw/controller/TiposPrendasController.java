@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TiposPrendasController extends MyMouseAdapter implements ActionListener
 {

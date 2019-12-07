@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Timer implements Runnable, Serializable
 {

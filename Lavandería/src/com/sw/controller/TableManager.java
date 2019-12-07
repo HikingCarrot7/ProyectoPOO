@@ -17,7 +17,7 @@ import javax.swing.table.JTableHeader;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TableManager
 {

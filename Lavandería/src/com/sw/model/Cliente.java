@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Cliente extends Persona implements Serializable
 {

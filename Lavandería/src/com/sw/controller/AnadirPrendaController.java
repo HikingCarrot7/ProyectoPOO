@@ -14,7 +14,9 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
+ *
  */
 public class AnadirPrendaController implements ActionListener
 {

@@ -13,8 +13,11 @@ import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
 /**
+ * Controlador de la configuración.
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
+ *
  */
 public class ConfigController implements ActionListener
 {
@@ -29,6 +32,16 @@ public class ConfigController implements ActionListener
         this.configuracionInterfaz = configuracionInterfaz;
         this.vistaPrincipalController = vistaPrincipalController;
 
+        initMyComponents();
+
+    }
+
+    /**
+     * Iniciamos los componentes para esta interfaz.
+     */
+    private void initMyComponents()
+    {
+
         textFieldListener = new TextFieldListener("^[0-9]+(.?[0-9]+)?$", configuracionInterfaz.getPrecioValido(), configuracionInterfaz.getPrecio());
 
         configuracionInterfaz.getPrecio().getDocument().addDocumentListener(textFieldListener);
@@ -42,6 +55,11 @@ public class ConfigController implements ActionListener
 
     }
 
+    /**
+     * Gestiona los eventos que ocurren cuando se presiona un botón.
+     *
+     * @param e El objeto de tipo ActionEvent que se crea cuando se presiona un botón en esta interfaz.
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -49,7 +67,7 @@ public class ConfigController implements ActionListener
         switch (e.getActionCommand())
         {
 
-            case "Color":
+            case "Color": // Se muestra la ventana para seleccionar el color.
 
                 new ConfigDAO().saveColorTablas(JColorChooser.showDialog(configuracionInterfaz, "Selecciona un color.", Color.yellow));
 
@@ -57,7 +75,7 @@ public class ConfigController implements ActionListener
 
                 break;
 
-            case "tipoPrendas":
+            case "tipoPrendas": // Se muestra la interfaz para los tipos de prendas.
 
                 EventQueue.invokeLater(() ->
                 {
@@ -76,7 +94,7 @@ public class ConfigController implements ActionListener
 
                 break;
 
-            case "ok":
+            case "ok": // Guardamos todos los datos.
 
                 if (textFieldListener.isValido() && Double.parseDouble(configuracionInterfaz.getPrecio().getText()) != 0)
                 {
@@ -89,9 +107,7 @@ public class ConfigController implements ActionListener
                     vistaPrincipalController.updateCostoKg(Double.parseDouble(configuracionInterfaz.getPrecio().getText()));
 
                     vistaPrincipalController.updateAllTables();
-
                     configuracionInterfaz.dispose();
-
                     vistaPrincipalController.getVistaPrincipal().setVisible(true);
 
                 } else
@@ -106,6 +122,14 @@ public class ConfigController implements ActionListener
 
     }
 
+    /**
+     * Mostramos un mensaje.
+     *
+     * @param titulo El título.
+     * @param text El texto a mostrar.
+     * @param tipo El tipo de mensaje.
+     *
+     */
     private void mostrarMensaje(String titulo, String text, int tipo)
     {
         JOptionPane.showMessageDialog(configuracionInterfaz, text, titulo, tipo);

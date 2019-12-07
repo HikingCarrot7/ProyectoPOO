@@ -17,7 +17,10 @@ import javax.swing.event.DocumentListener;
 
 /**
  *
- * @author Mohammed
+ * Controlador para la barra de búsqueda de clientes.
+ *
+ * @author Me
+ * @since 1.0
  */
 public class BuscadorController implements FocusListener, DocumentListener
 {

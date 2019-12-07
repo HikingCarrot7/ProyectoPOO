@@ -4,7 +4,7 @@ import javax.swing.JTextPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TicketInterfaz extends javax.swing.JFrame
 {

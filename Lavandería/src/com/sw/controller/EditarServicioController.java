@@ -16,7 +16,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
  */
 public class EditarServicioController implements ActionListener
 {
@@ -33,9 +34,16 @@ public class EditarServicioController implements ActionListener
         this.servicio = servicio;
         this.vistaPrincipalController = vistaPrincipalController;
 
-        clientes = getClientes();
+        initMyComponents();
 
         loadComboModel();
+
+    }
+
+    private void initMyComponents()
+    {
+
+        clientes = getClientes();
 
         editarServicio.getOk().addActionListener(this);
         editarServicio.getVerTicket().addActionListener(this);
@@ -63,22 +71,11 @@ public class EditarServicioController implements ActionListener
 
     }
 
-    private int getCurrentCliente()
-    {
-
-        for (int i = 0; i < clientes.size(); i++)
-            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
-                return i;
-
-        return -1;
-
-    }
-
-    private ArrayList<Cliente> getClientes()
-    {
-        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
-    }
-
+    /**
+     * Gestiona los eventos que ocurren cuando se presiona un botón.
+     *
+     * @param e El objeto de tipo ActionEvent que se crea cuando se presiona un botón en esta interfaz.
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -91,14 +88,12 @@ public class EditarServicioController implements ActionListener
                 servicio.setCliente(getClientes().get(editarServicio.getClientes().getSelectedIndex()));
 
                 vistaPrincipalController.updateAllTables();
-
                 vistaPrincipalController.saveAllServices();
-
                 editarServicio.dispose();
 
                 break;
 
-            case "verTicket":
+            case "verTicket": // Se muestra el ticket.
 
                 if (!servicio.getPrendas().isEmpty() && servicio.getTotalKg() != 0)
                     EventQueue.invokeLater(() ->
@@ -116,10 +111,7 @@ public class EditarServicioController implements ActionListener
                     });
 
                 else
-                    JOptionPane.showMessageDialog(editarServicio,
-                            "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0",
-                            "Datos inválidos",
-                            JOptionPane.ERROR_MESSAGE);
+                    mostrarMensaje("Datos inválidos.", "Para generar el ticket al menos una prenda debe estar registrada y el total de kg. no debe ser 0.", JOptionPane.ERROR_MESSAGE);
 
                 break;
 
@@ -128,6 +120,40 @@ public class EditarServicioController implements ActionListener
 
         }
 
+    }
+
+    /**
+     * Mostramos un mensaje.
+     *
+     * @param titulo El título.
+     * @param text El texto a mostrar.
+     * @param tipo El tipo de mensaje.
+     *
+     */
+    private void mostrarMensaje(String titulo, String text, int tipo)
+    {
+        JOptionPane.showMessageDialog(editarServicio, text, titulo, tipo);
+    }
+
+    /**
+     * Obtenemos al cliente del servicio que se seleccionó para editar.
+     *
+     * @return El índice del correspondiente cliente para este servicio.
+     */
+    private int getCurrentCliente()
+    {
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+                return i;
+
+        return -1;
+
+    }
+
+    private ArrayList<Cliente> getClientes()
+    {
+        return (ArrayList<Cliente>) new DAO(DAO.RUTA_CLIENTESREGISTRADOS).getObjects();
     }
 
 }

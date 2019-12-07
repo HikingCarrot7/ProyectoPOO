@@ -5,8 +5,11 @@ import java.util.Calendar;
 import javax.swing.JLabel;
 
 /**
+ * Controla el texto que se muestra en la parte superior izquierda de la vista principal.
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
+ *
  */
 public class DisplayController implements Runnable
 {
@@ -61,6 +64,11 @@ public class DisplayController implements Runnable
 
     }
 
+    /**
+     * Muestra la hora durante los segundos especificados.
+     *
+     * @param seconds El tiempo en segundos para mostrar la hora.
+     */
     private void mostrarHora(int seconds)
     {
 
@@ -85,6 +93,12 @@ public class DisplayController implements Runnable
 
     }
 
+    /**
+     * Realiza una animación completa.
+     *
+     * @param text El texto a mostrar.
+     * @param speed La velocidad del texto.
+     */
     private void realizarAnimacionCompleta(String text, int speed)
     {
 

@@ -24,14 +24,15 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
  */
 public class HistorialController extends MyMouseAdapter implements ActionListener
 {
 
     private HistorialInterfaz historialInterfaz;
     private ArrayList<Historial> historiales;
-    private boolean historialGeneral;
+    private boolean historialGeneral; // Para saber si estamos viendo el historial de todos los cliente o de un solo cliente.
 
     public HistorialController(HistorialInterfaz historial)
     {
@@ -39,7 +40,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         this.historialInterfaz = historial;
         historiales = getHistoriales();
 
-        setHistorialGeneral(true);
+        setHistorialGeneral(true); // Estamos viendo el historial de todos los clientes.
 
         initMyComponents();
 
@@ -55,6 +56,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     }
 
+    /**
+     * Iniciamos los componentes para esta interfaz.
+     */
     private void initMyComponents()
     {
 
@@ -72,29 +76,6 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         loadComboModel();
 
         historialInterfaz.getOrdenarPor().addActionListener(this);
-
-    }
-
-    private void loadHistorialTable()
-    {
-
-        TableManager tableManager = new TableManager();
-
-        tableManager.renderTableModel(historialInterfaz.getTablaHistorial(), this, "Historial");
-
-        Object[][] items = getItems();
-
-        historialInterfaz.getTablaHistorial().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
-        {
-
-            3, 4, 5
-
-        }, historialInterfaz.getVerPrendas(), historialInterfaz.getVerTicket(), historialInterfaz.getEliminar()), new String[]
-        {
-
-            "Cliente", "Fecha", "Precio total", "Prendas", "Ver ticket", "Eliminar"
-
-        }));
 
     }
 
@@ -121,6 +102,37 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     }
 
+    /**
+     * Cargamos los ítems de la tabla.
+     */
+    private void loadHistorialTable()
+    {
+
+        TableManager tableManager = new TableManager();
+
+        tableManager.renderTableModel(historialInterfaz.getTablaHistorial(), this, "Historial");
+
+        Object[][] items = getItems();
+
+        historialInterfaz.getTablaHistorial().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
+        {
+
+            3, 4, 5
+
+        }, historialInterfaz.getVerPrendas(), historialInterfaz.getVerTicket(), historialInterfaz.getEliminar()), new String[]
+        {
+
+            "Cliente", "Fecha", "Precio total", "Prendas", "Ver ticket", "Eliminar"
+
+        }));
+
+    }
+
+    /**
+     * Gestiona los eventos que ocurren cuando se presiona un botón.
+     *
+     * @param e El objeto de tipo ActionEvent que se crea cuando se presiona un botón en esta interfaz.
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -168,7 +180,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         JTable table = historialInterfaz.getTablaHistorial();
 
         if (!tableManager.isFirstRowEmpty(table))
-            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 3))
+            if (tableManager.encimaBoton(table, e.getX(), e.getY(), 3)) // Si se presiona "ver las prendas para este servicio".
                 EventQueue.invokeLater(() ->
                 {
 
@@ -186,7 +198,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
                 });
 
-            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 4))
+            else if (tableManager.encimaBoton(table, e.getX(), e.getY(), 4)) // Si se presiona "ver el ticket para este servicio".
                 EventQueue.invokeLater(() ->
                 {
 
@@ -216,6 +228,12 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     }
 
+    /**
+     * Obtenemos los ítems para para mostrar en la tabla.
+     *
+     * @return Una matriz con los objetos que irán en la tabla.
+     *
+     */
     private Object[][] getItems()
     {
 
@@ -268,6 +286,11 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
 
     }
 
+    private int mostrarConfirmacion(String titulo, String text)
+    {
+        return JOptionPane.showConfirmDialog(historialInterfaz, text, titulo, JOptionPane.YES_NO_OPTION);
+    }
+
     private void updateTableHistorial()
     {
         new TableManager().setTableItems(historialInterfaz.getTablaHistorial(), getItems());
@@ -286,11 +309,6 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
     public HistorialInterfaz getHistorialInterfaz()
     {
         return historialInterfaz;
-    }
-
-    private int mostrarConfirmacion(String titulo, String text)
-    {
-        return JOptionPane.showConfirmDialog(historialInterfaz, text, titulo, JOptionPane.YES_NO_OPTION);
     }
 
     public void setHistorialInterfaz(HistorialInterfaz historialInterfaz)

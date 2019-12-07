@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class VistaPrincipal extends javax.swing.JFrame
 {

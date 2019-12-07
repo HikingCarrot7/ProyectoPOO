@@ -8,7 +8,7 @@ import javax.swing.JTable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class HistorialInterfaz extends javax.swing.JFrame
 {

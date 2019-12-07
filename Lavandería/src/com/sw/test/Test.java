@@ -10,7 +10,7 @@ import java.awt.EventQueue;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Test
 {

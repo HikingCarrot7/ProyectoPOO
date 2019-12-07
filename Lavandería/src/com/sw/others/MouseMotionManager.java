@@ -5,7 +5,7 @@ import java.awt.event.MouseMotionListener;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  *
  * @param <E>
  */

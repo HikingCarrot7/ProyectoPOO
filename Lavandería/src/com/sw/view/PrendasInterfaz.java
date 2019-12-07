@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class PrendasInterfaz extends javax.swing.JFrame
 {
