@@ -14,8 +14,6 @@ public class Ticket implements Serializable
     private static final long serialVersionUID = 6162162262623189765L;
 
     private String nombreCliente;
-    private String nombreNegocio;
-    private String direccionNegocio;
     private ArrayList<Prenda> prendas;
     private Calendar fecha;
     private int numeroTicket;
@@ -64,26 +62,6 @@ public class Ticket implements Serializable
     public void setNombreCliente(String nombreCliente)
     {
         this.nombreCliente = nombreCliente;
-    }
-
-    public String getNombreNegocio()
-    {
-        return nombreNegocio;
-    }
-
-    public void setNombreNegocio(String nombreNegocio)
-    {
-        this.nombreNegocio = nombreNegocio;
-    }
-
-    public String getDireccionNegocio()
-    {
-        return direccionNegocio;
-    }
-
-    public void setDireccionNegocio(String direccionNegocio)
-    {
-        this.direccionNegocio = direccionNegocio;
     }
 
     public ArrayList<Prenda> getPrendas()

@@ -76,6 +76,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
     public void actionPerformed(ActionEvent e)
     {
 
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+
         switch (e.getActionCommand())
         {
 
@@ -128,6 +131,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
     @Override
     public void mouseClicked(MouseEvent e)
     {
+
+        if (e.getClickCount() > 1)
+            return;
 
         TableManager tableManager = new TableManager();
         JTable table = tiposPrendasInterfaz.getTiposPrendasTable();

@@ -239,6 +239,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     public void mouseClicked(MouseEvent e)
     {
 
+        if (e.getClickCount() > 1)
+            return;
+
         if (e.getSource() instanceof JTabbedPane)
         {
 
@@ -492,6 +495,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+
+        if (e.getSource() instanceof JButton)
             switch (e.getActionCommand())
             {
 
@@ -579,7 +585,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
                         historialInterfaz.addWindowListener(new MyWindowListener(vistaPrincipal));
                         vistaPrincipal.setVisible(false);
 
-                        HistorialController historialController = new HistorialController(historialInterfaz);
+                        new HistorialController(historialInterfaz);
 
                     });
 
@@ -895,9 +901,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         serviciosEnProceso.remove(index);
 
         saveServiciosEnProceso();
-
         saveTableTimers();
-
         updateAllTables();
 
     }

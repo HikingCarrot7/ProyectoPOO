@@ -139,6 +139,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     {
 
         if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+
+        if (e.getSource() instanceof JButton)
             switch (e.getActionCommand())
             {
 
@@ -264,6 +267,9 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     @Override
     public void mouseClicked(MouseEvent e)
     {
+
+        if (e.getClickCount() > 1)
+            return;
 
         TableManager tableManager = new TableManager();
         JTable table = clientesRegistradosInterfaz.getTablaClientesRegistrados();

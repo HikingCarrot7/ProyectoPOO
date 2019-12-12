@@ -50,7 +50,7 @@ public class AcercaDe extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jLabel2 = new javax.swing.JLabel();
+        programadoresLabel = new javax.swing.JLabel();
         integrantes = new javax.swing.JLabel();
         integrantes1 = new javax.swing.JLabel();
         integrantes2 = new javax.swing.JLabel();
@@ -63,10 +63,10 @@ public class AcercaDe extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 0, 48)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("PROGRAMADORES");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        programadoresLabel.setFont(new java.awt.Font("Consolas", 0, 48)); // NOI18N
+        programadoresLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        programadoresLabel.setText("PROGRAMADORES");
+        getContentPane().add(programadoresLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         integrantes.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         integrantes.setText("3. Cauich Dávalos Víctor");
@@ -103,6 +103,6 @@ public class AcercaDe extends javax.swing.JFrame
     private javax.swing.JLabel integrantes;
     private javax.swing.JLabel integrantes1;
     private javax.swing.JLabel integrantes2;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel programadoresLabel;
     // End of variables declaration//GEN-END:variables
 }

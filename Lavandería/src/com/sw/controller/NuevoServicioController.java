@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -113,19 +114,20 @@ public class NuevoServicioController implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public synchronized void actionPerformed(ActionEvent e)
     {
+
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
 
         switch (e.getActionCommand())
         {
 
             case "addCliente":
-
                 EventQueue.invokeLater(() ->
                 {
 
                     NuevoCliente nuevoCliente = new NuevoCliente();
-
                     nuevoCliente.setLocationRelativeTo(nuevoServicio);
                     nuevoCliente.setVisible(true);
 
@@ -139,7 +141,6 @@ public class NuevoServicioController implements ActionListener
                 break;
 
             case "addPrendas":
-
                 EventQueue.invokeLater(() ->
                 {
 

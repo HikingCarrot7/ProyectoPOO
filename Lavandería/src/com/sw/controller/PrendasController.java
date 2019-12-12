@@ -152,6 +152,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+
         switch (e.getActionCommand())
         {
 
@@ -175,7 +178,8 @@ public class PrendasController extends MouseAdapter implements ActionListener
 
             case "modificar":
 
-                if (!new TableManager().isFirstRowEmpty(prendasInterfaz.getPrendasTable()))
+                if (!new TableManager().isFirstRowEmpty(prendasInterfaz.getPrendasTable())
+                        && prendasInterfaz.getPrendasTable().getSelectedRow() >= 0)
                     EventQueue.invokeLater(() ->
                     {
                         AnadirPrendaInterfaz anadirPrendaInterfaz = new AnadirPrendaInterfaz();
@@ -191,7 +195,8 @@ public class PrendasController extends MouseAdapter implements ActionListener
                     });
 
                 else
-                    mostrarMensaje("Error.", "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
+                    mostrarMensaje("Error.", prendasInterfaz.getPrendasTable().getSelectedRow() < 0 ? "No ha seleccionado ninguna prenda."
+                            : "Aún no se ha añadido alguna prenda.", JOptionPane.ERROR_MESSAGE);
 
             default:
                 break;
@@ -203,6 +208,9 @@ public class PrendasController extends MouseAdapter implements ActionListener
     @Override
     public void mouseClicked(MouseEvent e)
     {
+
+        if (e.getClickCount() > 1)
+            return;
 
         TableManager tableManager = new TableManager();
         JTable table = prendasInterfaz.getPrendasTable();

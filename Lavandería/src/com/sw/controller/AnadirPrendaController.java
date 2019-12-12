@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -101,6 +102,9 @@ public class AnadirPrendaController implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
 
         if (!todosLosCampoValidos()) // Si alguno de los campo es inválido, se muestra la siguiente error.
             JOptionPane.showMessageDialog(anadirPrendaInterfaz, "Alguno de los campos no es válido", "Campo no válido", JOptionPane.ERROR_MESSAGE);
