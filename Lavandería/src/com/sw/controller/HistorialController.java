@@ -137,6 +137,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
     public void actionPerformed(ActionEvent e)
     {
 
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+
         DataSorterManager dataSorterManager = new DataSorterManager();
 
         switch (((ComboItem) ((JComboBox) e.getSource()).getSelectedItem()).getText())
@@ -175,6 +178,9 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
     @Override
     public void mouseClicked(MouseEvent e)
     {
+
+        if (e.getClickCount() > 1)
+            return;
 
         TableManager tableManager = new TableManager();
         JTable table = historialInterfaz.getTablaHistorial();
@@ -268,7 +274,6 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         });
 
         updateTableHistorial();
-
         saveHistoriales();
 
     }
@@ -281,7 +286,6 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
         historiales.remove(index);
 
         saveHistoriales();
-
         updateTableHistorial();
 
     }

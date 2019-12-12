@@ -77,6 +77,7 @@ public class TableManager
 
     public int getClickedColumn(JTable table, int[] columns, int x)
     {
+
         int column = table.getColumnModel().getColumnIndexAtX(x);
 
         for (int i = 0; i < columns.length; i++)
@@ -183,7 +184,6 @@ public class TableManager
     {
 
         for (int i = 0; i < items.length; i++)
-
             for (int j = 0; j < items[i].length; j++)
                 if (!(table.getValueAt(i, j) instanceof Component))
                     table.setValueAt(items[i][j], i, j);

@@ -4,6 +4,7 @@ import com.sw.others.TextFieldListener;
 import com.sw.view.AnadirTipoPrendaInterfaz;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -71,6 +72,9 @@ public class AnadirTipoPrendaController implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+
+        if (e.getSource() instanceof JButton)
+            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
 
         switch (e.getActionCommand())
         {
