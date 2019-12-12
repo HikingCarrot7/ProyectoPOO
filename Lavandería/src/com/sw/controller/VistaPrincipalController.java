@@ -284,6 +284,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
         TableManager tableManager = new TableManager();
         JTable table = vistaPrincipal.getTablaEnCola();
 
+        if (table.getSelectedRow() < 0)
+            return;
+
         if (!tableManager.isFirstRowEmpty(table))
         {
 
@@ -338,6 +341,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         TableManager tableManager = new TableManager();
         JTable table = VistaPrincipal.getTablaEnProceso();
+
+        if (table.getSelectedRow() < 0)
+            return;
 
         if (!tableManager.isFirstRowEmpty(table))
         {
@@ -396,6 +402,9 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
 
         TableManager tableManager = new TableManager();
         JTable table = vistaPrincipal.getTablaTerminado();
+
+        if (table.getSelectedRow() < 0)
+            return;
 
         if (!tableManager.isFirstRowEmpty(table))
         {
