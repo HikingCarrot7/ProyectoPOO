@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TableCellRenderer extends DefaultTableCellRenderer implements MouseMotionModel
 {

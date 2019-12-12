@@ -15,7 +15,7 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TableHeaderRenderer implements TableCellRenderer, Serializable
 {

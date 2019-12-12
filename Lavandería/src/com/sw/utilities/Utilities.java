@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class Utilities
 {

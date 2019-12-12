@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class AnadirPrendaInterfaz extends javax.swing.JFrame
 {

@@ -9,7 +9,7 @@ import javax.swing.ListCellRenderer;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class ListRenderer extends JLabel implements ListCellRenderer
 {

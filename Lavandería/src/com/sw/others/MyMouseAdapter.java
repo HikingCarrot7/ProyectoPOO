@@ -7,7 +7,7 @@ import java.util.Observable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class MyMouseAdapter extends Observable implements MouseListener, MouseMotionListener
 {

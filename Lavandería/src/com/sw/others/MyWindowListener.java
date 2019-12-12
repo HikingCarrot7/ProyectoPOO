@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class MyWindowListener extends WindowAdapter
 {

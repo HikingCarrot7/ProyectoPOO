@@ -27,7 +27,9 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
+ *
  */
 public class NuevoServicioController implements ActionListener
 {
@@ -47,9 +49,19 @@ public class NuevoServicioController implements ActionListener
         this.nuevoServicio = nuevoServicio;
         this.vistaPrincipalController = vistaPrincipalController;
 
-        clientes = obtenerClientes();
+        initMyComponents();
 
         loadComboModel();
+
+    }
+
+    /**
+     * Iniciamos los componentes para esta ventana.
+     */
+    private void initMyComponents()
+    {
+
+        clientes = obtenerClientes();
 
         nuevoServicio.getAddCliente().addActionListener(this);
         nuevoServicio.getAnadirPrendas().addActionListener(this);
@@ -63,7 +75,7 @@ public class NuevoServicioController implements ActionListener
     public void establecerDatosDefecto(Servicio servicio)
     {
 
-        setEditandoServicio(true);
+        setEditandoServicio(true); // Estamos editando un servicio.
 
         this.servicio = servicio;
         prendas = servicio.getPrendas();
@@ -76,17 +88,6 @@ public class NuevoServicioController implements ActionListener
 
         setTotalKg(servicio.getTotalKg());
         setNTotalPrendas(servicio.getTotalPrendas());
-
-    }
-
-    private int getCurrentCliente()
-    {
-
-        for (int i = 0; i < clientes.size(); i++)
-            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
-                return i;
-
-        return 0;
 
     }
 
@@ -188,11 +189,8 @@ public class NuevoServicioController implements ActionListener
                     servicio.setTotalKg(getTotalKg());
 
                     vistaPrincipalController.updateTimer(servicio);
-
                     vistaPrincipalController.updateAllTables();
-
                     vistaPrincipalController.saveAllServices();
-
                     vistaPrincipalController.getVistaPrincipal().setVisible(true);
 
                     nuevoServicio.dispose();
@@ -274,6 +272,31 @@ public class NuevoServicioController implements ActionListener
 
     }
 
+    /**
+     * Obtenemos al cliente del servicio que se seleccionó.
+     *
+     * @return El índice del correspondiente cliente para este servicio.
+     */
+    private int getCurrentCliente()
+    {
+
+        for (int i = 0; i < clientes.size(); i++)
+            if (servicio.getCliente().getClaveCliente() == clientes.get(i).getClaveCliente())
+                return i;
+
+        return 0;
+
+    }
+
+    public Timer getTiempoEstimado()
+    {
+
+        return new Timer(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
+                Integer.parseInt(String.valueOf(getNuevoServicio().getMinutos().getValue())),
+                Integer.parseInt(String.valueOf(getNuevoServicio().getSegundos().getValue()))));
+
+    }
+
     private void mostrarMensaje(String titulo, String text, int tipo)
     {
         JOptionPane.showMessageDialog(nuevoServicio, text, titulo, tipo);
@@ -297,15 +320,6 @@ public class NuevoServicioController implements ActionListener
     public void setPrendas(ArrayList<Prenda> prendas)
     {
         this.prendas = prendas;
-    }
-
-    public Timer getTiempoEstimado()
-    {
-
-        return new Timer(new Time(Integer.parseInt(String.valueOf(getNuevoServicio().getHoras().getValue())),
-                Integer.parseInt(String.valueOf(getNuevoServicio().getMinutos().getValue())),
-                Integer.parseInt(String.valueOf(getNuevoServicio().getSegundos().getValue()))));
-
     }
 
     private double getTotalKg()

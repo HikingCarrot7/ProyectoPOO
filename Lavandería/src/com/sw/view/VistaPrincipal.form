@@ -6,7 +6,10 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="config">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/com/src/images/opciones.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Opciones"/>
             <Property name="toolTipText" type="java.lang.String" value="Configuraci&#xf3;n"/>
             <Property name="actionCommand" type="java.lang.String" value="Config"/>
           </Properties>
@@ -20,10 +23,23 @@
                 <Property name="actionCommand" type="java.lang.String" value="Config"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="acercaDe">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/com/src/images/acercaDe.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Acerca de..."/>
+                <Property name="toolTipText" type="java.lang.String" value="Acerca de..."/>
+                <Property name="actionCommand" type="java.lang.String" value="acercaDe"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="utilidades">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/com/src/images/clip.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Utilidades"/>
             <Property name="toolTipText" type="java.lang.String" value="Algunas utilidades"/>
           </Properties>

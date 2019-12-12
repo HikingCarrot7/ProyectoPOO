@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TicketDAO
 {

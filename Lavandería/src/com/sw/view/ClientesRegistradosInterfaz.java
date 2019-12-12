@@ -8,7 +8,7 @@ import javax.swing.JTable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class ClientesRegistradosInterfaz extends javax.swing.JFrame
 {

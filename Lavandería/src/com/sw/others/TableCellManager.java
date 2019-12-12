@@ -8,7 +8,7 @@ import javax.swing.table.TableCellEditor;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TableCellManager implements TableCellEditor
 {

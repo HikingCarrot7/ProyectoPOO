@@ -17,7 +17,10 @@ import javax.swing.event.DocumentListener;
 
 /**
  *
- * @author Mohammed
+ * Controlador para la barra de búsqueda de clientes.
+ *
+ * @author Me
+ * @since 1.0
  */
 public class BuscadorController implements FocusListener, DocumentListener
 {
@@ -42,6 +45,11 @@ public class BuscadorController implements FocusListener, DocumentListener
 
     }
 
+    /**
+     * Cuando el foco se gana en el buscador, ocultamos la tabla que muestra la búsqueda de los clientes.
+     *
+     * @param e El objeto FocusEvent que se crea cuando se gana el foco.
+     */
     @Override
     public void focusGained(FocusEvent e)
     {
@@ -51,18 +59,33 @@ public class BuscadorController implements FocusListener, DocumentListener
 
     }
 
+    /**
+     * Cuando el foco se píerde en el buscador, ocultamos la tabla que muestra la búsqueda de los clientes.
+     *
+     * @param e El objeto FocusEvent que se crea cuando se pierde el foco.
+     */
     @Override
     public void focusLost(FocusEvent e)
     {
         scrollPane.setVisible(false);
     }
 
+    /**
+     * Cada vez que se escriba algo en el buscador, actualizamos las búsquedas.
+     *
+     * @param e El objeto DocumentEvent que se crea cuando se escribe algo en el buscador.
+     */
     @Override
     public void insertUpdate(DocumentEvent e)
     {
         updateLista(vistaPrincipalController.getVistaPrincipal().getBuscar().getText());
     }
 
+    /**
+     * Cada vez que se borre algo en el buscador, actualizamos las búsquedas.
+     *
+     * @param e El objeto DocumentEvent que se crea cuando se borra algo en el buscador.
+     */
     @Override
     public void removeUpdate(DocumentEvent e)
     {
@@ -74,6 +97,11 @@ public class BuscadorController implements FocusListener, DocumentListener
     {
     }
 
+    /**
+     * Actualizamos la busqueda.
+     *
+     * @param aBuscar La cadena a buscar para mostrar los resultados de la búsqueda.
+     */
     private void updateLista(String aBuscar)
     {
 
@@ -98,6 +126,13 @@ public class BuscadorController implements FocusListener, DocumentListener
 
     }
 
+    /**
+     * Si la cadena a buscar concuerda con alguna búsqueda, se añade a la lista.
+     *
+     * @param servicios La lista con los elementos a buscar.
+     * @param aBuscar La cadena a buscar.
+     * @param status El status del servicio.
+     */
     private void buscarEnLista(ArrayList<Servicio> servicios, String aBuscar, String status)
     {
 

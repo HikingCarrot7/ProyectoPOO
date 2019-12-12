@@ -8,7 +8,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mohammed
+ * @author Me
+ * @since 1.0
  */
 public class AnadirTipoPrendaController implements ActionListener
 {
@@ -29,6 +30,11 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Si se está editando una prenda, establecemos su valores en los campos.
+     *
+     * @param indexTipoPrendaEditando El index del cual vamos a tomar los datos del tipo de prenda.
+     */
     public void establecerTipoPrendaDefecto(int indexTipoPrendaEditando)
     {
 
@@ -41,6 +47,10 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     *
+     * Iniciamos los componentes para esta ventana.
+     */
     private void initMyComponents()
     {
 
@@ -53,6 +63,11 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Gestiona los eventos que ocurren cuando se presiona un botón.
+     *
+     * @param e El objeto de tipo ActionEvent que se crea cuando se presiona un botón en esta interfaz.
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -60,7 +75,7 @@ public class AnadirTipoPrendaController implements ActionListener
         switch (e.getActionCommand())
         {
 
-            case "add":
+            case "add": // Cuando se prensiona "Añadir".
 
                 if (textFieldListener.isValido())
                 {
@@ -70,6 +85,8 @@ public class AnadirTipoPrendaController implements ActionListener
 
                     else
                         tiposPrendaController.modificarTipoPrenda(indexTipoPrendaEditando, anadirTipoPrendaInterfaz.getEntradaTipoPrenda().getText());
+
+                    tiposPrendaController.getTiposPrendasInterfaz().setVisible(true);
 
                     anadirTipoPrendaInterfaz.dispose();
 
@@ -85,6 +102,14 @@ public class AnadirTipoPrendaController implements ActionListener
 
     }
 
+    /**
+     * Mostramos un mensaje.
+     *
+     * @param titulo El título.
+     * @param text El texto a mostrar.
+     * @param tipo El tipo de mensaje.
+     *
+     */
     private void mostrarMensaje(String titulo, String text, int tipo)
     {
         JOptionPane.showMessageDialog(anadirTipoPrendaInterfaz, text, titulo, tipo);

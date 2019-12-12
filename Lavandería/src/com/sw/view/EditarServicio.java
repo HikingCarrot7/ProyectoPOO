@@ -6,7 +6,7 @@ import javax.swing.JComboBox;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class EditarServicio extends javax.swing.JFrame
 {

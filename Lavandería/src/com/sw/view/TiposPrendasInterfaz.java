@@ -6,7 +6,7 @@ import javax.swing.JTable;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TiposPrendasInterfaz extends javax.swing.JFrame
 {

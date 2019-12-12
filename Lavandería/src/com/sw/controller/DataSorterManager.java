@@ -10,8 +10,11 @@ import java.util.Comparator;
 import javax.swing.JLabel;
 
 /**
+ * Ordena los elementos de una determinada lista.
  *
- * @author Mohammed
+ * @author Me
+ * @see TableManager
+ * @since 1.0
  */
 public class DataSorterManager
 {
@@ -66,6 +69,17 @@ public class DataSorterManager
 
         else
             servicio.sort(Comparator.comparing(Servicio::getTotalPrendas).reversed());
+
+    }
+
+    public void ordenarPorNumTicket(ArrayList<Servicio> servicio)
+    {
+
+        if (orden == 0)
+            servicio.sort(Comparator.comparing(Servicio::getNumeroTicket));
+
+        else
+            servicio.sort(Comparator.comparing(Servicio::getNumeroTicket).reversed());
 
     }
 
@@ -126,6 +140,13 @@ public class DataSorterManager
 
     }
 
+    /**
+     * Ordena los temporizadores de la tabla de proceso.
+     *
+     * @param serviciosEnProceso Los servicios a ordenar.
+     * @param tableTimers Los temporizadores a ordenar.
+     *
+     */
     public void ordenarTimers(ArrayList<Servicio> serviciosEnProceso, ArrayList<TableTimer> tableTimers)
     {
 

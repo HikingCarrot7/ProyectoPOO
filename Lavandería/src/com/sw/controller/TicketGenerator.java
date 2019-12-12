@@ -4,7 +4,7 @@ import com.sw.model.Ticket;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TicketGenerator
 {

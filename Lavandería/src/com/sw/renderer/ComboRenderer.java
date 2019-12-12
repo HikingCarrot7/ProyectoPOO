@@ -12,7 +12,7 @@ import javax.swing.ListCellRenderer;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMotionModel
 {

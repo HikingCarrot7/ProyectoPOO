@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TableTimer extends Timer
 {

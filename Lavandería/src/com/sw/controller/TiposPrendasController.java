@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Mohammed
+ * @author Me
  */
 public class TiposPrendasController extends MyMouseAdapter implements ActionListener
 {
@@ -36,9 +36,6 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
 
         loadTiposPrendaTable();
 
-        tiposPrendasInterfaz.getAnadir().addActionListener(this);
-        tiposPrendasInterfaz.getEditar().addActionListener(this);
-
     }
 
     private void initMyComponents()
@@ -46,6 +43,9 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
 
         for (int i = tiposPrendas.isEmpty() ? -1 : 0; i < tiposPrendas.size(); i++)
             tiposPrendasInterfaz.getEliminar().add(new JButton(new ImageIcon(getClass().getResource("/com/src/images/delete.png"))));
+
+        tiposPrendasInterfaz.getAnadir().addActionListener(this);
+        tiposPrendasInterfaz.getEditar().addActionListener(this);
 
     }
 
@@ -208,9 +208,14 @@ public class TiposPrendasController extends MyMouseAdapter implements ActionList
         new DAO(DAO.RUTA_TIPOSPRENDAS).saveObjects(tiposPrendas);
     }
 
-    public ArrayList<String> getTiposPrendas()
+    public final ArrayList<String> getTiposPrendas()
     {
         return (ArrayList<String>) new DAO(DAO.RUTA_TIPOSPRENDAS).getObjects();
+    }
+
+    public TiposPrendasInterfaz getTiposPrendasInterfaz()
+    {
+        return tiposPrendasInterfaz;
     }
 
 }
