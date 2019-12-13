@@ -98,7 +98,7 @@ public class ConfigController implements ActionListener
 
                 break;
 
-            case "ok": // Guardamos todos los datos. 
+            case "ok": // Guardamos todos los datos.
 
                 if (textFieldListener.isValido() && Double.parseDouble(configuracionInterfaz.getPrecio().getText()) != 0)
                 {
