@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
@@ -66,7 +67,7 @@ public class ConfigController implements ActionListener
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         switch (e.getActionCommand())
         {

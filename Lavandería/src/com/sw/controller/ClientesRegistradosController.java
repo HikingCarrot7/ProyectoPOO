@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -139,7 +140,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         if (e.getSource() instanceof JButton)
             switch (e.getActionCommand())

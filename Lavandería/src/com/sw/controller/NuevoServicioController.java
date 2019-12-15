@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -118,7 +119,7 @@ public class NuevoServicioController implements ActionListener
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         switch (e.getActionCommand())
         {

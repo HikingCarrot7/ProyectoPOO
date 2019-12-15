@@ -166,9 +166,9 @@ final class Lamina extends JPanel
     public void anadirFuentes()
     {
 
-        fuente = new JMenuItem[misFuentes.length - 235];
+        fuente = new JMenuItem[misFuentes.length];
 
-        for (int i = 0; i < misFuentes.length - 235; i++)
+        for (int i = 0; i < misFuentes.length; i++)
             fuente[i] = new JRadioButtonMenuItem(misFuentes[i]);
 
     }

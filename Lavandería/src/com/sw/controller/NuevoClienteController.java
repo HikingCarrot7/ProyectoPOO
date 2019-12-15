@@ -5,6 +5,7 @@ import com.sw.others.TextFieldListener;
 import com.sw.view.NuevoCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -95,7 +96,7 @@ public class NuevoClienteController implements ActionListener
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         Cliente cliente;
 

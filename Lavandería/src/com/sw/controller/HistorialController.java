@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -138,7 +139,7 @@ public class HistorialController extends MyMouseAdapter implements ActionListene
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         DataSorterManager dataSorterManager = new DataSorterManager();
 

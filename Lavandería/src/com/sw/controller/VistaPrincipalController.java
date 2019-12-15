@@ -495,7 +495,7 @@ public class VistaPrincipalController extends MyMouseAdapter implements ActionLi
     {
 
         if (e.getSource() instanceof JButton)
-            ((JButton) e.getSource()).setMultiClickThreshhold(1000);
+            ((AbstractButton) e.getSource()).setMultiClickThreshhold(1000);
 
         if (e.getSource() instanceof JButton)
             switch (e.getActionCommand())
