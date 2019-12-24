@@ -60,16 +60,8 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
     private void initMyComponents()
     {
 
-        if (getClientes().isEmpty())
-        {
+        for (int i = clientesRegistrados.isEmpty() ? -1 : 0; i < clientesRegistrados.size(); i++)
             clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
-            return;
-        }
-
-        getClientes().forEach((item) ->
-        {
-            clientesRegistradosInterfaz.getVerHistorial().add(new JButton(Utilities.getIcon("/com/src/images/historial.png")));
-        });
 
         clientesRegistradosInterfaz.getAnadirCliente().addActionListener(this);
         clientesRegistradosInterfaz.getModificarCliente().addActionListener(this);
