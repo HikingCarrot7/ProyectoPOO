@@ -19,6 +19,9 @@ import javax.swing.JLabel;
 public class DataSorterManager
 {
 
+    private final int ORDEN_ASCENDENTE = 0;
+    private final int ORDEN_DESCENDENTE = 1;
+
     private int orden;
 
     public DataSorterManager()
@@ -32,7 +35,7 @@ public class DataSorterManager
         servicio.sort((c1, c2) ->
         {
 
-            return orden == 0 ? c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre())
+            return orden == ORDEN_ASCENDENTE ? c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre())
                     : c2.getCliente().getNombre().compareTo(c1.getCliente().getNombre());
 
         });
@@ -42,7 +45,7 @@ public class DataSorterManager
     public void ordenarPorPrecioTotal(ArrayList<Servicio> servicio)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             servicio.sort(Comparator.comparing(Servicio::getPrecioTotal));
 
         else
@@ -53,7 +56,7 @@ public class DataSorterManager
     public void ordenarPorTotalKg(ArrayList<Servicio> servicio)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             servicio.sort(Comparator.comparing(Servicio::getTotalKg));
 
         else
@@ -64,7 +67,7 @@ public class DataSorterManager
     public void ordenarPorTotalPiezas(ArrayList<Servicio> servicio)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             servicio.sort(Comparator.comparing(Servicio::getTotalPrendas));
 
         else
@@ -75,7 +78,7 @@ public class DataSorterManager
     public void ordenarPorNumTicket(ArrayList<Servicio> servicio)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             servicio.sort(Comparator.comparing(Servicio::getNumeroTicket));
 
         else
@@ -86,7 +89,7 @@ public class DataSorterManager
     public void ordenarPorNombreClientes(ArrayList<Cliente> clientes)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             clientes.sort(Comparator.comparing(Cliente::getNombre));
 
         else
@@ -97,7 +100,7 @@ public class DataSorterManager
     public void ordenarPorNServiciosClientes(ArrayList<Cliente> clientes)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             clientes.sort(Comparator.comparing(Cliente::getnServicios));
 
         else
@@ -107,21 +110,20 @@ public class DataSorterManager
     public void ordenarPorNombreHistorial(ArrayList<Historial> historial)
     {
 
-        if (orden == 0)
-            historial.sort((c1, c2) ->
-            {
+        historial.sort((c1, c2) ->
+        {
 
-                return orden == 0 ? c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre())
-                        : c2.getCliente().getNombre().compareTo(c1.getCliente().getNombre());
+            return orden == ORDEN_ASCENDENTE ? c1.getCliente().getNombre().compareTo(c2.getCliente().getNombre())
+                    : c2.getCliente().getNombre().compareTo(c1.getCliente().getNombre());
 
-            });
+        });
 
     }
 
     public void ordenarPorFechaHistorial(ArrayList<Historial> historial)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             historial.sort(Comparator.comparing(Historial::getFecha));
 
         else
@@ -132,7 +134,7 @@ public class DataSorterManager
     public void ordenarPorPrecioTotalHistorial(ArrayList<Historial> historial)
     {
 
-        if (orden == 0)
+        if (orden == ORDEN_ASCENDENTE)
             historial.sort(Comparator.comparing(Historial::getPrecioTotal));
 
         else
@@ -150,8 +152,8 @@ public class DataSorterManager
     public void ordenarTimers(ArrayList<Servicio> serviciosEnProceso, ArrayList<TableTimer> tableTimers)
     {
 
-        for (int i = 0; i < serviciosEnProceso.size() - 1; i++)
-            for (int j = 0; j < tableTimers.size(); j++)
+        for (int i = ORDEN_ASCENDENTE; i < serviciosEnProceso.size() - 1; i++)
+            for (int j = ORDEN_ASCENDENTE; j < tableTimers.size(); j++)
                 if (serviciosEnProceso.get(i).getNumeroTicket() == tableTimers.get(j).getId())
                 {
 
