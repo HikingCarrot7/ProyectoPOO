@@ -24,7 +24,6 @@ public class TableManager
 
     public void renderTableModel(JTable table, MouseListener listener, String name)
     {
-
         TableCellRenderer tableCellRenderer = new TableCellRenderer();
 
         table.setDefaultRenderer(Object.class, tableCellRenderer);
@@ -42,12 +41,10 @@ public class TableManager
         table.setDragEnabled(false);
         table.setName(name);
         table.getParent().revalidate();
-
     }
 
     public boolean encimaBoton(JTable table, JButton boton, int x, int y, int columnaBoton)
     {
-
         if (y <= 7)
             return false;
 
@@ -62,7 +59,6 @@ public class TableManager
             return table.getValueAt(row, column) == boton;
 
         return false;
-
     }
 
     public boolean encimaBoton(JTable table, int x, int y)
@@ -77,7 +73,6 @@ public class TableManager
 
     public int getClickedColumn(JTable table, int[] columns, int x)
     {
-
         int column = table.getColumnModel().getColumnIndexAtX(x);
 
         for (int i = 0; i < columns.length; i++)
@@ -85,7 +80,6 @@ public class TableManager
                 return columns[i];
 
         return -1;
-
     }
 
     public int getClickedRow(JTable table, int y)
@@ -97,9 +91,7 @@ public class TableManager
     {
 
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
         tableModel.addRow(rowData);
-
         table.getParent().revalidate();
 
     }
@@ -116,32 +108,24 @@ public class TableManager
 
     public void removeRow(JTable table, int row)
     {
-
         if (table.getRowCount() != 1)
         {
-
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
             tableModel.removeRow(row);
-
             table.getParent().revalidate();
 
         } else
             vaciarPrimeraFila(table);
-
     }
 
     public void updateLastRow(JTable table, Object[] items)
     {
-
         for (int i = 0; i < items.length; i++)
             table.getModel().setValueAt(items[i], table.getRowCount() - 1, i);
-
     }
 
     public Object[] getRowData(Object[] emptyRowData, Object[] rowData)
     {
-
         Object[] newRowData = new Object[rowData.length];
 
         for (int i = 0; i < rowData.length; i++)
@@ -152,12 +136,10 @@ public class TableManager
                 newRowData[i] = emptyRowData[i];
 
         return newRowData;
-
     }
 
     public Object[][] getTableItems(JTable table)
     {
-
         int filas = 0, columnas = 0;
         Object[][] items = new Object[table.getRowCount()][table.getColumnCount() - getColumnasConComponentes(table).length];
 
@@ -177,17 +159,14 @@ public class TableManager
                 }
 
         return items;
-
     }
 
     public void setTableItems(JTable table, Object[][] items)
     {
-
         for (int i = 0; i < items.length; i++)
             for (int j = 0; j < items[i].length; j++)
                 if (!(table.getValueAt(i, j) instanceof Component))
                     table.setValueAt(items[i][j], i, j);
-
     }
 
     public synchronized void updateField(JTable table, Object item, int row, int column)
@@ -197,18 +176,15 @@ public class TableManager
 
     public Object[][] loadTableComponents(Object[][] items, int[] columns, ArrayList<? extends Component>... components)
     {
-
         for (int i = 0; i < components.length; i++)
             for (int j = 0; j < items.length; j++)
                 items[j][columns[i]] = components[i].get(j);
 
         return items;
-
     }
 
     public int[] getColumnasConComponentes(JTable table)
     {
-
         ArrayList<Integer> lista = new ArrayList<>();
 
         for (int i = 0; i < table.getColumnCount(); i++)
@@ -216,12 +192,10 @@ public class TableManager
                 lista.add(i);
 
         return Utilities.asArray(lista);
-
     }
 
     public Object[] getEmptyRowData(JTable table)
     {
-
         if (table.getRowCount() == 0)
             return null;
 
@@ -235,52 +209,43 @@ public class TableManager
                 items[i] = new JLabel();
 
         return items;
-
     }
 
     public boolean isFirstRowEmpty(JTable table)
     {
-
         for (int i = 0; i < table.getColumnCount(); i++)
             if (!(table.getValueAt(0, i) instanceof Component))
                 if (table.getValueAt(0, i) != null)
                     return false;
 
         return true;
-
     }
 
     public void vaciarPrimeraFila(JTable table)
     {
-
         for (int i = 0; i < table.getColumnCount(); i++)
             if (!(table.getValueAt(0, i) instanceof Component))
                 table.setValueAt(null, 0, i);
-
     }
 
     public Object[][] recortarFilaItems(Object[][] items, int row)
     {
-
         Object[][] newItems = new Object[items.length - 1][items[0].length];
 
         for (int i = 0; i < items.length - 1; i++)
             System.arraycopy(items[i + (i >= row ? 1 : 0)], 0, newItems[i], 0, items[i].length);
 
         return newItems;
-
     }
 
     public Object[][] recortarFilasItems(Object[][] items, int rowInicio, int rowFin)
     {
-
         Object[][] newItems = new Object[items.length - (rowFin - rowInicio) - 1][items[0].length];
 
         for (int i = 0; i < items.length - (rowFin - rowInicio) - 1; i++)
             System.arraycopy(items[i + (i >= rowInicio ? rowFin : 0)], 0, newItems[i], 0, items[i].length);
 
         return newItems;
-
     }
 
 }

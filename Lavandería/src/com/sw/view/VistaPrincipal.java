@@ -22,13 +22,9 @@ public class VistaPrincipal extends javax.swing.JFrame
 
     public VistaPrincipal()
     {
-
         initWindow();
-
         initMyComponents();
-
         initComponents();
-
     }
 
     private void initWindow()

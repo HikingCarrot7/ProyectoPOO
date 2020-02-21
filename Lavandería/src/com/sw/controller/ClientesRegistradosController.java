@@ -76,9 +76,7 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
      */
     private void loadClientesRegistradosTable()
     {
-
         TableManager tableManager = new TableManager();
-
         Object[][] items = getItems(getClientes());
 
         clientesRegistradosInterfaz.getTablaClientesRegistrados().setModel(new DefaultTableModel(tableManager.loadTableComponents(items, new int[]
@@ -96,7 +94,6 @@ public class ClientesRegistradosController extends MyMouseAdapter implements Act
         tableManager.renderTableModel(clientesRegistradosInterfaz.getTablaClientesRegistrados(), this, "Clientes");
 
         clientesRegistradosInterfaz.getTablaClientesRegistrados().getParent().revalidate();
-
     }
 
     /**
