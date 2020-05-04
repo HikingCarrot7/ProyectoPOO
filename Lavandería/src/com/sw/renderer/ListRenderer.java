@@ -1,5 +1,6 @@
 package com.sw.renderer;
 
+import com.sw.renderer.ListRenderer.ListItem;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.ImageIcon;
@@ -11,15 +12,15 @@ import javax.swing.ListCellRenderer;
  *
  * @author Me
  */
-public class ListRenderer extends JLabel implements ListCellRenderer
+public class ListRenderer extends JLabel implements ListCellRenderer<ListItem>
 {
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+    public Component getListCellRendererComponent(JList<? extends ListItem> list, ListItem value, int index, boolean isSelected, boolean cellHasFocus)
     {
-
-        setIcon(((ListItem) value).getIcon());
-        setText(((ListItem) value).getText());
+        setOpaque(true);
+        setIcon(value.getIcon());
+        setText(value.getText());
 
         if (isSelected)
         {
@@ -30,13 +31,10 @@ public class ListRenderer extends JLabel implements ListCellRenderer
         {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
-
         }
 
         setFont(new Font("Consolas", Font.PLAIN, 11));
-
         return this;
-
     }
 
     public static class ListItem
@@ -49,7 +47,6 @@ public class ListRenderer extends JLabel implements ListCellRenderer
         {
             this.icon = icon;
             this.text = text;
-
         }
 
         public ImageIcon getIcon()

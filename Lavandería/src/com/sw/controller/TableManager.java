@@ -34,7 +34,7 @@ public class TableManager
 
         table.getColumnModel().setColumnSelectionAllowed(false);
 
-        table.addMouseMotionListener(new MouseMotionManager(tableCellRenderer));
+        table.addMouseMotionListener(new MouseMotionManager<>(tableCellRenderer));
         table.addMouseListener(listener);
         table.setCellSelectionEnabled(false);
         table.setDefaultEditor(Object.class, new TableCellManager());

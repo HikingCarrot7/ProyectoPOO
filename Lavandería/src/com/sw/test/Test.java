@@ -23,14 +23,12 @@ public class Test
 
         EventQueue.invokeLater(() ->
         {
-
             VistaPrincipal vistaPrincipal = new VistaPrincipal();
 
             vistaPrincipal.setVisible(true);
             vistaPrincipal.setLocationRelativeTo(null);
 
             new VistaPrincipalController(vistaPrincipal);
-
         });
 
     }

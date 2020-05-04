@@ -2,6 +2,7 @@ package com.sw.renderer;
 
 import com.sw.others.MouseMotionManager;
 import com.sw.others.MouseMotionModel;
+import com.sw.renderer.ComboRenderer.ComboItem;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Icon;
@@ -14,20 +15,20 @@ import javax.swing.ListCellRenderer;
  *
  * @author Me
  */
-public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMotionModel
+public class ComboRenderer extends JLabel implements ListCellRenderer<ComboItem>, MouseMotionModel
 {
 
     private int y;
     private int x;
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+    public Component getListCellRendererComponent(JList<? extends ComboItem> list, ComboItem value, int index, boolean isSelected, boolean cellHasFocus)
     {
 
-        list.addMouseMotionListener(new MouseMotionManager(this));
-
-        setIcon(((ComboItem) value).getIcon());
-        setText(((ComboItem) value).getText());
+        list.addMouseMotionListener(new MouseMotionManager<>(this));
+        setOpaque(true);
+        setIcon(value.getIcon());
+        setText(value.getText());
 
         if (isSelected)
         {
@@ -38,7 +39,6 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
         {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
-
         }
 
         if (encimaItem(index, list.getModel().getSize()))
@@ -47,19 +47,15 @@ public class ComboRenderer extends JLabel implements ListCellRenderer, MouseMoti
             setBackground(index % 2 == 0 ? new Color(180, 180, 180) : Color.white);
 
         setFont(list.getFont());
-
         return this;
-
     }
 
     private boolean encimaItem(int index, int tamanioLista)
     {
-
         if ((getY() >= tamanioLista * 20 || getY() <= 0))
             return false;
 
         return index == getY() / 20;
-
     }
 
     public static class ComboItem
